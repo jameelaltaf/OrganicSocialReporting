@@ -888,14 +888,78 @@
     </div>
   </div>
 
+  <div class="goals-section">
+    <div class="goals-header" onclick="toggleGoals('ig')">
+      <h4>🎯 Monthly Goals — Progress Tracker</h4><span id="goals-ig-arrow">▼</span>
+    </div>
+    <div class="goals-body" id="goals-ig-body">
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px 24px">
+        <div class="goal-row"><span class="goal-label">Followers</span><input class="goal-input" type="number" placeholder="Target" id="goal-ig-followers" oninput="updateGoal('ig-followers',this)"><div class="goal-progress-track"><div class="goal-progress-fill" id="gbar-ig-followers" style="width:0%"></div></div><span class="goal-pct" id="gpct-ig-followers">—</span></div>
+        <div class="goal-row"><span class="goal-label">Total Reach</span><input class="goal-input" type="number" placeholder="Target" id="goal-ig-reach" oninput="updateGoal('ig-reach',this)"><div class="goal-progress-track"><div class="goal-progress-fill" id="gbar-ig-reach" style="width:0%"></div></div><span class="goal-pct" id="gpct-ig-reach">—</span></div>
+        <div class="goal-row"><span class="goal-label">Reels Views</span><input class="goal-input" type="number" placeholder="Target" id="goal-ig-reels" oninput="updateGoal('ig-reels',this)"><div class="goal-progress-track"><div class="goal-progress-fill" id="gbar-ig-reels" style="width:0%"></div></div><span class="goal-pct" id="gpct-ig-reels">—</span></div>
+        <div class="goal-row"><span class="goal-label">Saves</span><input class="goal-input" type="number" placeholder="Target" id="goal-ig-saves" oninput="updateGoal('ig-saves',this)"><div class="goal-progress-track"><div class="goal-progress-fill" id="gbar-ig-saves" style="width:0%"></div></div><span class="goal-pct" id="gpct-ig-saves">—</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="chart-card" style="margin-bottom:20px">
+    <div class="chart-title"># Hashtag Performance</div>
+    <div class="chart-subtitle">Track which hashtags are driving reach and engagement</div>
+    <div class="table-wrap" style="margin-bottom:12px">
+      <table class="data-table">
+        <thead><tr><th>Hashtag</th><th>Posts Used</th><th>Avg Reach</th><th>Avg Likes</th><th>Top Post Reach</th><th>Performance</th><th></th></tr></thead>
+        <tbody id="hashtag-tbody"><tr><td colspan="7" style="text-align:center;color:var(--gray-400);padding:20px;font-style:italic">Add hashtags below to track performance</td></tr></tbody>
+      </table>
+    </div>
+    <div class="hashtag-add-form">
+      <div><label style="font-size:10px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:3px">HASHTAG</label><input type="text" id="ht-tag" placeholder="#bridalbeauty" style="width:100%;padding:6px 8px;border:1px solid var(--gray-200);border-radius:5px;font-size:12px"></div>
+      <div><label style="font-size:10px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:3px">POSTS USED</label><input type="number" id="ht-posts" placeholder="0" style="width:100%;padding:6px 8px;border:1px solid var(--gray-200);border-radius:5px;font-size:12px"></div>
+      <div><label style="font-size:10px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:3px">AVG REACH</label><input type="number" id="ht-reach" placeholder="0" style="width:100%;padding:6px 8px;border:1px solid var(--gray-200);border-radius:5px;font-size:12px"></div>
+      <div><label style="font-size:10px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:3px">AVG LIKES</label><input type="number" id="ht-likes" placeholder="0" style="width:100%;padding:6px 8px;border:1px solid var(--gray-200);border-radius:5px;font-size:12px"></div>
+      <div><label style="font-size:10px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:3px">TOP REACH</label><input type="number" id="ht-top" placeholder="0" style="width:100%;padding:6px 8px;border:1px solid var(--gray-200);border-radius:5px;font-size:12px"></div>
+      <button class="btn btn-rose" onclick="addHashtag()" style="height:32px;align-self:flex-end">Add</button>
+    </div>
+  </div>
+
   <div class="commentary-box">
-    <h3>📝 Monthly Commentary — Instagram</h3>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+      <h3>📝 Monthly Commentary — Instagram</h3>
+      <button class="btn btn-rose" style="padding:6px 14px;font-size:11px" onclick="draftCommentary('instagram')">✨ Draft with AI</button>
+    </div>
     <div class="hint">Summarise Instagram performance before sending to client.</div>
     <div class="commentary-grid">
-      <div class="commentary-item"><label>Top Wins</label><textarea placeholder="e.g. Bridal Reel hit 14K organic views. Engagement rate at 7.2% — above benchmark. Saves up 40% MoM driven by 'mehndi look' carousel..."></textarea></div>
-      <div class="commentary-item"><label>What to Improve</label><textarea placeholder="e.g. Stories view-through dropped below 30% — need stronger CTAs. Static posts underperforming vs. Reels — reduce to 1/week..."></textarea></div>
-      <div class="commentary-item"><label>Next Month Plan</label><textarea placeholder="e.g. 3x Reels/week. Test 'Get Ready With Me' format. Prioritise Bridal and Nikah content ahead of wedding season..."></textarea></div>
+      <div class="commentary-item"><label>Top Wins</label><textarea id="ig-ta-wins" placeholder="e.g. Bridal Reel hit 14K organic views. Engagement rate at 7.2% — above benchmark. Saves up 40% MoM driven by 'mehndi look' carousel..."></textarea></div>
+      <div class="commentary-item"><label>What to Improve</label><textarea id="ig-ta-improve" placeholder="e.g. Stories view-through dropped below 30% — need stronger CTAs. Static posts underperforming vs. Reels — reduce to 1/week..."></textarea></div>
+      <div class="commentary-item"><label>Next Month Plan</label><textarea id="ig-ta-plan" placeholder="e.g. 3x Reels/week. Test 'Get Ready With Me' format. Prioritise Bridal and Nikah content ahead of wedding season..."></textarea></div>
     </div>
+    <div id="ai-status-instagram" class="status-msg" style="margin-top:8px"></div>
+  </div>
+
+  <div class="content-calendar">
+    <h4>📅 Content Calendar — Instagram</h4>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:12px">
+      <div style="background:var(--gray-100);border-radius:var(--radius);padding:14px;text-align:center">
+        <div style="font-size:11px;font-weight:700;color:var(--gray-600);letter-spacing:.06em;margin-bottom:10px">WEEK 1</div>
+        <div style="margin-bottom:6px"><label style="font-size:10px;color:var(--gray-400)">Planned</label><input type="number" min="0" class="cal-input" data-p="ig" data-w="1" data-t="p" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('ig')"></div>
+        <div><label style="font-size:10px;color:var(--gray-400)">Actual</label><input type="number" min="0" class="cal-input" data-p="ig" data-w="1" data-t="a" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('ig')"></div>
+      </div>
+      <div style="background:var(--gray-100);border-radius:var(--radius);padding:14px;text-align:center">
+        <div style="font-size:11px;font-weight:700;color:var(--gray-600);letter-spacing:.06em;margin-bottom:10px">WEEK 2</div>
+        <div style="margin-bottom:6px"><label style="font-size:10px;color:var(--gray-400)">Planned</label><input type="number" min="0" class="cal-input" data-p="ig" data-w="2" data-t="p" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('ig')"></div>
+        <div><label style="font-size:10px;color:var(--gray-400)">Actual</label><input type="number" min="0" class="cal-input" data-p="ig" data-w="2" data-t="a" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('ig')"></div>
+      </div>
+      <div style="background:var(--gray-100);border-radius:var(--radius);padding:14px;text-align:center">
+        <div style="font-size:11px;font-weight:700;color:var(--gray-600);letter-spacing:.06em;margin-bottom:10px">WEEK 3</div>
+        <div style="margin-bottom:6px"><label style="font-size:10px;color:var(--gray-400)">Planned</label><input type="number" min="0" class="cal-input" data-p="ig" data-w="3" data-t="p" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('ig')"></div>
+        <div><label style="font-size:10px;color:var(--gray-400)">Actual</label><input type="number" min="0" class="cal-input" data-p="ig" data-w="3" data-t="a" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('ig')"></div>
+      </div>
+      <div style="background:var(--gray-100);border-radius:var(--radius);padding:14px;text-align:center">
+        <div style="font-size:11px;font-weight:700;color:var(--gray-600);letter-spacing:.06em;margin-bottom:10px">WEEK 4</div>
+        <div style="margin-bottom:6px"><label style="font-size:10px;color:var(--gray-400)">Planned</label><input type="number" min="0" class="cal-input" data-p="ig" data-w="4" data-t="p" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('ig')"></div>
+        <div><label style="font-size:10px;color:var(--gray-400)">Actual</label><input type="number" min="0" class="cal-input" data-p="ig" data-w="4" data-t="a" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('ig')"></div>
+      </div>
+    </div>
+    <div id="cal-summary-ig" style="font-size:12px;color:var(--gray-600);text-align:center;padding:8px;background:var(--gray-100);border-radius:5px">Enter planned and actual posts above</div>
   </div>
 </div>
 
@@ -944,13 +1008,42 @@
     </div>
   </div>
 
-  <div class="commentary-box">
-    <h3>📝 Monthly Commentary — Facebook</h3>
-    <div class="commentary-grid">
-      <div class="commentary-item"><label>Key Wins</label><textarea placeholder="e.g. Bridal album post shared 85 times — highest organic distribution this month. Link clicks to booking page up 20%..."></textarea></div>
-      <div class="commentary-item"><label>Issues / Watch Points</label><textarea placeholder="e.g. Organic reach declining as expected — Facebook deprioritises non-video content. Video posts performing 3x better..."></textarea></div>
-      <div class="commentary-item"><label>Next Month Plan</label><textarea placeholder="e.g. Shift to 80% video content. Cross-post IG Reels to Facebook. Test native Facebook Reels format..."></textarea></div>
+  <div class="goals-section">
+    <div class="goals-header" onclick="toggleGoals('fb')">
+      <h4>🎯 Monthly Goals — Progress Tracker</h4><span id="goals-fb-arrow">▼</span>
     </div>
+    <div class="goals-body" id="goals-fb-body">
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px 24px">
+        <div class="goal-row"><span class="goal-label">Page Followers</span><input class="goal-input" type="number" placeholder="Target" id="goal-fb-followers" oninput="updateGoal('fb-followers',this)"><div class="goal-progress-track"><div class="goal-progress-fill" id="gbar-fb-followers" style="width:0%"></div></div><span class="goal-pct" id="gpct-fb-followers">—</span></div>
+        <div class="goal-row"><span class="goal-label">Organic Reach</span><input class="goal-input" type="number" placeholder="Target" id="goal-fb-reach" oninput="updateGoal('fb-reach',this)"><div class="goal-progress-track"><div class="goal-progress-fill" id="gbar-fb-reach" style="width:0%"></div></div><span class="goal-pct" id="gpct-fb-reach">—</span></div>
+        <div class="goal-row"><span class="goal-label">Engagements</span><input class="goal-input" type="number" placeholder="Target" id="goal-fb-eng" oninput="updateGoal('fb-eng',this)"><div class="goal-progress-track"><div class="goal-progress-fill" id="gbar-fb-eng" style="width:0%"></div></div><span class="goal-pct" id="gpct-fb-eng">—</span></div>
+        <div class="goal-row"><span class="goal-label">Link Clicks</span><input class="goal-input" type="number" placeholder="Target" id="goal-fb-link-clicks" oninput="updateGoal('fb-link-clicks',this)"><div class="goal-progress-track"><div class="goal-progress-fill" id="gbar-fb-link-clicks" style="width:0%"></div></div><span class="goal-pct" id="gpct-fb-link-clicks">—</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="commentary-box">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+      <h3>📝 Monthly Commentary — Facebook</h3>
+      <button class="btn btn-rose" style="padding:6px 14px;font-size:11px" onclick="draftCommentary('facebook')">✨ Draft with AI</button>
+    </div>
+    <div class="commentary-grid">
+      <div class="commentary-item"><label>Key Wins</label><textarea id="fb-ta-wins" placeholder="e.g. Bridal album post shared 85 times — highest organic distribution this month. Link clicks to booking page up 20%..."></textarea></div>
+      <div class="commentary-item"><label>Issues / Watch Points</label><textarea id="fb-ta-improve" placeholder="e.g. Organic reach declining as expected — Facebook deprioritises non-video content. Video posts performing 3x better..."></textarea></div>
+      <div class="commentary-item"><label>Next Month Plan</label><textarea id="fb-ta-plan" placeholder="e.g. Shift to 80% video content. Cross-post IG Reels to Facebook. Test native Facebook Reels format..."></textarea></div>
+    </div>
+    <div id="ai-status-facebook" class="status-msg" style="margin-top:8px"></div>
+  </div>
+
+  <div class="content-calendar">
+    <h4>📅 Content Calendar — Facebook</h4>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:12px">
+      <div style="background:var(--gray-100);border-radius:var(--radius);padding:14px;text-align:center"><div style="font-size:11px;font-weight:700;color:var(--gray-600);letter-spacing:.06em;margin-bottom:10px">WEEK 1</div><div style="margin-bottom:6px"><label style="font-size:10px;color:var(--gray-400)">Planned</label><input type="number" min="0" class="cal-input" data-p="fb" data-w="1" data-t="p" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('fb')"></div><div><label style="font-size:10px;color:var(--gray-400)">Actual</label><input type="number" min="0" class="cal-input" data-p="fb" data-w="1" data-t="a" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('fb')"></div></div>
+      <div style="background:var(--gray-100);border-radius:var(--radius);padding:14px;text-align:center"><div style="font-size:11px;font-weight:700;color:var(--gray-600);letter-spacing:.06em;margin-bottom:10px">WEEK 2</div><div style="margin-bottom:6px"><label style="font-size:10px;color:var(--gray-400)">Planned</label><input type="number" min="0" class="cal-input" data-p="fb" data-w="2" data-t="p" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('fb')"></div><div><label style="font-size:10px;color:var(--gray-400)">Actual</label><input type="number" min="0" class="cal-input" data-p="fb" data-w="2" data-t="a" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('fb')"></div></div>
+      <div style="background:var(--gray-100);border-radius:var(--radius);padding:14px;text-align:center"><div style="font-size:11px;font-weight:700;color:var(--gray-600);letter-spacing:.06em;margin-bottom:10px">WEEK 3</div><div style="margin-bottom:6px"><label style="font-size:10px;color:var(--gray-400)">Planned</label><input type="number" min="0" class="cal-input" data-p="fb" data-w="3" data-t="p" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('fb')"></div><div><label style="font-size:10px;color:var(--gray-400)">Actual</label><input type="number" min="0" class="cal-input" data-p="fb" data-w="3" data-t="a" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('fb')"></div></div>
+      <div style="background:var(--gray-100);border-radius:var(--radius);padding:14px;text-align:center"><div style="font-size:11px;font-weight:700;color:var(--gray-600);letter-spacing:.06em;margin-bottom:10px">WEEK 4</div><div style="margin-bottom:6px"><label style="font-size:10px;color:var(--gray-400)">Planned</label><input type="number" min="0" class="cal-input" data-p="fb" data-w="4" data-t="p" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('fb')"></div><div><label style="font-size:10px;color:var(--gray-400)">Actual</label><input type="number" min="0" class="cal-input" data-p="fb" data-w="4" data-t="a" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('fb')"></div></div>
+    </div>
+    <div id="cal-summary-fb" style="font-size:12px;color:var(--gray-600);text-align:center;padding:8px;background:var(--gray-100);border-radius:5px">Enter planned and actual posts above</div>
   </div>
 </div>
 
@@ -999,13 +1092,42 @@
     </div>
   </div>
 
-  <div class="commentary-box">
-    <h3>📝 Monthly Commentary — TikTok</h3>
-    <div class="commentary-grid">
-      <div class="commentary-item"><label>Top Wins</label><textarea placeholder="e.g. 'South Asian bridal transformation' hit 28K views — highest TikTok post to date. FYP distribution drove 85% of total views..."></textarea></div>
-      <div class="commentary-item"><label>Issues</label><textarea placeholder="e.g. Consistency dropped to 2 posts/week — target is 3. Hook quality on 3 videos was weak; stopped at 2-sec mark..."></textarea></div>
-      <div class="commentary-item"><label>Next Month Plan</label><textarea placeholder="e.g. 3 posts/week minimum. Focus on trending audio + bridal hooks. Test 'Get Ready With Me' POV format..."></textarea></div>
+  <div class="goals-section">
+    <div class="goals-header" onclick="toggleGoals('tt')">
+      <h4>🎯 Monthly Goals — Progress Tracker</h4><span id="goals-tt-arrow">▼</span>
     </div>
+    <div class="goals-body" id="goals-tt-body">
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px 24px">
+        <div class="goal-row"><span class="goal-label">Followers</span><input class="goal-input" type="number" placeholder="Target" id="goal-tt-followers" oninput="updateGoal('tt-followers',this)"><div class="goal-progress-track"><div class="goal-progress-fill" id="gbar-tt-followers" style="width:0%"></div></div><span class="goal-pct" id="gpct-tt-followers">—</span></div>
+        <div class="goal-row"><span class="goal-label">Total Views</span><input class="goal-input" type="number" placeholder="Target" id="goal-tt-views" oninput="updateGoal('tt-views',this)"><div class="goal-progress-track"><div class="goal-progress-fill" id="gbar-tt-views" style="width:0%"></div></div><span class="goal-pct" id="gpct-tt-views">—</span></div>
+        <div class="goal-row"><span class="goal-label">Avg Views/Video</span><input class="goal-input" type="number" placeholder="Target" id="goal-tt-avg-views" oninput="updateGoal('tt-avg-views',this)"><div class="goal-progress-track"><div class="goal-progress-fill" id="gbar-tt-avg-views" style="width:0%"></div></div><span class="goal-pct" id="gpct-tt-avg-views">—</span></div>
+        <div class="goal-row"><span class="goal-label">Shares</span><input class="goal-input" type="number" placeholder="Target" id="goal-tt-shares" oninput="updateGoal('tt-shares',this)"><div class="goal-progress-track"><div class="goal-progress-fill" id="gbar-tt-shares" style="width:0%"></div></div><span class="goal-pct" id="gpct-tt-shares">—</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="commentary-box">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+      <h3>📝 Monthly Commentary — TikTok</h3>
+      <button class="btn btn-rose" style="padding:6px 14px;font-size:11px" onclick="draftCommentary('tiktok')">✨ Draft with AI</button>
+    </div>
+    <div class="commentary-grid">
+      <div class="commentary-item"><label>Top Wins</label><textarea id="tt-ta-wins" placeholder="e.g. 'South Asian bridal transformation' hit 28K views — highest TikTok post to date. FYP distribution drove 85% of total views..."></textarea></div>
+      <div class="commentary-item"><label>Issues</label><textarea id="tt-ta-improve" placeholder="e.g. Consistency dropped to 2 posts/week — target is 3. Hook quality on 3 videos was weak; stopped at 2-sec mark..."></textarea></div>
+      <div class="commentary-item"><label>Next Month Plan</label><textarea id="tt-ta-plan" placeholder="e.g. 3 posts/week minimum. Focus on trending audio + bridal hooks. Test 'Get Ready With Me' POV format..."></textarea></div>
+    </div>
+    <div id="ai-status-tiktok" class="status-msg" style="margin-top:8px"></div>
+  </div>
+
+  <div class="content-calendar">
+    <h4>📅 Content Calendar — TikTok</h4>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:12px">
+      <div style="background:var(--gray-100);border-radius:var(--radius);padding:14px;text-align:center"><div style="font-size:11px;font-weight:700;color:var(--gray-600);letter-spacing:.06em;margin-bottom:10px">WEEK 1</div><div style="margin-bottom:6px"><label style="font-size:10px;color:var(--gray-400)">Planned</label><input type="number" min="0" class="cal-input" data-p="tt" data-w="1" data-t="p" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('tt')"></div><div><label style="font-size:10px;color:var(--gray-400)">Actual</label><input type="number" min="0" class="cal-input" data-p="tt" data-w="1" data-t="a" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('tt')"></div></div>
+      <div style="background:var(--gray-100);border-radius:var(--radius);padding:14px;text-align:center"><div style="font-size:11px;font-weight:700;color:var(--gray-600);letter-spacing:.06em;margin-bottom:10px">WEEK 2</div><div style="margin-bottom:6px"><label style="font-size:10px;color:var(--gray-400)">Planned</label><input type="number" min="0" class="cal-input" data-p="tt" data-w="2" data-t="p" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('tt')"></div><div><label style="font-size:10px;color:var(--gray-400)">Actual</label><input type="number" min="0" class="cal-input" data-p="tt" data-w="2" data-t="a" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('tt')"></div></div>
+      <div style="background:var(--gray-100);border-radius:var(--radius);padding:14px;text-align:center"><div style="font-size:11px;font-weight:700;color:var(--gray-600);letter-spacing:.06em;margin-bottom:10px">WEEK 3</div><div style="margin-bottom:6px"><label style="font-size:10px;color:var(--gray-400)">Planned</label><input type="number" min="0" class="cal-input" data-p="tt" data-w="3" data-t="p" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('tt')"></div><div><label style="font-size:10px;color:var(--gray-400)">Actual</label><input type="number" min="0" class="cal-input" data-p="tt" data-w="3" data-t="a" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('tt')"></div></div>
+      <div style="background:var(--gray-100);border-radius:var(--radius);padding:14px;text-align:center"><div style="font-size:11px;font-weight:700;color:var(--gray-600);letter-spacing:.06em;margin-bottom:10px">WEEK 4</div><div style="margin-bottom:6px"><label style="font-size:10px;color:var(--gray-400)">Planned</label><input type="number" min="0" class="cal-input" data-p="tt" data-w="4" data-t="p" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('tt')"></div><div><label style="font-size:10px;color:var(--gray-400)">Actual</label><input type="number" min="0" class="cal-input" data-p="tt" data-w="4" data-t="a" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('tt')"></div></div>
+    </div>
+    <div id="cal-summary-tt" style="font-size:12px;color:var(--gray-600);text-align:center;padding:8px;background:var(--gray-100);border-radius:5px">Enter planned and actual posts above</div>
   </div>
 </div>
 
@@ -1054,36 +1176,185 @@
     </div>
   </div>
 
+  <div class="goals-section">
+    <div class="goals-header" onclick="toggleGoals('yt')">
+      <h4>🎯 Monthly Goals — Progress Tracker</h4><span id="goals-yt-arrow">▼</span>
+    </div>
+    <div class="goals-body" id="goals-yt-body">
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px 24px">
+        <div class="goal-row"><span class="goal-label">Subscribers</span><input class="goal-input" type="number" placeholder="Target" id="goal-yt-subscribers" oninput="updateGoal('yt-subscribers',this)"><div class="goal-progress-track"><div class="goal-progress-fill" id="gbar-yt-subscribers" style="width:0%"></div></div><span class="goal-pct" id="gpct-yt-subscribers">—</span></div>
+        <div class="goal-row"><span class="goal-label">Shorts Views</span><input class="goal-input" type="number" placeholder="Target" id="goal-yt-views" oninput="updateGoal('yt-views',this)"><div class="goal-progress-track"><div class="goal-progress-fill" id="gbar-yt-views" style="width:0%"></div></div><span class="goal-pct" id="gpct-yt-views">—</span></div>
+        <div class="goal-row"><span class="goal-label">Watch Time (hrs)</span><input class="goal-input" type="number" placeholder="Target" id="goal-yt-watchtime" oninput="updateGoal('yt-watchtime',this)"><div class="goal-progress-track"><div class="goal-progress-fill" id="gbar-yt-watchtime" style="width:0%"></div></div><span class="goal-pct" id="gpct-yt-watchtime">—</span></div>
+        <div class="goal-row"><span class="goal-label">Likes</span><input class="goal-input" type="number" placeholder="Target" id="goal-yt-likes" oninput="updateGoal('yt-likes',this)"><div class="goal-progress-track"><div class="goal-progress-fill" id="gbar-yt-likes" style="width:0%"></div></div><span class="goal-pct" id="gpct-yt-likes">—</span></div>
+      </div>
+    </div>
+  </div>
+
   <div class="commentary-box">
-    <h3>📝 Monthly Commentary — YouTube Shorts</h3>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+      <h3>📝 Monthly Commentary — YouTube Shorts</h3>
+      <button class="btn btn-rose" style="padding:6px 14px;font-size:11px" onclick="draftCommentary('youtube')">✨ Draft with AI</button>
+    </div>
     <div class="commentary-grid">
-      <div class="commentary-item"><label>Top Wins</label><textarea placeholder="e.g. 'Bridal hair + makeup in 60 seconds' hit 9K views — best Short this month. 65 new subscribers from Shorts alone..."></textarea></div>
-      <div class="commentary-item"><label>Issues</label><textarea placeholder="e.g. Watch time below 60% on 2 Shorts — hooks not strong enough. Subtitles missing on 3 uploads..."></textarea></div>
-      <div class="commentary-item"><label>Next Month Plan</label><textarea placeholder="e.g. Repurpose top IG Reels as Shorts. Add captions to all Shorts. Test 'Before & After' format for South Asian bridal looks..."></textarea></div>
+      <div class="commentary-item"><label>Top Wins</label><textarea id="yt-ta-wins" placeholder="e.g. 'Bridal hair + makeup in 60 seconds' hit 9K views — best Short this month. 65 new subscribers from Shorts alone..."></textarea></div>
+      <div class="commentary-item"><label>Issues</label><textarea id="yt-ta-improve" placeholder="e.g. Watch time below 60% on 2 Shorts — hooks not strong enough. Subtitles missing on 3 uploads..."></textarea></div>
+      <div class="commentary-item"><label>Next Month Plan</label><textarea id="yt-ta-plan" placeholder="e.g. Repurpose top IG Reels as Shorts. Add captions to all Shorts. Test 'Before & After' format for South Asian bridal looks..."></textarea></div>
+    </div>
+    <div id="ai-status-youtube" class="status-msg" style="margin-top:8px"></div>
+  </div>
+
+  <div class="content-calendar">
+    <h4>📅 Content Calendar — YouTube Shorts</h4>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:12px">
+      <div style="background:var(--gray-100);border-radius:var(--radius);padding:14px;text-align:center"><div style="font-size:11px;font-weight:700;color:var(--gray-600);letter-spacing:.06em;margin-bottom:10px">WEEK 1</div><div style="margin-bottom:6px"><label style="font-size:10px;color:var(--gray-400)">Planned</label><input type="number" min="0" class="cal-input" data-p="yt" data-w="1" data-t="p" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('yt')"></div><div><label style="font-size:10px;color:var(--gray-400)">Actual</label><input type="number" min="0" class="cal-input" data-p="yt" data-w="1" data-t="a" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('yt')"></div></div>
+      <div style="background:var(--gray-100);border-radius:var(--radius);padding:14px;text-align:center"><div style="font-size:11px;font-weight:700;color:var(--gray-600);letter-spacing:.06em;margin-bottom:10px">WEEK 2</div><div style="margin-bottom:6px"><label style="font-size:10px;color:var(--gray-400)">Planned</label><input type="number" min="0" class="cal-input" data-p="yt" data-w="2" data-t="p" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('yt')"></div><div><label style="font-size:10px;color:var(--gray-400)">Actual</label><input type="number" min="0" class="cal-input" data-p="yt" data-w="2" data-t="a" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('yt')"></div></div>
+      <div style="background:var(--gray-100);border-radius:var(--radius);padding:14px;text-align:center"><div style="font-size:11px;font-weight:700;color:var(--gray-600);letter-spacing:.06em;margin-bottom:10px">WEEK 3</div><div style="margin-bottom:6px"><label style="font-size:10px;color:var(--gray-400)">Planned</label><input type="number" min="0" class="cal-input" data-p="yt" data-w="3" data-t="p" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('yt')"></div><div><label style="font-size:10px;color:var(--gray-400)">Actual</label><input type="number" min="0" class="cal-input" data-p="yt" data-w="3" data-t="a" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('yt')"></div></div>
+      <div style="background:var(--gray-100);border-radius:var(--radius);padding:14px;text-align:center"><div style="font-size:11px;font-weight:700;color:var(--gray-600);letter-spacing:.06em;margin-bottom:10px">WEEK 4</div><div style="margin-bottom:6px"><label style="font-size:10px;color:var(--gray-400)">Planned</label><input type="number" min="0" class="cal-input" data-p="yt" data-w="4" data-t="p" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('yt')"></div><div><label style="font-size:10px;color:var(--gray-400)">Actual</label><input type="number" min="0" class="cal-input" data-p="yt" data-w="4" data-t="a" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('yt')"></div></div>
+    </div>
+    <div id="cal-summary-yt" style="font-size:12px;color:var(--gray-600);text-align:center;padding:8px;background:var(--gray-100);border-radius:5px">Enter planned and actual posts above</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ INSIGHTS TAB -->
+<div class="tab-content" id="content-insights">
+  <div class="section-header">
+    <div class="section-title">📊 Insights & Analytics</div>
+    <div class="section-sub">Comparison · Competitors · Heatmap</div>
+  </div>
+
+  <!-- MoM COMPARISON -->
+  <div class="chart-card" style="margin-bottom:28px">
+    <div class="chart-title">Month-over-Month Comparison</div>
+    <div class="chart-subtitle">Compare current month performance against previous month</div>
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap">
+      <label style="font-size:12px;font-weight:600;color:var(--gray-600)">Previous Month:</label>
+      <select id="prev-month-select" style="border:1px solid var(--gray-200);border-radius:6px;padding:6px 10px;font-size:13px">
+        <option value="">— Select —</option>
+        <option>January 2026</option><option>February 2026</option><option>March 2026</option>
+        <option>April 2026</option><option>May 2026</option><option>June 2026</option>
+        <option>July 2026</option><option>August 2026</option><option>September 2026</option>
+        <option>October 2026</option><option>November 2026</option><option>December 2026</option>
+      </select>
+      <button class="btn btn-primary" onclick="savePrevMonth()">📥 Save Current as Previous</button>
+      <span style="font-size:11px;color:var(--gray-400)">Click to snapshot today's data as the previous month baseline</span>
+    </div>
+    <div class="table-wrap">
+      <table class="data-table" id="mom-table">
+        <thead><tr><th>Platform / Metric</th><th>Previous Month</th><th>Current Month</th><th>Change</th></tr></thead>
+        <tbody id="mom-tbody">
+          <tr><td colspan="4" style="text-align:center;color:var(--gray-400);padding:24px;font-style:italic">Save current data as previous month baseline to enable comparison</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- COMPETITOR BENCHMARKING -->
+  <div class="competitor-section">
+    <h3>🏆 Competitor Benchmarking</h3>
+    <div class="table-wrap" style="margin-bottom:12px">
+      <table class="data-table">
+        <thead><tr><th>Competitor</th><th>Platform</th><th>Followers</th><th>Est. Growth</th><th>ER %</th><th>Notes</th><th></th></tr></thead>
+        <tbody id="comp-tbody"><tr><td colspan="7" style="text-align:center;color:var(--gray-400);padding:20px;font-style:italic">Add competitors below</td></tr></tbody>
+      </table>
+    </div>
+    <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr 2fr auto;gap:8px;align-items:end">
+      <div><label style="font-size:10px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:3px">COMPETITOR NAME</label><input type="text" id="comp-name" placeholder="e.g. @bridalglam_uk" style="width:100%;padding:6px 8px;border:1px solid var(--gray-200);border-radius:5px;font-size:12px"></div>
+      <div><label style="font-size:10px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:3px">PLATFORM</label>
+        <select id="comp-plat" style="width:100%;padding:6px 8px;border:1px solid var(--gray-200);border-radius:5px;font-size:12px">
+          <option>Instagram</option><option>TikTok</option><option>Facebook</option><option>YouTube</option>
+        </select>
+      </div>
+      <div><label style="font-size:10px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:3px">FOLLOWERS</label><input type="number" id="comp-followers" placeholder="0" style="width:100%;padding:6px 8px;border:1px solid var(--gray-200);border-radius:5px;font-size:12px"></div>
+      <div><label style="font-size:10px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:3px">EST. GROWTH</label><input type="number" id="comp-growth" placeholder="0" style="width:100%;padding:6px 8px;border:1px solid var(--gray-200);border-radius:5px;font-size:12px"></div>
+      <div><label style="font-size:10px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:3px">ER %</label><input type="number" id="comp-er" step="0.1" placeholder="0.0" style="width:100%;padding:6px 8px;border:1px solid var(--gray-200);border-radius:5px;font-size:12px"></div>
+      <div><label style="font-size:10px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:3px">NOTES</label><input type="text" id="comp-notes" placeholder="Optional notes" style="width:100%;padding:6px 8px;border:1px solid var(--gray-200);border-radius:5px;font-size:12px"></div>
+      <button class="btn btn-rose" onclick="addCompetitor()" style="height:32px;align-self:flex-end">Add</button>
+    </div>
+  </div>
+
+  <!-- POSTING TIME HEATMAP -->
+  <div class="chart-card">
+    <div class="chart-title">🕐 Best Posting Times — Engagement Heatmap</div>
+    <div class="chart-subtitle" style="margin-bottom:16px">Click cells to mark engagement level. Build your optimal posting schedule.</div>
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap">
+      <label style="font-size:12px;font-weight:600;color:var(--gray-600)">Platform:</label>
+      <select id="heatmap-platform" onchange="renderHeatmap()" style="border:1px solid var(--gray-200);border-radius:6px;padding:6px 10px;font-size:13px">
+        <option value="ig">Instagram</option>
+        <option value="fb">Facebook</option>
+        <option value="tt">TikTok</option>
+        <option value="yt">YouTube</option>
+      </select>
+      <button class="btn" style="background:var(--gray-100);color:var(--gray-600);padding:6px 12px;font-size:11px" onclick="clearHeatmap()">Clear</button>
+    </div>
+    <div class="heatmap-grid" id="heatmap-grid"></div>
+    <div class="heatmap-legend">
+      <div class="heatmap-legend-item"><div class="heatmap-legend-swatch" style="background:var(--gray-100)"></div>No data</div>
+      <div class="heatmap-legend-item"><div class="heatmap-legend-swatch" style="background:var(--rose-pale);border-color:var(--rose-pale)"></div>Low</div>
+      <div class="heatmap-legend-item"><div class="heatmap-legend-swatch" style="background:var(--rose-mid);border-color:var(--rose-mid)"></div>Medium</div>
+      <div class="heatmap-legend-item"><div class="heatmap-legend-swatch" style="background:var(--rose);border-color:var(--rose)"></div>High</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ EMAIL MODAL -->
+<div class="email-modal" id="email-modal" onclick="if(event.target===this)closeEmailModal()">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3>📧 Send Report via Email</h3>
+      <button class="modal-close" onclick="closeEmailModal()">×</button>
+    </div>
+    <div style="padding:24px">
+      <p style="font-size:12px;color:var(--gray-400);margin-bottom:16px">Powered by EmailJS — free tier includes 200 emails/month. <a href="https://www.emailjs.com" target="_blank" style="color:var(--rose)">emailjs.com</a></p>
+      <div style="margin-bottom:12px"><label style="font-size:11px;font-weight:600;color:var(--gray-600);display:block;margin-bottom:4px">RECIPIENT EMAIL</label><input type="email" id="email-to" placeholder="client@example.com" style="width:100%;padding:8px 10px;border:1px solid var(--gray-200);border-radius:5px;font-size:13px;outline:none"></div>
+      <div style="margin-bottom:12px"><label style="font-size:11px;font-weight:600;color:var(--gray-600);display:block;margin-bottom:4px">SUBJECT</label><input type="text" id="email-subject" style="width:100%;padding:8px 10px;border:1px solid var(--gray-200);border-radius:5px;font-size:13px;outline:none"></div>
+      <div style="margin-bottom:16px"><label style="font-size:11px;font-weight:600;color:var(--gray-600);display:block;margin-bottom:4px">PERSONAL MESSAGE (optional)</label><textarea id="email-message" placeholder="Hi, please find this month's social media report attached..." rows="3" style="width:100%;padding:8px 10px;border:1px solid var(--gray-200);border-radius:5px;font-size:13px;resize:vertical;outline:none"></textarea></div>
+      <button class="btn btn-rose" style="width:100%;justify-content:center;padding:11px" onclick="sendEmailReport()">Send Report</button>
+      <div id="email-status" class="status-msg" style="text-align:center;margin-top:10px"></div>
+      <div class="api-config" style="margin-top:16px">
+        <div class="api-config-header" onclick="toggleApiConfig('emailjs-api')">⚙️ EmailJS Configuration <span id="emailjs-api-arrow">▼</span></div>
+        <div class="api-config-body" id="emailjs-api">
+          <div class="api-input-row"><label>Service ID</label><input type="text" id="ejs-service" placeholder="service_xxxxxxx" oninput="saveConfig('ejs-service',this.value)"></div>
+          <div class="api-input-row"><label>Template ID</label><input type="text" id="ejs-template" placeholder="template_xxxxxxx" oninput="saveConfig('ejs-template',this.value)"></div>
+          <div class="api-input-row"><label>Public Key</label><input type="text" id="ejs-pubkey" placeholder="xxxxxxxxxxxxxxx" oninput="saveConfig('ejs-pubkey',this.value)"></div>
+          <div style="font-size:10px;color:var(--gray-400);line-height:1.6">Get these from <strong>emailjs.com</strong> → Email Services + Email Templates. Template variables: <code>{{to_email}}</code>, <code>{{subject}}</code>, <code>{{message}}</code>, <code>{{report_url}}</code>, <code>{{month}}</code></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ AI API CONFIG MODAL -->
+<div class="email-modal" id="ai-config-modal" onclick="if(event.target===this)document.getElementById('ai-config-modal').classList.remove('open')">
+  <div class="modal-box" style="width:440px">
+    <div class="modal-header">
+      <h3>✨ Claude AI Configuration</h3>
+      <button class="modal-close" onclick="document.getElementById('ai-config-modal').classList.remove('open')">×</button>
+    </div>
+    <div style="padding:24px">
+      <p style="font-size:12px;color:var(--gray-600);margin-bottom:16px;line-height:1.7">Enter your Claude API key to enable AI-generated commentary drafts. Your key is stored only in this browser.</p>
+      <div class="api-input-row"><label>Claude API Key</label><input type="password" id="claude-api-key" placeholder="sk-ant-..." oninput="saveConfig('claude-key',this.value)"></div>
+      <div style="font-size:10px;color:var(--gray-400);margin-bottom:16px;line-height:1.6">Get your key at <strong>console.anthropic.com</strong> → API Keys. Uses claude-haiku-4-5 (fast & cost-effective).</div>
+      <button class="btn btn-rose" style="width:100%;justify-content:center" onclick="document.getElementById('ai-config-modal').classList.remove('open');pendingAiPlatform&&draftCommentary(pendingAiPlatform,true)">Save & Generate</button>
     </div>
   </div>
 </div>
 
 <!-- ═══════════════════════════════════════════ LOADER OVERLAY -->
 <div class="loader-overlay" id="loader-overlay">
-  <svg class="loader-brush" width="90" height="130" viewBox="0 0 90 130">
-    <!-- Handle -->
-    <rect x="38" y="62" width="14" height="62" rx="4" fill="#2A2025"/>
-    <!-- Ferrule band -->
-    <rect x="34" y="56" width="22" height="10" rx="2" fill="#9E8E93"/>
-    <!-- Bristle base -->
-    <ellipse cx="45" cy="44" rx="17" ry="22" fill="#C96B84"/>
-    <!-- Bristle mid -->
-    <ellipse cx="45" cy="28" rx="11" ry="14" fill="#A84D67"/>
-    <!-- Bristle tip -->
-    <ellipse cx="45" cy="16" rx="6" ry="9" fill="#8B3A52"/>
-    <!-- Sparkles -->
-    <circle class="loader-sparkle"    cx="16" cy="36" r="3.5" fill="#F5E0E6"/>
-    <circle class="loader-sparkle sp2" cx="74" cy="24" r="2.5" fill="#C96B84"/>
-    <circle class="loader-sparkle sp3" cx="12" cy="64" r="2"   fill="#8B3A52"/>
-    <circle class="loader-sparkle sp4" cx="78" cy="58" r="3"   fill="#F5E0E6"/>
-  </svg>
-  <div class="loader-label">Loading<span class="loader-dots"></span></div>
+  <div class="ldr-scene">
+    <div class="ldr-ring-outer"></div>
+    <div class="ldr-ring-inner"></div>
+    <div class="ldr-center"><div class="ldr-monogram">ABR</div></div>
+    <div class="ldr-orbiter"></div>
+    <div class="ldr-orbiter2"></div>
+    <div class="ldr-sparks">
+      <div class="ldr-sp"></div><div class="ldr-sp"></div><div class="ldr-sp"></div>
+      <div class="ldr-sp"></div><div class="ldr-sp"></div><div class="ldr-sp"></div>
+      <div class="ldr-sp"></div><div class="ldr-sp"></div>
+    </div>
+  </div>
+  <div class="ldr-brand">Artistry <em>by Rhythm</em></div>
+  <div class="ldr-sub">Loading<span class="ldr-sub-dots"></span></div>
 </div>
 
 <!-- ═══════════════════════════════════════════ RESTORE SESSION MODAL -->
@@ -1290,8 +1561,8 @@ function toggleApiConfig(id) {
 function saveConfig(key, val) { try { localStorage.setItem('abr_' + key, val); } catch(e) {} }
 function loadConfig(key) { try { return localStorage.getItem('abr_' + key) || ''; } catch(e) { return ''; } }
 function loadAllConfigs() {
-  ['sheets-api-key', 'yt-client-id', 'yt-api-key'].forEach(k => {
-    const el = document.getElementById(k);
+  ['sheets-api-key', 'yt-client-id', 'yt-api-key', 'ejs-service', 'ejs-template', 'ejs-pubkey', 'claude-key'].forEach(k => {
+    const el = document.getElementById(k === 'claude-key' ? 'claude-api-key' : k);
     if (el) el.value = loadConfig(k);
   });
 }
@@ -1767,13 +2038,402 @@ window.addEventListener('beforeunload', e => {
 document.addEventListener('click', e => {
   const btn = e.target.closest('button');
   if (!btn) return;
-  // Skip buttons that have their own loader logic or are inside modals with explicit handling
   const skipIds = ['modal-file-input'];
   if (btn.classList.contains('modal-close') || btn.classList.contains('refresh-btn')) return;
   if (btn.getAttribute('onclick')?.includes('showLoader')) return;
-  // Brief flash for all other buttons
   showLoader();
   hideLoader(700);
+});
+
+// ── GOALS TRACKER ──
+function toggleGoals(p) {
+  const body = document.getElementById('goals-' + p + '-body');
+  const arrow = document.getElementById('goals-' + p + '-arrow');
+  if (!body) return;
+  const open = body.style.display !== 'none' && body.style.display !== '';
+  body.style.display = open ? 'none' : 'block';
+  if (arrow) arrow.textContent = open ? '▶' : '▼';
+}
+
+// Map goal keys to KPI element IDs
+const goalKpiMap = {
+  'ig-followers': 'ig-followers', 'ig-reach': 'ig-reach', 'ig-reels': 'ig-reels', 'ig-saves': 'ig-saves',
+  'fb-followers': 'fb-followers', 'fb-reach': 'fb-reach', 'fb-eng': 'fb-eng', 'fb-link-clicks': 'fb-link-clicks',
+  'tt-followers': 'tt-followers', 'tt-views': 'tt-views', 'tt-avg-views': 'tt-avg-views', 'tt-shares': 'tt-shares',
+  'yt-subscribers': 'yt-subscribers', 'yt-views': 'yt-views', 'yt-watchtime': 'yt-watchtime', 'yt-likes': 'yt-likes'
+};
+
+function updateGoal(key, input) {
+  const target = parseFloat(input.value);
+  const bar = document.getElementById('gbar-' + key);
+  const pct = document.getElementById('gpct-' + key);
+  if (!bar || !pct) return;
+  if (!target || target <= 0) { bar.style.width = '0%'; pct.textContent = '—'; return; }
+  const kpiEl = document.getElementById(goalKpiMap[key]);
+  let current = 0;
+  if (kpiEl) {
+    const raw = kpiEl.textContent.replace(/[,K%hrs\s]/gi, '').trim();
+    const num = parseFloat(raw);
+    if (!isNaN(num)) current = raw.includes('K') ? num * 1000 : num;
+  }
+  const ratio = Math.min(current / target, 1);
+  const pctVal = Math.round(ratio * 100);
+  bar.style.width = pctVal + '%';
+  bar.style.background = pctVal >= 100 ? 'var(--success)' : pctVal >= 60 ? 'var(--rose-mid)' : 'var(--rose-light)';
+  pct.textContent = pctVal + '%';
+  pct.style.color = pctVal >= 100 ? 'var(--success)' : 'var(--gray-600)';
+  markUnsaved();
+}
+
+// ── CLIENT VIEW ──
+function toggleClientView() {
+  const btn = document.getElementById('client-view-btn');
+  const active = document.body.classList.toggle('client-view');
+  btn.textContent = active ? '✏️ Edit Mode' : '👁 Client View';
+}
+
+// ── EMAIL REPORT ──
+function openEmailModal() {
+  const month = document.getElementById('month-select');
+  const subj = document.getElementById('email-subject');
+  if (subj && month) subj.value = 'ABR Social Media Report — ' + (month.options[month.selectedIndex]?.text || '');
+  document.getElementById('email-modal').classList.add('open');
+}
+function closeEmailModal() {
+  document.getElementById('email-modal').classList.remove('open');
+}
+async function sendEmailReport() {
+  const svcId = loadConfig('ejs-service');
+  const tplId = loadConfig('ejs-template');
+  const pubKey = loadConfig('ejs-pubkey');
+  const to = document.getElementById('email-to').value.trim();
+  const subject = document.getElementById('email-subject').value.trim();
+  const message = document.getElementById('email-message').value.trim();
+  const status = document.getElementById('email-status');
+  if (!svcId || !tplId || !pubKey) {
+    status.textContent = '⚠️ Please configure EmailJS settings first.';
+    status.style.color = 'var(--danger)';
+    return;
+  }
+  if (!to) { status.textContent = '⚠️ Please enter a recipient email.'; status.style.color = 'var(--danger)'; return; }
+  status.textContent = 'Sending…'; status.style.color = 'var(--gray-600)';
+  try {
+    if (!window.emailjs) {
+      await new Promise((res, rej) => {
+        const s = document.createElement('script');
+        s.src = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js';
+        s.onload = res; s.onerror = rej;
+        document.head.appendChild(s);
+      });
+      emailjs.init(pubKey);
+    }
+    const month = document.getElementById('month-select');
+    await emailjs.send(svcId, tplId, {
+      to_email: to,
+      subject,
+      message: message || 'Please find this month\'s social media report from Artistry by Rhythm.',
+      report_url: window.location.href,
+      month: month.options[month.selectedIndex]?.text || ''
+    });
+    status.textContent = '✓ Report sent successfully!';
+    status.style.color = 'var(--success)';
+  } catch(e) {
+    status.textContent = '✗ Send failed: ' + (e.text || e.message || 'Unknown error');
+    status.style.color = 'var(--danger)';
+  }
+}
+
+// ── AI COMMENTARY ──
+let pendingAiPlatform = null;
+const platformCommentaryMap = {
+  instagram: { wins: 'ig-ta-wins', improve: 'ig-ta-improve', plan: 'ig-ta-plan',
+    kpis: ['ig-followers','ig-reach','ig-reels','ig-er','ig-likes','ig-saves','ig-watchtime'] },
+  facebook: { wins: 'fb-ta-wins', improve: 'fb-ta-improve', plan: 'fb-ta-plan',
+    kpis: ['fb-followers','fb-reach','fb-eng','fb-likes','fb-shares','fb-link-clicks'] },
+  tiktok: { wins: 'tt-ta-wins', improve: 'tt-ta-improve', plan: 'tt-ta-plan',
+    kpis: ['tt-followers','tt-views','tt-avg-views','tt-likes','tt-shares'] },
+  youtube: { wins: 'yt-ta-wins', improve: 'yt-ta-improve', plan: 'yt-ta-plan',
+    kpis: ['yt-subscribers','yt-views','yt-watchtime','yt-likes','yt-ctr','yt-avd'] }
+};
+
+async function draftCommentary(platform, skipCheck) {
+  const apiKey = loadConfig('claude-key');
+  if (!apiKey) {
+    pendingAiPlatform = platform;
+    document.getElementById('ai-config-modal').classList.add('open');
+    return;
+  }
+  const map = platformCommentaryMap[platform];
+  if (!map) return;
+  const month = document.getElementById('month-select');
+  const monthName = month.options[month.selectedIndex]?.text || 'this month';
+  const kpiSummary = map.kpis.map(id => {
+    const el = document.getElementById(id);
+    return el ? id.split('-').slice(1).join(' ') + ': ' + el.textContent : null;
+  }).filter(Boolean).join(', ');
+  const prompt = `You are a social media strategist for "Artistry by Rhythm" (ABR), a South Asian bridal makeup artist brand.
+Platform: ${platform} | Month: ${monthName}
+Key metrics: ${kpiSummary}
+
+Write concise commentary in 3 separate sections:
+1. WINS (2-3 bullet points of highlights)
+2. AREAS TO IMPROVE (2-3 bullet points)
+3. NEXT MONTH PLAN (2-3 actionable bullet points)
+
+Keep each section to 2-3 short bullets. Use "•" as bullet point. Be specific, professional, and aligned with a luxury bridal beauty brand.`;
+
+  const winsEl = document.getElementById(map.wins);
+  const impEl = document.getElementById(map.improve);
+  const planEl = document.getElementById(map.plan);
+  if (winsEl) winsEl.value = 'Generating…';
+  if (impEl) impEl.value = '';
+  if (planEl) planEl.value = '';
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5',
+        max_tokens: 600,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    if (!res.ok) throw new Error('API error ' + res.status);
+    const json = await res.json();
+    const text = json.content?.[0]?.text || '';
+    const winsMatch = text.match(/WINS[:\s]+([\s\S]*?)(?=AREAS TO IMPROVE|$)/i);
+    const impMatch = text.match(/AREAS TO IMPROVE[:\s]+([\s\S]*?)(?=NEXT MONTH PLAN|$)/i);
+    const planMatch = text.match(/NEXT MONTH PLAN[:\s]+([\s\S]*?)$/i);
+    if (winsEl) winsEl.value = winsMatch ? winsMatch[1].trim() : text;
+    if (impEl) impEl.value = impMatch ? impMatch[1].trim() : '';
+    if (planEl) planEl.value = planMatch ? planMatch[1].trim() : '';
+    markUnsaved();
+  } catch(e) {
+    if (winsEl) winsEl.value = 'Error: ' + (e.message || 'Could not connect to Claude API. Check your API key.');
+  }
+}
+
+// ── HASHTAG PERFORMANCE ──
+let hashtags = [];
+function addHashtag() {
+  const tag = document.getElementById('ht-tag').value.trim();
+  const posts = parseInt(document.getElementById('ht-posts').value) || 0;
+  const reach = parseInt(document.getElementById('ht-reach').value) || 0;
+  const likes = parseInt(document.getElementById('ht-likes').value) || 0;
+  const top = parseInt(document.getElementById('ht-top').value) || 0;
+  if (!tag) return;
+  hashtags.push({ tag: tag.startsWith('#') ? tag : '#' + tag, posts, reach, likes, top });
+  ['ht-tag','ht-posts','ht-reach','ht-likes','ht-top'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+  renderHashtags();
+  markUnsaved();
+}
+function removeHashtag(i) {
+  hashtags.splice(i, 1);
+  renderHashtags();
+  markUnsaved();
+}
+function renderHashtags() {
+  const tbody = document.getElementById('hashtag-tbody');
+  if (!tbody) return;
+  if (!hashtags.length) {
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--gray-400);padding:20px;font-style:italic">Add hashtags below to track performance</td></tr>';
+    return;
+  }
+  const maxReach = Math.max(...hashtags.map(h => h.reach), 1);
+  tbody.innerHTML = hashtags.map((h, i) => {
+    const score = h.reach / maxReach;
+    const perf = score >= 0.7 ? '<span style="background:var(--success-bg);color:var(--success);padding:2px 8px;border-radius:10px;font-size:11px;font-weight:700">Strong</span>'
+      : score >= 0.35 ? '<span style="background:var(--warning-bg);color:var(--warning);padding:2px 8px;border-radius:10px;font-size:11px;font-weight:700">Growing</span>'
+      : '<span style="background:var(--danger-bg);color:var(--danger);padding:2px 8px;border-radius:10px;font-size:11px;font-weight:700">Weak</span>';
+    return `<tr>
+      <td style="font-weight:700;color:var(--rose)">${h.tag}</td>
+      <td style="text-align:center">${h.posts}</td>
+      <td style="text-align:right">${h.reach.toLocaleString()}</td>
+      <td style="text-align:right">${h.likes.toLocaleString()}</td>
+      <td style="text-align:right">${h.top.toLocaleString()}</td>
+      <td style="text-align:center">${perf}</td>
+      <td style="text-align:center"><button onclick="removeHashtag(${i})" style="background:none;border:none;cursor:pointer;color:var(--gray-400);font-size:16px;line-height:1">×</button></td>
+    </tr>`;
+  }).join('');
+}
+
+// ── COMPETITOR BENCHMARKING ──
+let competitors = [];
+function addCompetitor() {
+  const name = document.getElementById('comp-name').value.trim();
+  const plat = document.getElementById('comp-plat').value.trim();
+  const followers = document.getElementById('comp-followers').value.trim();
+  const growth = document.getElementById('comp-growth').value.trim();
+  const er = document.getElementById('comp-er').value.trim();
+  const notes = document.getElementById('comp-notes').value.trim();
+  if (!name) return;
+  competitors.push({ name, plat, followers, growth, er, notes });
+  ['comp-name','comp-plat','comp-followers','comp-growth','comp-er','comp-notes'].forEach(id => { const el = document.getElementById(id); if(el) el.value = ''; });
+  renderCompetitors();
+  markUnsaved();
+}
+function removeCompetitor(i) {
+  competitors.splice(i, 1);
+  renderCompetitors();
+  markUnsaved();
+}
+function renderCompetitors() {
+  const tbody = document.getElementById('comp-tbody');
+  if (!tbody) return;
+  if (!competitors.length) {
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--gray-400);padding:20px;font-style:italic">Add competitors below</td></tr>';
+    return;
+  }
+  tbody.innerHTML = competitors.map((c, i) => `<tr>
+    <td style="font-weight:600">${c.name}</td>
+    <td style="text-align:center"><span style="font-size:11px;background:var(--gray-100);padding:2px 8px;border-radius:10px">${c.plat || '—'}</span></td>
+    <td style="text-align:right">${c.followers || '—'}</td>
+    <td style="text-align:right">${c.growth || '—'}</td>
+    <td style="text-align:right">${c.er || '—'}</td>
+    <td style="color:var(--gray-600);font-size:12px">${c.notes || ''}</td>
+    <td style="text-align:center"><button onclick="removeCompetitor(${i})" style="background:none;border:none;cursor:pointer;color:var(--gray-400);font-size:16px;line-height:1">×</button></td>
+  </tr>`).join('');
+}
+
+// ── POSTING TIME HEATMAP ──
+const heatmapData = {};
+const heatDays = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+const heatSlots = ['6am','9am','12pm','3pm','6pm','9pm'];
+const heatLevels = [0,1,2,3];
+const heatColors = ['var(--gray-100)','var(--rose-pale)','var(--rose-light)','var(--rose)'];
+const heatTextColors = ['var(--gray-400)','var(--rose-mid)','var(--white)','var(--white)'];
+
+function renderHeatmap() {
+  const grid = document.getElementById('heatmap-grid');
+  if (!grid) return;
+  const plat = document.getElementById('heatmap-platform').value || 'ig';
+  if (!heatmapData[plat]) heatmapData[plat] = {};
+  let html = '<div style="font-size:11px;font-weight:700;color:var(--gray-400)"></div>';
+  heatSlots.forEach(s => { html += `<div style="font-size:11px;font-weight:700;color:var(--gray-600);text-align:center;padding:4px">${s}</div>`; });
+  heatDays.forEach(day => {
+    html += `<div style="font-size:12px;font-weight:600;color:var(--gray-600);display:flex;align-items:center">${day}</div>`;
+    heatSlots.forEach(slot => {
+      const key = day + '_' + slot;
+      const lvl = heatmapData[plat][key] || 0;
+      const bg = heatColors[lvl];
+      const tc = heatTextColors[lvl];
+      const label = ['','Low','Med','High'][lvl];
+      html += `<div onclick="cycleHeatCell('${plat}','${key}',this)" style="background:${bg};color:${tc};border-radius:5px;padding:8px 4px;text-align:center;cursor:pointer;font-size:11px;font-weight:600;min-height:36px;display:flex;align-items:center;justify-content:center;transition:all .15s">${label}</div>`;
+    });
+  });
+  grid.innerHTML = html;
+}
+
+function cycleHeatCell(plat, key, el) {
+  if (!heatmapData[plat]) heatmapData[plat] = {};
+  const cur = heatmapData[plat][key] || 0;
+  const next = (cur + 1) % 4;
+  heatmapData[plat][key] = next;
+  el.style.background = heatColors[next];
+  el.style.color = heatTextColors[next];
+  el.textContent = ['','Low','Med','High'][next];
+  markUnsaved();
+}
+
+function clearHeatmap() {
+  const plat = document.getElementById('heatmap-platform').value || 'ig';
+  heatmapData[plat] = {};
+  renderHeatmap();
+  markUnsaved();
+}
+
+// ── CONTENT CALENDAR ──
+function updateCal(p) {
+  const summary = document.getElementById('cal-summary-' + p);
+  if (!summary) return;
+  let totalP = 0, totalA = 0;
+  document.querySelectorAll(`.cal-input[data-p="${p}"][data-t="p"]`).forEach(el => { totalP += parseInt(el.value) || 0; });
+  document.querySelectorAll(`.cal-input[data-p="${p}"][data-t="a"]`).forEach(el => { totalA += parseInt(el.value) || 0; });
+  if (!totalP && !totalA) { summary.innerHTML = 'Enter planned and actual posts above'; summary.style.color = 'var(--gray-600)'; return; }
+  const ratio = totalP > 0 ? totalA / totalP : 1;
+  const pct = Math.round(ratio * 100);
+  const color = ratio >= 1 ? 'var(--success)' : ratio >= 0.7 ? 'var(--warning)' : 'var(--danger)';
+  summary.innerHTML = `<strong style="color:${color}">${totalA} / ${totalP} posts published</strong> &nbsp;·&nbsp; ${pct}% execution rate`;
+  summary.style.color = 'var(--gray-800)';
+  markUnsaved();
+}
+
+// ── MONTH-OVER-MONTH COMPARISON ──
+const momMetrics = [
+  { label: 'IG Followers',    id: 'ig-followers' },
+  { label: 'IG Total Reach',  id: 'ig-reach' },
+  { label: 'IG Reels Views',  id: 'ig-reels' },
+  { label: 'FB Followers',    id: 'fb-followers' },
+  { label: 'FB Organic Reach',id: 'fb-reach' },
+  { label: 'TT Followers',    id: 'tt-followers' },
+  { label: 'TT Total Views',  id: 'tt-views' },
+  { label: 'YT Subscribers',  id: 'yt-subscribers' },
+  { label: 'YT Views',        id: 'yt-views' },
+  { label: 'YT Watch Time',   id: 'yt-watchtime' },
+];
+
+function savePrevMonth() {
+  const snapshot = {};
+  momMetrics.forEach(m => {
+    const el = document.getElementById(m.id);
+    snapshot[m.id] = el ? el.textContent : '—';
+  });
+  try { localStorage.setItem('abr_prev_month', JSON.stringify(snapshot)); } catch(e) {}
+  updateMoMTable();
+  alert('Current data saved as previous month baseline.');
+}
+
+function updateMoMTable() {
+  const tbody = document.getElementById('mom-tbody');
+  if (!tbody) return;
+  let prev = {};
+  try { prev = JSON.parse(localStorage.getItem('abr_prev_month') || '{}'); } catch(e) {}
+  if (!Object.keys(prev).length) {
+    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--gray-400);padding:20px;font-style:italic">No previous month data. Click "Save Current as Previous" to set a baseline.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = momMetrics.map(m => {
+    const el = document.getElementById(m.id);
+    const curr = el ? el.textContent : '—';
+    const p = prev[m.id] || '—';
+    const cn = parseMetricNum(curr);
+    const pn = parseMetricNum(p);
+    let pill = '<span style="color:var(--gray-400)">—</span>';
+    if (cn !== null && pn !== null && pn !== 0) {
+      const diff = ((cn - pn) / Math.abs(pn)) * 100;
+      const sign = diff > 0 ? '+' : '';
+      const bg = diff > 0 ? 'var(--success-bg)' : diff < 0 ? 'var(--danger-bg)' : 'var(--gray-100)';
+      const tc = diff > 0 ? 'var(--success)' : diff < 0 ? 'var(--danger)' : 'var(--gray-600)';
+      pill = `<span style="background:${bg};color:${tc};padding:2px 8px;border-radius:10px;font-size:12px;font-weight:700">${sign}${diff.toFixed(1)}%</span>`;
+    }
+    return `<tr>
+      <td style="font-weight:600;color:var(--gray-800)">${m.label}</td>
+      <td style="text-align:right;color:var(--gray-600)">${p}</td>
+      <td style="text-align:right;font-weight:700">${curr}</td>
+      <td style="text-align:center">${pill}</td>
+    </tr>`;
+  }).join('');
+}
+
+function parseMetricNum(val) {
+  if (!val || val === '—') return null;
+  const s = String(val).replace(/[,%\s]/g, '').toLowerCase();
+  if (s.endsWith('k')) return parseFloat(s) * 1000;
+  if (s.endsWith('m')) return parseFloat(s) * 1000000;
+  const n = parseFloat(s);
+  return isNaN(n) ? null : n;
+}
+
+// ── INIT ──
+document.addEventListener('DOMContentLoaded', () => {
+  renderHeatmap();
+  updateMoMTable();
 });
 </script>
 </body>
