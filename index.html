@@ -788,11 +788,10 @@
     <div class="kpi-card"><div class="kpi-label">Shorts Views</div><div class="kpi-value" id="yt-views">—</div><div class="kpi-note">Shorts-only views</div></div>
     <div class="kpi-card"><div class="kpi-label">Shorts Published</div><div class="kpi-value" id="yt-posts">—</div></div>
   </div>
-  <div class="kpi-grid kpi-grid-5">
+  <div class="kpi-grid kpi-grid-4">
     <div class="kpi-card"><div class="kpi-label">Watch Time (hrs)</div><div class="kpi-value" id="yt-watchtime">—</div></div>
     <div class="kpi-card"><div class="kpi-label">Likes</div><div class="kpi-value" id="yt-likes">—</div></div>
-    <div class="kpi-card"><div class="kpi-label">Impressions</div><div class="kpi-value" id="yt-impressions">—</div><div class="kpi-note">Total thumbnail views</div></div>
-    <div class="kpi-card"><div class="kpi-label">CTR</div><div class="kpi-value" id="yt-ctr">—</div><div class="kpi-note">Benchmark: 2–10%</div></div>
+    <div class="kpi-card"><div class="kpi-label">Impressions CTR</div><div class="kpi-value" id="yt-ctr">—</div><div class="kpi-note">Benchmark: 2–10%</div></div>
     <div class="kpi-card"><div class="kpi-label">Avg. View Duration</div><div class="kpi-value" id="yt-avd">—</div><div class="kpi-note">Shorts: target 70%+</div></div>
   </div>
 
@@ -804,11 +803,10 @@
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">SHORTS VIEWS</label><input type="number" placeholder="e.g. 14000" oninput="updateSimple('yt-views',this,true)"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">SHORTS PUBLISHED</label><input type="number" placeholder="e.g. 6" oninput="updateSimple('yt-posts',this,false)"></div>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:12px">
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:12px">
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">WATCH TIME (HRS)</label><input type="number" placeholder="e.g. 48" oninput="updateSimple('yt-watchtime',this,false)"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">LIKES</label><input type="number" placeholder="e.g. 420" oninput="updateSimple('yt-likes',this,true)"></div>
-      <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">IMPRESSIONS</label><input type="number" placeholder="e.g. 12000" oninput="updateSimple('yt-impressions',this,true)"></div>
-      <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">CTR %</label><input type="number" step="0.1" placeholder="e.g. 4.5" oninput="updateSimple('yt-ctr',this,false,'%')"></div>
+      <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">IMPRESSIONS CTR %</label><input type="number" step="0.1" placeholder="e.g. 4.5" oninput="updateSimple('yt-ctr',this,false,'%')"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">AVG VIEW DURATION %</label><input type="number" placeholder="e.g. 74" oninput="updateSimple('yt-avd',this,false,'%')"></div>
     </div>
   </div>
@@ -876,17 +874,52 @@ function parseCSV(platform, text) {
 
   if (platform === 'instagram') {
     const reach = sum(col('reach'));
-    const likes = sum(col('like')); const comments = sum(col('comment')); const saves = sum(col('save'));
-    if (reach) updateReachBar('insta', reach);
+    const likes = sum(col('like'));
+    const comments = sum(col('comment'));
+    const saves = sum(col('save'));
+    const impressions = sum(col('impression'));
+    if (reach) { setVal('ig-reach', fmtNum(reach)); updateReachBar('insta', reach); }
+    if (likes) setVal('ig-likes', fmtNum(likes));
+    if (comments) setVal('ig-comments', fmtNum(comments));
+    if (saves) setVal('ig-saves', fmtNum(saves));
+    if (impressions) setVal('ig-impressions', fmtNum(impressions));
   } else if (platform === 'facebook') {
     const reach = sum(col('reach'));
-    if (reach) updateReachBar('fb', reach);
+    const likes = sum(col('like'));
+    const shares = sum(col('share'));
+    const eng = sum(col('engagement'));
+    if (reach) { setVal('fb-reach', fmtNum(reach)); updateReachBar('fb', reach); }
+    if (likes) setVal('fb-likes', fmtNum(likes));
+    if (shares) setVal('fb-shares', fmtNum(shares));
+    if (eng) setVal('fb-eng', fmtNum(eng));
   } else if (platform === 'tiktok') {
     const views = sum(col('view'));
-    if (views) updateReachBar('tt', views);
+    const likes = sum(col('like'));
+    const shares = sum(col('share'));
+    const profile = sum(col('profile'));
+    if (views) { setVal('tt-views', fmtNum(views)); updateReachBar('tt', views); }
+    if (likes) setVal('tt-likes', fmtNum(likes));
+    if (shares) setVal('tt-shares', fmtNum(shares));
+    if (profile) setVal('tt-profile', fmtNum(profile));
   } else if (platform === 'youtube') {
     const views = sum(col('view'));
-    if (views) updateReachBar('yt', views);
+    const watchtime = sum(col('watch time'));
+    const likes = sum(col('like'));
+    const subs = sum(col('subscriber'));
+    // CTR is a percentage — average across rows rather than sum
+    const ctrCol = col('click-through') !== -1 ? col('click-through') : col('ctr');
+    const dataRows = rows.slice(1);
+    const ctrVals = dataRows.map(r => { const v = parseFloat((r[ctrCol] || '0').replace(/[,%]/g,'')); return isNaN(v) ? 0 : v; }).filter(v => v > 0);
+    const avgCtr = ctrVals.length ? (ctrVals.reduce((a,b) => a+b, 0) / ctrVals.length) : 0;
+    const avdCol = col('average percentage') !== -1 ? col('average percentage') : col('average view');
+    const avdVals = dataRows.map(r => { const v = parseFloat((r[avdCol] || '0').replace(/[,%]/g,'')); return isNaN(v) ? 0 : v; }).filter(v => v > 0);
+    const avgAvd = avdVals.length ? (avdVals.reduce((a,b) => a+b, 0) / avdVals.length) : 0;
+    if (views) { setVal('yt-views', fmtNum(views)); updateReachBar('yt', views); }
+    if (watchtime) setVal('yt-watchtime', fmtNum(Math.round(watchtime)));
+    if (likes) setVal('yt-likes', fmtNum(likes));
+    if (subs) { setVal('yt-subscribers', fmtNum(subs)); setVal('ov-yt-subscribers', fmtNum(subs)); }
+    if (avgCtr) setVal('yt-ctr', avgCtr.toFixed(1) + '%');
+    if (avgAvd) setVal('yt-avd', avgAvd.toFixed(1) + '%');
   }
 }
 
