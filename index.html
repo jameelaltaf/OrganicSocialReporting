@@ -392,6 +392,73 @@
   .status-ok { color: var(--success); }
   .status-err { color: var(--danger); }
   .status-wait { color: var(--gray-400); }
+
+  /* ── LOADER OVERLAY ── */
+  .loader-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(253,245,247,0.92); z-index: 3000;
+    align-items: center; justify-content: center; flex-direction: column;
+    backdrop-filter: blur(3px);
+  }
+  .loader-overlay.show { display: flex; }
+  .loader-brush {
+    animation: brushPaint 1.3s ease-in-out infinite;
+    transform-origin: 50% 85%;
+  }
+  @keyframes brushPaint {
+    0%,100% { transform: rotate(-22deg) translateX(-10px); }
+    50%      { transform: rotate(22deg)  translateX(10px); }
+  }
+  .loader-sparkle { animation: sparkleFloat 1.3s ease-in-out infinite; }
+  .sp2 { animation-delay:.32s } .sp3 { animation-delay:.65s } .sp4 { animation-delay:.98s }
+  @keyframes sparkleFloat {
+    0%,100% { opacity:0; transform:scale(0) translateY(0); }
+    50%     { opacity:1; transform:scale(1.4) translateY(-10px); }
+  }
+  .loader-label {
+    font-family: var(--font-display); font-style: italic;
+    font-size: 15px; color: var(--rose); margin-top: 18px; letter-spacing:.04em;
+  }
+  .loader-dots::after {
+    content:''; animation: dots 1.3s steps(4,end) infinite;
+  }
+  @keyframes dots {
+    0%  { content:''; }   25% { content:'.'; }
+    50% { content:'..'; } 75% { content:'...'; }
+  }
+
+  /* ── REFRESH BUTTON ── */
+  .refresh-btn {
+    background: none; border: 1px solid var(--gray-200); border-radius: 6px;
+    padding: 5px 9px; cursor: pointer; color: var(--gray-400); font-size: 14px;
+    transition: all 0.2s; line-height: 1;
+  }
+  .refresh-btn:hover { border-color: var(--rose); color: var(--rose); background: var(--rose-subtle); }
+
+  /* ── SAVE BANNER ── */
+  .save-banner {
+    display: none; position: fixed; bottom: 20px; right: 24px; z-index: 500;
+    background: var(--charcoal); color: var(--white); border-radius: var(--radius);
+    padding: 12px 18px; font-size: 12px; display: flex; align-items: center; gap: 12px;
+    box-shadow: var(--shadow-md);
+  }
+  .save-banner.visible { display: flex; }
+  .save-banner .sb-dot { width:7px;height:7px;border-radius:50%;background:var(--rose-light);animation:pulse 1.5s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.8)} }
+
+  /* ── RESTORE MODAL ── */
+  .restore-modal {
+    display: none; position: fixed; inset: 0; background: rgba(42,32,37,0.6);
+    z-index: 4000; align-items: center; justify-content: center;
+  }
+  .restore-modal.open { display: flex; }
+  .restore-box {
+    background: var(--white); border-radius: var(--radius-lg); width: 420px;
+    max-width: 94vw; padding: 32px; text-align: center; box-shadow: var(--shadow-md);
+  }
+  .restore-box h3 { font-family:var(--font-display);font-size:22px;color:var(--charcoal);margin-bottom:8px; }
+  .restore-box p  { font-size:13px;color:var(--gray-600);margin-bottom:22px;line-height:1.7; }
+  .restore-box .rb-btns { display:flex;gap:10px;justify-content:center; }
 </style>
 </head>
 <body>
@@ -430,6 +497,7 @@
   <label style="margin-left:16px">Client</label>
   <input type="text" value="Artistry by Rhythm" readonly style="width:200px">
   <div class="spacer"></div>
+  <button class="btn btn-primary" onclick="saveSession()" style="margin-right:8px">💾 Save Session</button>
   <button class="btn btn-primary" onclick="window.print()">⬇ Export PDF</button>
 </div>
 
@@ -605,6 +673,7 @@
       <div class="cds-title">📁 Connect Instagram Data</div>
       <div class="cds-sub">Upload CSV / Excel · Google Sheets · Direct API</div>
     </div>
+    <button class="refresh-btn" onclick="showLoader();resetPlatform('instagram');hideLoader(400)" title="Reset Instagram data">↺</button>
     <button class="btn btn-rose" onclick="openDataModal('instagram')">Connect Data ›</button>
   </div>
 
@@ -612,7 +681,7 @@
     <div class="kpi-card"><div class="kpi-label">Followers</div><div class="kpi-value" id="ig-followers">—</div><div class="kpi-delta delta-neutral" id="ig-followers-d">vs. prev. month</div></div>
     <div class="kpi-card"><div class="kpi-label">Net Growth</div><div class="kpi-value" id="ig-growth">—</div><div class="kpi-delta delta-neutral" id="ig-growth-d">Gained — Lost</div></div>
     <div class="kpi-card"><div class="kpi-label">Total Reach</div><div class="kpi-value" id="ig-reach">—</div><div class="kpi-note">Unique accounts reached</div></div>
-    <div class="kpi-card"><div class="kpi-label">Impressions</div><div class="kpi-value" id="ig-impressions">—</div><div class="kpi-note">Total views inc. repeats</div></div>
+    <div class="kpi-card"><div class="kpi-label">Watch Time</div><div class="kpi-value" id="ig-watchtime">—</div><div class="kpi-note">Avg. seconds per Reel view</div></div>
   </div>
   <div class="kpi-grid kpi-grid-4">
     <div class="kpi-card"><div class="kpi-label">Engagement Rate</div><div class="kpi-value" id="ig-er">—</div><div class="kpi-delta delta-neutral">Benchmark: 3–6%</div></div>
@@ -634,7 +703,7 @@
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">FOLLOWERS (END)</label><input type="number" placeholder="e.g. 4800" oninput="updateIG('ig-followers',this,true)"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">NET GROWTH</label><input type="number" placeholder="e.g. +120" oninput="updateIG('ig-growth',this,false)"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">REACH</label><input type="number" placeholder="e.g. 28000" oninput="updateIG('ig-reach',this,true)"></div>
-      <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">IMPRESSIONS</label><input type="number" placeholder="e.g. 42000" oninput="updateIG('ig-impressions',this,true)"></div>
+      <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">WATCH TIME (AVG SEC)</label><input type="number" placeholder="e.g. 18" oninput="updateIG('ig-watchtime',this,false)"></div>
     </div>
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:12px">
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">LIKES</label><input type="number" placeholder="e.g. 1800" oninput="updateIG('ig-likes',this,true)"></div>
@@ -707,13 +776,14 @@
       <div class="cds-title">📁 Connect Facebook Data</div>
       <div class="cds-sub">Upload CSV / Excel · Google Sheets · Direct API</div>
     </div>
+    <button class="refresh-btn" onclick="showLoader();resetPlatform('facebook');hideLoader(400)" title="Reset Facebook data">↺</button>
     <button class="btn btn-rose" onclick="openDataModal('facebook')">Connect Data ›</button>
   </div>
 
   <div class="kpi-grid kpi-grid-4">
     <div class="kpi-card"><div class="kpi-label">Page Followers</div><div class="kpi-value" id="fb-followers">—</div><div class="kpi-delta delta-neutral" id="fb-followers-d">vs. prev. month</div></div>
     <div class="kpi-card"><div class="kpi-label">Net New Followers</div><div class="kpi-value" id="fb-growth">—</div><div class="kpi-note">Gained this month</div></div>
-    <div class="kpi-card"><div class="kpi-label">Total Reach</div><div class="kpi-value" id="fb-reach">—</div><div class="kpi-note">Organic reach</div></div>
+    <div class="kpi-card"><div class="kpi-label">Total Organic Reach</div><div class="kpi-value" id="fb-reach">—</div><div class="kpi-note">Unpaid reach only</div></div>
     <div class="kpi-card"><div class="kpi-label">Page Views</div><div class="kpi-value" id="fb-views">—</div><div class="kpi-note">Profile page visits</div></div>
   </div>
   <div class="kpi-grid kpi-grid-4">
@@ -728,7 +798,7 @@
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:12px">
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">PAGE FOLLOWERS</label><input type="number" placeholder="e.g. 2200" oninput="updateSimple('fb-followers',this,true)"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">NEW FOLLOWERS</label><input type="number" placeholder="e.g. +40" oninput="updateSimple('fb-growth',this,false)"></div>
-      <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">TOTAL REACH</label><input type="number" placeholder="e.g. 8500" oninput="updateSimple('fb-reach',this,true)"></div>
+      <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">TOTAL ORGANIC REACH</label><input type="number" placeholder="e.g. 8500" oninput="updateSimple('fb-reach',this,true)"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">PAGE VIEWS</label><input type="number" placeholder="e.g. 620" oninput="updateSimple('fb-views',this,true)"></div>
     </div>
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:12px">
@@ -761,6 +831,7 @@
       <div class="cds-title">📁 Connect TikTok Data</div>
       <div class="cds-sub">Upload CSV / Excel · Google Sheets · Direct API</div>
     </div>
+    <button class="refresh-btn" onclick="showLoader();resetPlatform('tiktok');hideLoader(400)" title="Reset TikTok data">↺</button>
     <button class="btn btn-rose" onclick="openDataModal('tiktok')">Connect Data ›</button>
   </div>
 
@@ -815,6 +886,7 @@
       <div class="cds-title">▶️ Connect YouTube Data</div>
       <div class="cds-sub">Upload CSV / Excel · Google Sheets · Connect YouTube Account directly</div>
     </div>
+    <button class="refresh-btn" onclick="showLoader();resetPlatform('youtube');hideLoader(400)" title="Reset YouTube data">↺</button>
     <button class="btn btn-rose" onclick="openDataModal('youtube')">Connect Data ›</button>
   </div>
 
@@ -855,6 +927,48 @@
       <div class="commentary-item"><label>Next Month Plan</label><textarea placeholder="e.g. Repurpose top IG Reels as Shorts. Add captions to all Shorts. Test 'Before & After' format for South Asian bridal looks..."></textarea></div>
     </div>
   </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ LOADER OVERLAY -->
+<div class="loader-overlay" id="loader-overlay">
+  <svg class="loader-brush" width="90" height="130" viewBox="0 0 90 130">
+    <!-- Handle -->
+    <rect x="38" y="62" width="14" height="62" rx="4" fill="#2A2025"/>
+    <!-- Ferrule band -->
+    <rect x="34" y="56" width="22" height="10" rx="2" fill="#9E8E93"/>
+    <!-- Bristle base -->
+    <ellipse cx="45" cy="44" rx="17" ry="22" fill="#C96B84"/>
+    <!-- Bristle mid -->
+    <ellipse cx="45" cy="28" rx="11" ry="14" fill="#A84D67"/>
+    <!-- Bristle tip -->
+    <ellipse cx="45" cy="16" rx="6" ry="9" fill="#8B3A52"/>
+    <!-- Sparkles -->
+    <circle class="loader-sparkle"    cx="16" cy="36" r="3.5" fill="#F5E0E6"/>
+    <circle class="loader-sparkle sp2" cx="74" cy="24" r="2.5" fill="#C96B84"/>
+    <circle class="loader-sparkle sp3" cx="12" cy="64" r="2"   fill="#8B3A52"/>
+    <circle class="loader-sparkle sp4" cx="78" cy="58" r="3"   fill="#F5E0E6"/>
+  </svg>
+  <div class="loader-label">Loading<span class="loader-dots"></span></div>
+</div>
+
+<!-- ═══════════════════════════════════════════ RESTORE SESSION MODAL -->
+<div class="restore-modal" id="restore-modal">
+  <div class="restore-box">
+    <div style="font-size:42px;margin-bottom:12px">💾</div>
+    <h3>Welcome back!</h3>
+    <p>A saved session was found from <strong id="restore-date">a previous visit</strong>.<br>Would you like to restore your data?</p>
+    <div class="rb-btns">
+      <button class="btn btn-primary" onclick="restoreSession()">✓ Restore Session</button>
+      <button class="btn" style="background:var(--gray-100);color:var(--gray-600)" onclick="discardSession()">Start Fresh</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ SAVE BANNER -->
+<div class="save-banner" id="save-banner">
+  <div class="sb-dot"></div>
+  <span>Unsaved changes</span>
+  <button class="btn btn-rose" style="padding:5px 12px;font-size:11px" onclick="saveSession()">Save now</button>
 </div>
 
 <!-- ═══════════════════════════════════════════ DATA SOURCE MODAL -->
@@ -1277,12 +1391,12 @@ function parseCSV(platform, text) {
     const likes = sum(col('like'));
     const comments = sum(col('comment'));
     const saves = sum(col('save'));
-    const impressions = sum(col('impression'));
+    const watchtime = sum(col('watch time')) || sum(col('avg watch'));
     if (reach) { setVal('ig-reach', fmtNum(reach)); updateReachBar('insta', reach); }
     if (likes) setVal('ig-likes', fmtNum(likes));
     if (comments) setVal('ig-comments', fmtNum(comments));
     if (saves) setVal('ig-saves', fmtNum(saves));
-    if (impressions) setVal('ig-impressions', fmtNum(impressions));
+    if (watchtime) setVal('ig-watchtime', watchtime.toFixed(1) + 's');
   } else if (platform === 'facebook') {
     const reach = sum(col('reach'));
     const likes = sum(col('like'));
@@ -1404,6 +1518,127 @@ document.addEventListener('DOMContentLoaded', () => {
   loadAllConfigs();
   document.getElementById('footer-date').textContent =
     'Social Media Manager · Generated ' + new Date().toLocaleDateString('en-CA', {year:'numeric',month:'long',day:'numeric'});
+  checkForSavedSession();
+});
+
+// ── LOADER ──
+let loaderTimer = null;
+function showLoader() {
+  clearTimeout(loaderTimer);
+  document.getElementById('loader-overlay').classList.add('show');
+}
+function hideLoader(delay) {
+  loaderTimer = setTimeout(() => document.getElementById('loader-overlay').classList.remove('show'), delay || 0);
+}
+
+// ── RESET PLATFORM DATA ──
+const platformKpis = {
+  instagram: ['ig-followers','ig-growth','ig-reach','ig-watchtime','ig-er','ig-likes','ig-comments','ig-saves','ig-reels','ig-stories','ig-profile','ig-dms',
+               'ov-insta-followers','ov-insta-delta'],
+  facebook:  ['fb-followers','fb-growth','fb-reach','fb-views','fb-eng','fb-likes','fb-shares','fb-link-clicks',
+               'ov-fb-followers','ov-fb-delta'],
+  tiktok:    ['tt-followers','tt-growth','tt-views','tt-posts','tt-avg-views','tt-likes','tt-shares','tt-profile',
+               'ov-tt-followers','ov-tt-delta'],
+  youtube:   ['yt-subscribers','yt-growth','yt-views','yt-posts','yt-watchtime','yt-likes','yt-ctr','yt-avd',
+               'ov-yt-subscribers','ov-yt-delta']
+};
+function resetPlatform(platform) {
+  (platformKpis[platform] || []).forEach(id => setVal(id, '—'));
+  const barMap = { instagram:'insta', facebook:'fb', tiktok:'tt', youtube:'yt' };
+  const bar = document.getElementById('bar-' + barMap[platform] + '-reach');
+  if (bar) { bar.style.width = '0%'; bar.textContent = '—'; }
+  markUnsaved();
+}
+
+// ── SAVE / RESTORE SESSION ──
+let hasUnsavedChanges = false;
+
+function markUnsaved() {
+  hasUnsavedChanges = true;
+  document.getElementById('save-banner').classList.add('visible');
+}
+
+function saveSession() {
+  showLoader();
+  const data = {
+    ts: new Date().toISOString(),
+    month: document.getElementById('month-select').value,
+    kpis: {},
+    textareas: []
+  };
+  document.querySelectorAll('.kpi-value[id]').forEach(el => { data.kpis[el.id] = el.textContent; });
+  document.querySelectorAll('.kpi-delta[id]').forEach(el => { data.kpis[el.id] = el.textContent; });
+  document.querySelectorAll('textarea').forEach(el => data.textareas.push(el.value));
+  // Reach bars
+  data.reachBars = {};
+  ['insta','fb','tt','yt'].forEach(p => {
+    const b = document.getElementById('bar-' + p + '-reach');
+    if (b) data.reachBars[p] = { width: b.style.width, text: b.textContent };
+  });
+  try { localStorage.setItem('abr_session', JSON.stringify(data)); } catch(e) {}
+  hasUnsavedChanges = false;
+  document.getElementById('save-banner').classList.remove('visible');
+  hideLoader(600);
+}
+
+function checkForSavedSession() {
+  try {
+    const raw = localStorage.getItem('abr_session');
+    if (!raw) return;
+    const data = JSON.parse(raw);
+    if (!data || !data.ts) return;
+    const dt = new Date(data.ts).toLocaleDateString('en-CA', {year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'});
+    document.getElementById('restore-date').textContent = dt;
+    document.getElementById('restore-modal').classList.add('open');
+  } catch(e) {}
+}
+
+function restoreSession() {
+  showLoader();
+  document.getElementById('restore-modal').classList.remove('open');
+  try {
+    const data = JSON.parse(localStorage.getItem('abr_session') || '{}');
+    if (data.month) { document.getElementById('month-select').value = data.month; updatePeriod(); }
+    Object.entries(data.kpis || {}).forEach(([id, val]) => setVal(id, val));
+    const tas = document.querySelectorAll('textarea');
+    (data.textareas || []).forEach((v, i) => { if (tas[i]) tas[i].value = v; });
+    Object.entries(data.reachBars || {}).forEach(([p, rb]) => {
+      const b = document.getElementById('bar-' + p + '-reach');
+      if (b) { b.style.width = rb.width; b.textContent = rb.text; }
+    });
+  } catch(e) {}
+  hideLoader(800);
+}
+
+function discardSession() {
+  document.getElementById('restore-modal').classList.remove('open');
+  try { localStorage.removeItem('abr_session'); } catch(e) {}
+}
+
+// Mark unsaved on any KPI input change
+document.addEventListener('input', e => {
+  if (e.target.matches('input[type="number"], textarea')) markUnsaved();
+});
+
+// Warn before page unload if unsaved
+window.addEventListener('beforeunload', e => {
+  if (hasUnsavedChanges) {
+    e.preventDefault();
+    e.returnValue = 'You have unsaved changes. Save your session before leaving.';
+  }
+});
+
+// Show loader on all button clicks (brief flash for feedback)
+document.addEventListener('click', e => {
+  const btn = e.target.closest('button');
+  if (!btn) return;
+  // Skip buttons that have their own loader logic or are inside modals with explicit handling
+  const skipIds = ['modal-file-input'];
+  if (btn.classList.contains('modal-close') || btn.classList.contains('refresh-btn')) return;
+  if (btn.getAttribute('onclick')?.includes('showLoader')) return;
+  // Brief flash for all other buttons
+  showLoader();
+  hideLoader(700);
 });
 </script>
 </body>
