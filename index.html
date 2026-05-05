@@ -336,6 +336,62 @@
     .kpi-grid-4, .kpi-grid-5 { grid-template-columns: repeat(2, 1fr); }
     .commentary-grid, .content-mix, .upload-grid, .overview-grid { grid-template-columns: 1fr 1fr; }
   }
+
+  /* ── DATA SOURCE MODAL ── */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0; background: rgba(42,32,37,0.65);
+    z-index: 1000; align-items: center; justify-content: center;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal-box {
+    background: var(--white); border-radius: var(--radius-lg); width: 580px; max-width: 96vw;
+    box-shadow: 0 24px 64px rgba(42,32,37,0.28); overflow: hidden;
+  }
+  .modal-header {
+    background: var(--charcoal); color: var(--white); padding: 18px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .modal-header h3 { font-family: var(--font-display); font-size: 18px; font-weight: 700; }
+  .modal-close { background: none; border: none; color: rgba(255,255,255,0.55); font-size: 24px; cursor: pointer; line-height: 1; padding: 0; }
+  .modal-close:hover { color: var(--white); }
+  .modal-tab-nav { display: flex; border-bottom: 2px solid var(--gray-200); background: var(--white); }
+  .modal-tab-btn {
+    padding: 13px 20px; font-family: var(--font-body); font-size: 12px; font-weight: 600;
+    color: var(--gray-400); background: none; border: none; border-bottom: 3px solid transparent;
+    margin-bottom: -2px; cursor: pointer; transition: all 0.2s; white-space: nowrap;
+  }
+  .modal-tab-btn:hover { color: var(--charcoal); }
+  .modal-tab-btn.active { color: var(--charcoal); border-bottom-color: var(--rose); }
+  .modal-pane { display: none; padding: 24px; max-height: 70vh; overflow-y: auto; }
+  .modal-pane.active { display: block; }
+  .drop-zone {
+    border: 2px dashed var(--gray-200); border-radius: var(--radius); padding: 36px 20px;
+    text-align: center; cursor: pointer; transition: all 0.2s; background: var(--off-white);
+  }
+  .drop-zone:hover, .drop-zone.dragover { border-color: var(--rose-mid); background: var(--rose-subtle); }
+  .drop-zone .dz-icon { font-size: 38px; margin-bottom: 10px; display: block; }
+  .drop-zone .dz-title { font-size: 14px; font-weight: 600; color: var(--charcoal); margin-bottom: 4px; }
+  .drop-zone .dz-sub { font-size: 11px; color: var(--gray-400); }
+  .drop-zone.loaded { border-color: var(--success); background: var(--success-bg); }
+  .api-config { margin-top: 16px; border: 1px solid var(--gray-200); border-radius: var(--radius); overflow: hidden; }
+  .api-config-header { padding: 10px 14px; font-size: 11px; font-weight: 600; color: var(--gray-600); cursor: pointer; display: flex; justify-content: space-between; background: var(--gray-100); user-select: none; }
+  .api-config-body { display: none; padding: 14px; }
+  .api-config-body.open { display: block; }
+  .api-input-row { margin-bottom: 10px; }
+  .api-input-row label { display: block; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--gray-600); margin-bottom: 4px; }
+  .api-input-row input { width: 100%; padding: 7px 10px; border: 1px solid var(--gray-200); border-radius: 5px; font-size: 12px; font-family: monospace; outline: none; }
+  .api-input-row input:focus { border-color: var(--rose-mid); }
+  .connect-data-strip {
+    background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius);
+    padding: 14px 20px; margin-bottom: 20px; display: flex; align-items: center; gap: 16px;
+  }
+  .connect-data-strip .cds-info { flex: 1; }
+  .connect-data-strip .cds-title { font-size: 13px; font-weight: 600; color: var(--charcoal); margin-bottom: 2px; }
+  .connect-data-strip .cds-sub { font-size: 11px; color: var(--gray-400); }
+  .status-msg { font-size: 12px; min-height: 20px; margin-top: 10px; }
+  .status-ok { color: var(--success); }
+  .status-err { color: var(--danger); }
+  .status-wait { color: var(--gray-400); }
 </style>
 </head>
 <body>
@@ -544,17 +600,12 @@
     </div>
   </div>
 
-  <div style="background:var(--white);border:1px dashed var(--gray-200);border-radius:var(--radius);padding:14px 20px;margin-bottom:20px;display:flex;align-items:center;gap:16px">
-    <div style="flex:1">
-      <div style="font-size:13px;font-weight:600;color:var(--charcoal);margin-bottom:2px">📁 Upload Instagram Data</div>
-      <div style="font-size:11px;color:var(--gray-400)">Export CSV from Meta Business Suite · KPIs will auto-populate on upload</div>
+  <div class="connect-data-strip">
+    <div class="cds-info">
+      <div class="cds-title">📁 Connect Instagram Data</div>
+      <div class="cds-sub">Upload CSV / Excel · Google Sheets · Direct API</div>
     </div>
-    <div class="upload-box" onclick="document.getElementById('file-insta-tab').click()" id="box-insta-tab" style="min-width:160px;padding:12px">
-      <input type="file" id="file-insta-tab" accept=".csv" onchange="handleUpload('instagram', this)">
-      <div class="upload-icon" style="font-size:20px;margin-bottom:4px">📸</div>
-      <div class="upload-name">Instagram Insights</div>
-      <div class="upload-hint">Click to upload CSV</div>
-    </div>
+    <button class="btn btn-rose" onclick="openDataModal('instagram')">Connect Data ›</button>
   </div>
 
   <div class="kpi-grid kpi-grid-4">
@@ -651,17 +702,12 @@
     <div><h2>Facebook</h2><p>Page performance, reach, and organic engagement</p></div>
   </div>
 
-  <div style="background:var(--white);border:1px dashed var(--gray-200);border-radius:var(--radius);padding:14px 20px;margin-bottom:20px;display:flex;align-items:center;gap:16px">
-    <div style="flex:1">
-      <div style="font-size:13px;font-weight:600;color:var(--charcoal);margin-bottom:2px">📁 Upload Facebook Data</div>
-      <div style="font-size:11px;color:var(--gray-400)">Export CSV from Meta Business Suite · KPIs will auto-populate on upload</div>
+  <div class="connect-data-strip">
+    <div class="cds-info">
+      <div class="cds-title">📁 Connect Facebook Data</div>
+      <div class="cds-sub">Upload CSV / Excel · Google Sheets · Direct API</div>
     </div>
-    <div class="upload-box" onclick="document.getElementById('file-fb-tab').click()" id="box-fb-tab" style="min-width:160px;padding:12px">
-      <input type="file" id="file-fb-tab" accept=".csv" onchange="handleUpload('facebook', this)">
-      <div class="upload-icon" style="font-size:20px;margin-bottom:4px">👥</div>
-      <div class="upload-name">Facebook Insights</div>
-      <div class="upload-hint">Click to upload CSV</div>
-    </div>
+    <button class="btn btn-rose" onclick="openDataModal('facebook')">Connect Data ›</button>
   </div>
 
   <div class="kpi-grid kpi-grid-4">
@@ -710,17 +756,12 @@
     <div><h2>TikTok</h2><p>Video performance, follower growth, and discovery</p></div>
   </div>
 
-  <div style="background:var(--white);border:1px dashed var(--gray-200);border-radius:var(--radius);padding:14px 20px;margin-bottom:20px;display:flex;align-items:center;gap:16px">
-    <div style="flex:1">
-      <div style="font-size:13px;font-weight:600;color:var(--charcoal);margin-bottom:2px">📁 Upload TikTok Data</div>
-      <div style="font-size:11px;color:var(--gray-400)">Export CSV from TikTok Creator Tools · KPIs will auto-populate on upload</div>
+  <div class="connect-data-strip">
+    <div class="cds-info">
+      <div class="cds-title">📁 Connect TikTok Data</div>
+      <div class="cds-sub">Upload CSV / Excel · Google Sheets · Direct API</div>
     </div>
-    <div class="upload-box" onclick="document.getElementById('file-tt-tab').click()" id="box-tt-tab" style="min-width:160px;padding:12px">
-      <input type="file" id="file-tt-tab" accept=".csv" onchange="handleUpload('tiktok', this)">
-      <div class="upload-icon" style="font-size:20px;margin-bottom:4px">🎵</div>
-      <div class="upload-name">TikTok Analytics</div>
-      <div class="upload-hint">Click to upload CSV</div>
-    </div>
+    <button class="btn btn-rose" onclick="openDataModal('tiktok')">Connect Data ›</button>
   </div>
 
   <div class="kpi-grid kpi-grid-4">
@@ -769,17 +810,12 @@
     <div><h2>YouTube Shorts</h2><p>Short-form video performance and subscriber growth</p></div>
   </div>
 
-  <div style="background:var(--white);border:1px dashed var(--gray-200);border-radius:var(--radius);padding:14px 20px;margin-bottom:20px;display:flex;align-items:center;gap:16px">
-    <div style="flex:1">
-      <div style="font-size:13px;font-weight:600;color:var(--charcoal);margin-bottom:2px">📁 Upload YouTube Data</div>
-      <div style="font-size:11px;color:var(--gray-400)">Export CSV from YouTube Studio · KPIs will auto-populate on upload</div>
+  <div class="connect-data-strip">
+    <div class="cds-info">
+      <div class="cds-title">▶️ Connect YouTube Data</div>
+      <div class="cds-sub">Upload CSV / Excel · Google Sheets · Connect YouTube Account directly</div>
     </div>
-    <div class="upload-box" onclick="document.getElementById('file-yt-tab').click()" id="box-yt-tab" style="min-width:160px;padding:12px">
-      <input type="file" id="file-yt-tab" accept=".csv" onchange="handleUpload('youtube', this)">
-      <div class="upload-icon" style="font-size:20px;margin-bottom:4px">▶️</div>
-      <div class="upload-name">YouTube Analytics</div>
-      <div class="upload-hint">Click to upload CSV</div>
-    </div>
+    <button class="btn btn-rose" onclick="openDataModal('youtube')">Connect Data ›</button>
   </div>
 
   <div class="kpi-grid kpi-grid-4">
@@ -821,6 +857,104 @@
   </div>
 </div>
 
+<!-- ═══════════════════════════════════════════ DATA SOURCE MODAL -->
+<div class="modal-overlay" id="datasource-modal" onclick="handleModalOverlayClick(event)">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 id="modal-title">Connect Data</h3>
+      <button class="modal-close" onclick="closeModal()">×</button>
+    </div>
+    <div class="modal-tab-nav">
+      <button class="modal-tab-btn active" data-tab="file" onclick="switchModalTab('file')">📂 File Upload</button>
+      <button class="modal-tab-btn" data-tab="sheets" onclick="switchModalTab('sheets')">📊 Google Sheets</button>
+      <button class="modal-tab-btn" data-tab="youtube" id="modal-yt-tab" onclick="switchModalTab('youtube')" style="display:none">▶️ YouTube Account</button>
+    </div>
+
+    <!-- FILE UPLOAD PANE -->
+    <div class="modal-pane active" id="modal-pane-file">
+      <div class="drop-zone" id="drop-zone"
+           onclick="document.getElementById('modal-file-input').click()"
+           ondragover="event.preventDefault();this.classList.add('dragover')"
+           ondragleave="this.classList.remove('dragover')"
+           ondrop="handleDrop(event)">
+        <span class="dz-icon">📂</span>
+        <div class="dz-title">Drop your file here or click to browse</div>
+        <div class="dz-sub" id="dz-sub-text">Supports CSV and Excel (.xlsx, .xls) exports from any platform</div>
+      </div>
+      <input type="file" id="modal-file-input" accept=".csv,.xlsx,.xls" style="display:none" onchange="handleModalFile(this)">
+      <div style="margin-top:14px;font-size:11px;color:var(--gray-400);line-height:1.9">
+        <strong style="color:var(--gray-600)">Where to export your data:</strong><br>
+        📸 <strong>Instagram / Facebook</strong> → Meta Business Suite → Insights → Export Data<br>
+        🎵 <strong>TikTok</strong> → TikTok Studio → Analytics → Export<br>
+        ▶️ <strong>YouTube</strong> → YouTube Studio → Analytics → Advanced Mode → Export current view
+      </div>
+    </div>
+
+    <!-- GOOGLE SHEETS PANE -->
+    <div class="modal-pane" id="modal-pane-sheets">
+      <p style="font-size:12px;color:var(--gray-600);margin-bottom:14px;line-height:1.7">
+        Paste the URL of a Google Sheet containing your analytics data.<br>
+        The sheet must be shared as <strong>"Anyone with the link → Viewer"</strong>.
+      </p>
+      <div style="display:flex;gap:8px;margin-bottom:6px">
+        <input type="text" id="sheets-url-input" placeholder="https://docs.google.com/spreadsheets/d/..."
+               style="flex:1;padding:8px 10px;border:1px solid var(--gray-200);border-radius:5px;font-size:12px;outline:none">
+        <button class="btn btn-rose" onclick="connectGoogleSheets()">Connect</button>
+      </div>
+      <div id="sheets-status" class="status-msg"></div>
+      <div class="api-config" style="margin-top:14px">
+        <div class="api-config-header" onclick="toggleApiConfig('sheets-api')">
+          ⚙️ API Configuration <span id="sheets-api-arrow">▼</span>
+        </div>
+        <div class="api-config-body" id="sheets-api">
+          <div class="api-input-row">
+            <label>Google Sheets API Key</label>
+            <input type="text" id="sheets-api-key" placeholder="AIza..." oninput="saveConfig('sheets-api-key',this.value)">
+          </div>
+          <div style="font-size:10px;color:var(--gray-400);line-height:1.6">
+            Get a free key at <strong>console.cloud.google.com</strong> → New Project → Enable <em>Google Sheets API</em> → Credentials → API Key.<br>
+            Add your site domain under API key restrictions.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- YOUTUBE ACCOUNT PANE -->
+    <div class="modal-pane" id="modal-pane-youtube">
+      <p style="font-size:12px;color:var(--gray-600);margin-bottom:16px;line-height:1.7">
+        Sign in with Google to pull your YouTube analytics directly for the selected reporting month.<br>
+        Fetches: <strong>subscribers, views, watch time, likes, Impressions CTR, avg. view duration</strong>.
+      </p>
+      <button class="btn btn-rose" style="width:100%;justify-content:center;padding:13px;font-size:13px" onclick="connectYouTube()">
+        ▶️ &nbsp;Sign in with Google &amp; Connect YouTube
+      </button>
+      <div id="yt-auth-status" class="status-msg" style="text-align:center"></div>
+
+      <div class="api-config" style="margin-top:16px">
+        <div class="api-config-header" onclick="toggleApiConfig('yt-api')">
+          ⚙️ Google API Configuration <span id="yt-api-arrow">▼</span>
+        </div>
+        <div class="api-config-body" id="yt-api">
+          <div class="api-input-row">
+            <label>OAuth Client ID</label>
+            <input type="text" id="yt-client-id" placeholder="123456789-abc...apps.googleusercontent.com" oninput="saveConfig('yt-client-id',this.value)">
+          </div>
+          <div class="api-input-row">
+            <label>Google API Key</label>
+            <input type="text" id="yt-api-key" placeholder="AIza..." oninput="saveConfig('yt-api-key',this.value)">
+          </div>
+          <div style="font-size:10px;color:var(--gray-400);line-height:1.7">
+            Setup at <strong>console.cloud.google.com</strong>:<br>
+            1. Create a project · Enable <em>YouTube Data API v3</em> and <em>YouTube Analytics API v2</em><br>
+            2. Credentials → OAuth 2.0 Client ID → Web app → add your site URL as Authorized JavaScript Origin<br>
+            3. Credentials → API Key (also needed for Analytics queries)
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- FOOTER -->
 <div class="footer">
   <div>Artistry by Rhythm · <strong>Social Media Report</strong> · Prepared by Labib</div>
@@ -855,13 +989,279 @@ function setVal(id, val) {
 function handleUpload(platform, input) {
   if (!input.files.length) return;
   const boxId = { instagram: 'insta', facebook: 'fb', tiktok: 'tt', youtube: 'yt' }[platform];
-  ['box-' + boxId, 'box-' + boxId + '-tab'].forEach(id => {
-    const box = document.getElementById(id);
-    if (box) { box.classList.add('loaded'); box.querySelector('.upload-name').textContent = '✓ ' + input.files[0].name; }
-  });
+  const box = document.getElementById('box-' + boxId);
+  if (box) { box.classList.add('loaded'); box.querySelector('.upload-name').textContent = '✓ ' + input.files[0].name; }
   const reader = new FileReader();
   reader.onload = e => parseCSV(platform, e.target.result);
   reader.readAsText(input.files[0]);
+}
+
+// ── MODAL ──
+let currentPlatform = null;
+
+function openDataModal(platform) {
+  currentPlatform = platform;
+  const titles = { instagram: '📸 Instagram Data', facebook: '👥 Facebook Data', tiktok: '🎵 TikTok Data', youtube: '▶️ YouTube Data' };
+  document.getElementById('modal-title').textContent = titles[platform] || 'Connect Data';
+  document.getElementById('modal-yt-tab').style.display = platform === 'youtube' ? '' : 'none';
+  switchModalTab('file');
+  const dz = document.getElementById('drop-zone');
+  dz.classList.remove('loaded', 'dragover');
+  dz.querySelector('.dz-title').textContent = 'Drop your file here or click to browse';
+  document.getElementById('dz-sub-text').textContent = 'Supports CSV and Excel (.xlsx, .xls) exports from any platform';
+  document.getElementById('sheets-status').textContent = '';
+  document.getElementById('yt-auth-status').textContent = '';
+  document.getElementById('datasource-modal').classList.add('open');
+  document.getElementById('modal-file-input').value = '';
+}
+
+function closeModal() {
+  document.getElementById('datasource-modal').classList.remove('open');
+  currentPlatform = null;
+}
+
+function handleModalOverlayClick(e) {
+  if (e.target === document.getElementById('datasource-modal')) closeModal();
+}
+
+function switchModalTab(tab) {
+  document.querySelectorAll('.modal-tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+  document.querySelectorAll('.modal-pane').forEach(p => p.classList.remove('active'));
+  document.getElementById('modal-pane-' + tab).classList.add('active');
+}
+
+function toggleApiConfig(id) {
+  const body = document.getElementById(id);
+  const arrow = document.getElementById(id + '-arrow');
+  body.classList.toggle('open');
+  if (arrow) arrow.textContent = body.classList.contains('open') ? '▲' : '▼';
+}
+
+// ── CONFIG PERSISTENCE ──
+function saveConfig(key, val) { try { localStorage.setItem('abr_' + key, val); } catch(e) {} }
+function loadConfig(key) { try { return localStorage.getItem('abr_' + key) || ''; } catch(e) { return ''; } }
+function loadAllConfigs() {
+  ['sheets-api-key', 'yt-client-id', 'yt-api-key'].forEach(k => {
+    const el = document.getElementById(k);
+    if (el) el.value = loadConfig(k);
+  });
+}
+
+// ── FILE UPLOAD (CSV + EXCEL) ──
+function handleDrop(e) {
+  e.preventDefault();
+  document.getElementById('drop-zone').classList.remove('dragover');
+  const file = e.dataTransfer.files[0];
+  if (file) processUploadedFile(file);
+}
+
+function handleModalFile(input) {
+  if (input.files[0]) processUploadedFile(input.files[0]);
+}
+
+function processUploadedFile(file) {
+  const ext = file.name.split('.').pop().toLowerCase();
+  const dz = document.getElementById('drop-zone');
+  const sub = document.getElementById('dz-sub-text');
+  if (ext === 'csv') {
+    const reader = new FileReader();
+    reader.onload = e => {
+      parseCSV(currentPlatform, e.target.result);
+      markOvUploadBox(file.name);
+      dz.classList.add('loaded');
+      dz.querySelector('.dz-title').textContent = '✓ ' + file.name;
+      sub.textContent = 'Data loaded — KPI cards updated';
+      setTimeout(closeModal, 900);
+    };
+    reader.readAsText(file);
+  } else if (ext === 'xlsx' || ext === 'xls') {
+    if (typeof XLSX === 'undefined') {
+      sub.textContent = 'Loading Excel parser…';
+      const s = document.createElement('script');
+      s.src = 'https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js';
+      s.onload = () => parseExcelFile(file, dz, sub);
+      s.onerror = () => { sub.textContent = 'Failed to load Excel parser. Try CSV instead.'; };
+      document.head.appendChild(s);
+    } else {
+      parseExcelFile(file, dz, sub);
+    }
+  } else {
+    sub.textContent = 'Unsupported format — please upload CSV or Excel (.xlsx/.xls)';
+  }
+}
+
+function parseExcelFile(file, dz, sub) {
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const wb = XLSX.read(new Uint8Array(e.target.result), { type: 'array' });
+      const ws = wb.Sheets[wb.SheetNames[0]];
+      const csv = XLSX.utils.sheet_to_csv(ws);
+      parseCSV(currentPlatform, csv);
+      markOvUploadBox(file.name);
+      dz.classList.add('loaded');
+      dz.querySelector('.dz-title').textContent = '✓ ' + file.name;
+      sub.textContent = 'Excel data loaded — KPI cards updated';
+      setTimeout(closeModal, 900);
+    } catch(err) {
+      sub.textContent = 'Could not read Excel file: ' + err.message;
+    }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function markOvUploadBox(filename) {
+  const boxId = { instagram: 'insta', facebook: 'fb', tiktok: 'tt', youtube: 'yt' }[currentPlatform];
+  const box = document.getElementById('box-' + boxId);
+  if (box) { box.classList.add('loaded'); const nm = box.querySelector('.upload-name'); if (nm) nm.textContent = '✓ ' + filename; }
+}
+
+// ── GOOGLE SHEETS ──
+async function connectGoogleSheets() {
+  const url = document.getElementById('sheets-url-input').value.trim();
+  const status = document.getElementById('sheets-status');
+  status.className = 'status-msg status-wait';
+  if (!url) { status.textContent = 'Please paste a Google Sheets URL above.'; return; }
+  const match = url.match(/\/spreadsheets\/d\/([\w-]+)/);
+  if (!match) { status.textContent = '✗ Could not read a Sheet ID from that URL — check and try again.'; status.className = 'status-msg status-err'; return; }
+  const sheetId = match[1];
+  const apiKey = loadConfig('sheets-api-key');
+  if (!apiKey) {
+    status.textContent = '⚠️ Enter your Google Sheets API key in the API Configuration section below.';
+    document.getElementById('sheets-api').classList.add('open');
+    document.getElementById('sheets-api-arrow').textContent = '▲';
+    return;
+  }
+  status.textContent = '⏳ Fetching sheet data…';
+  try {
+    const res = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/A:Z?key=${encodeURIComponent(apiKey)}`);
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.error?.message || res.statusText);
+    }
+    const data = await res.json();
+    const rows = data.values || [];
+    if (rows.length < 2) { status.textContent = '✗ Sheet looks empty — make sure it has headers and at least one data row.'; status.className = 'status-msg status-err'; return; }
+    parseCSV(currentPlatform, rows.map(r => r.map(c => '"' + String(c).replace(/"/g,'""') + '"').join(',')).join('\n'));
+    status.textContent = '✓ Google Sheets data loaded!';
+    status.className = 'status-msg status-ok';
+    setTimeout(closeModal, 1000);
+  } catch(err) {
+    status.textContent = '✗ ' + err.message;
+    status.className = 'status-msg status-err';
+  }
+}
+
+// ── YOUTUBE OAUTH + ANALYTICS ──
+let ytTokenClient = null;
+
+function connectYouTube() {
+  const clientId = loadConfig('yt-client-id');
+  const status = document.getElementById('yt-auth-status');
+  if (!clientId) {
+    status.textContent = '⚠️ Enter your OAuth Client ID in the API Configuration section below.';
+    status.className = 'status-msg status-err';
+    document.getElementById('yt-api').classList.add('open');
+    document.getElementById('yt-api-arrow').textContent = '▲';
+    return;
+  }
+  status.textContent = '⏳ Loading Google Sign-In…';
+  status.className = 'status-msg status-wait';
+  if (typeof google !== 'undefined' && google.accounts) {
+    initYouTubeClient(clientId);
+  } else {
+    const s = document.createElement('script');
+    s.src = 'https://accounts.google.com/gsi/client';
+    s.onload = () => initYouTubeClient(clientId);
+    s.onerror = () => { status.textContent = '✗ Could not load Google Sign-In. Check your connection.'; status.className = 'status-msg status-err'; };
+    document.head.appendChild(s);
+  }
+}
+
+function initYouTubeClient(clientId) {
+  const status = document.getElementById('yt-auth-status');
+  try {
+    ytTokenClient = google.accounts.oauth2.initTokenClient({
+      client_id: clientId,
+      scope: [
+        'https://www.googleapis.com/auth/youtube.readonly',
+        'https://www.googleapis.com/auth/yt-analytics.readonly'
+      ].join(' '),
+      callback: response => {
+        if (response.error) {
+          status.textContent = '✗ Sign-in error: ' + response.error;
+          status.className = 'status-msg status-err';
+          return;
+        }
+        fetchYouTubeAnalytics(response.access_token);
+      }
+    });
+    status.textContent = '⏳ Opening Google sign-in window…';
+    ytTokenClient.requestAccessToken();
+  } catch(err) {
+    status.textContent = '✗ ' + err.message;
+    status.className = 'status-msg status-err';
+  }
+}
+
+async function fetchYouTubeAnalytics(token) {
+  const status = document.getElementById('yt-auth-status');
+  status.textContent = '⏳ Fetching YouTube analytics…';
+  status.className = 'status-msg status-wait';
+  try {
+    const { startDate, endDate } = getMonthDateRange(document.getElementById('month-select').value);
+
+    // Channel stats (live subscriber count)
+    const chRes = await fetch('https://www.googleapis.com/youtube/v3/channels?part=statistics&mine=true', {
+      headers: { Authorization: 'Bearer ' + token }
+    });
+    if (!chRes.ok) throw new Error('Channels API error: ' + chRes.status);
+    const chData = await chRes.json();
+    const chStats = chData.items?.[0]?.statistics || {};
+
+    // Analytics report
+    const anaParams = new URLSearchParams({
+      ids: 'channel==MINE',
+      startDate,
+      endDate,
+      metrics: 'views,estimatedMinutesWatched,likes,subscribersGained,subscribersLost,impressionClickThroughRate,averageViewPercentage'
+    });
+    const anaRes = await fetch('https://youtubeanalytics.googleapis.com/v2/reports?' + anaParams, {
+      headers: { Authorization: 'Bearer ' + token }
+    });
+    if (!anaRes.ok) throw new Error('Analytics API error: ' + anaRes.status);
+    const anaData = await anaRes.json();
+    const row = anaData.rows?.[0] || [];
+    const [views, watchMins, likes, subsGained, subsLost, ctrRaw, avgViewPct] = row;
+
+    // Populate KPI cards
+    const subs = parseInt(chStats.subscriberCount || 0);
+    if (subs) { setVal('yt-subscribers', fmtNum(subs)); setVal('ov-yt-subscribers', fmtNum(subs)); }
+    const netGrowth = (subsGained || 0) - (subsLost || 0);
+    if (netGrowth !== 0) setVal('yt-growth', (netGrowth >= 0 ? '+' : '') + fmtNum(Math.abs(netGrowth)));
+    if (views) { setVal('yt-views', fmtNum(views)); updateReachBar('yt', views); }
+    if (watchMins) setVal('yt-watchtime', fmtNum(Math.round(watchMins / 60)));
+    if (likes) setVal('yt-likes', fmtNum(likes));
+    if (ctrRaw != null) setVal('yt-ctr', (ctrRaw * 100).toFixed(1) + '%');
+    if (avgViewPct != null) setVal('yt-avd', avgViewPct.toFixed(1) + '%');
+
+    status.textContent = '✓ YouTube data loaded for ' + (document.getElementById('month-select').value || 'selected period') + '!';
+    status.className = 'status-msg status-ok';
+    setTimeout(closeModal, 1200);
+  } catch(err) {
+    status.textContent = '✗ ' + err.message;
+    status.className = 'status-msg status-err';
+  }
+}
+
+function getMonthDateRange(monthStr) {
+  const d = monthStr ? new Date(monthStr + ' 1') : new Date();
+  const y = d.getFullYear(), m = d.getMonth();
+  const pad = n => String(n).padStart(2, '0');
+  return {
+    startDate: `${y}-${pad(m + 1)}-01`,
+    endDate: new Date(y, m + 1, 0).toISOString().split('T')[0]
+  };
 }
 
 function parseCSV(platform, text) {
@@ -1001,6 +1401,7 @@ function addIGPost() {
 
 document.addEventListener('DOMContentLoaded', () => {
   updatePeriod();
+  loadAllConfigs();
   document.getElementById('footer-date').textContent =
     'Social Media Manager · Generated ' + new Date().toLocaleDateString('en-CA', {year:'numeric',month:'long',day:'numeric'});
 });
