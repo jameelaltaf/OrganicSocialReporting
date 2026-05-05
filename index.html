@@ -331,10 +331,133 @@
   }
   .footer strong { color: var(--rose-light); }
 
+  /* ══════════════════════════════════════════ RESPONSIVE ══════ */
+
+  /* ── Tablet (≤900px) ── */
   @media (max-width: 900px) {
-    .header, .month-bar, .tab-nav, .tab-content, .footer { padding-left: 20px; padding-right: 20px; }
+    .header { padding: 20px 24px; flex-wrap: wrap; gap: 12px; }
+    .header-meta { text-align: left; }
+
+    .month-bar { padding: 12px 20px; gap: 10px; }
+    .month-bar .spacer { display: none; }
+    .month-bar select, .month-bar input[type="text"] { flex: 1; min-width: 120px; }
+    .month-bar .btn { flex: 1; justify-content: center; }
+
+    .tab-nav { padding: 0 12px; overflow-x: auto; gap: 0; white-space: nowrap; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+    .tab-nav::-webkit-scrollbar { display: none; }
+    .tab-btn { padding: 14px 16px; font-size: 12px; flex-shrink: 0; }
+
+    .tab-content { padding: 24px 20px; }
+
+    .overview-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+
     .kpi-grid-4, .kpi-grid-5 { grid-template-columns: repeat(2, 1fr); }
-    .commentary-grid, .content-mix, .upload-grid, .overview-grid { grid-template-columns: 1fr 1fr; }
+    .kpi-grid-3 { grid-template-columns: repeat(2, 1fr); }
+
+    .commentary-grid { grid-template-columns: 1fr; gap: 12px; }
+    .content-mix { grid-template-columns: repeat(2, 1fr); }
+    .upload-grid { grid-template-columns: repeat(2, 1fr); }
+
+    .connect-data-strip { flex-wrap: wrap; gap: 10px; }
+    .connect-data-strip .cds-info { min-width: 0; }
+    .entry-grid-4, .entry-grid-4-lg, .prev-data-grid { grid-template-columns: repeat(2, 1fr); }
+    .cal-grid { grid-template-columns: repeat(2, 1fr); }
+
+    .bar-label { width: 90px; font-size: 11px; }
+
+    .heatmap-grid { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+    .footer { flex-direction: column; align-items: flex-start; gap: 8px; padding: 20px 20px; text-align: left; }
+
+    .section-title { font-size: 22px; }
+    .kpi-value { font-size: 26px; }
+  }
+
+  /* ── Phone (≤600px) ── */
+  @media (max-width: 600px) {
+    .header { padding: 16px 16px; }
+    .header-logo { font-size: 18px; }
+
+    .month-bar { padding: 10px 14px; flex-wrap: wrap; }
+    .month-bar label { width: 100%; margin-top: 4px; }
+    .month-bar select, .month-bar input[type="text"] { width: 100%; flex: none; }
+    .month-bar .btn { flex: 1 1 calc(50% - 5px); min-width: 0; font-size: 11px; padding: 8px 10px; }
+
+    .tab-nav { padding: 0 8px; }
+    .tab-btn { padding: 12px 12px; font-size: 11px; }
+    .tab-btn .plat-dot { display: none; }
+
+    .tab-content { padding: 16px 14px; }
+
+    .overview-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .overview-card { padding: 16px 14px; }
+    .overview-card .ov-value { font-size: 22px; }
+    .overview-card .ov-icon { font-size: 22px; margin-bottom: 8px; }
+
+    .kpi-grid-4, .kpi-grid-5, .kpi-grid-3 { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .kpi-card { padding: 16px 14px; }
+    .kpi-value { font-size: 22px; }
+
+    .platform-strip { padding: 14px 16px; gap: 10px; }
+    .platform-strip .plat-icon { font-size: 24px; }
+    .platform-strip h2 { font-size: 18px; }
+
+    .section-title { font-size: 18px; }
+    .section-header { flex-wrap: wrap; gap: 6px; }
+
+    .commentary-box { padding: 18px 14px; }
+    .commentary-grid { grid-template-columns: 1fr; }
+
+    .content-mix { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .content-type { padding: 12px 8px; }
+
+    .upload-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .upload-box { padding: 14px 10px; }
+
+    .chart-card { padding: 16px 14px; }
+    .bar-label { width: 70px; font-size: 10px; }
+    .bar-track { height: 22px; }
+
+    .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .data-table { min-width: 480px; }
+
+    .connect-data-strip { flex-direction: column; align-items: flex-start; padding: 12px 14px; }
+    .connect-data-strip .btn { width: 100%; justify-content: center; }
+
+    /* Goals */
+    .goals-section { margin-top: 16px; }
+    .goal-row { grid-template-columns: 80px 70px 1fr 36px; gap: 6px; }
+
+    /* Calendar + entry grids: 2-col on phone */
+    .cal-grid, .entry-grid-4, .entry-grid-4-lg, .prev-data-grid { grid-template-columns: repeat(2, 1fr) !important; }
+
+    /* Heatmap: scrollable */
+    .heatmap-grid { min-width: 500px; }
+    #heatmap-grid { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .heatmap-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+    /* Hashtag / Competitor add forms: stack */
+    .hashtag-add-form, .comp-add-form { grid-template-columns: 1fr 1fr !important; }
+    .hashtag-add-form > *:last-child, .comp-add-form > *:last-child { grid-column: 1 / -1; }
+
+    /* MoM table scrollable */
+    .mom-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+    /* Modal */
+    .modal-box { width: 96vw !important; max-height: 90vh; overflow-y: auto; }
+    .modal-tab-btn { padding: 11px 12px; font-size: 11px; }
+
+    .footer { padding: 16px 14px; }
+
+    .sub-section-title { font-size: 15px; }
+  }
+
+  /* ── Small phone (≤380px) ── */
+  @media (max-width: 380px) {
+    .kpi-grid-4, .kpi-grid-5, .kpi-grid-3 { grid-template-columns: 1fr 1fr; }
+    .overview-grid { grid-template-columns: 1fr; }
+    .month-bar .btn { flex: 1 1 100%; }
+    .tab-btn { padding: 10px 8px; font-size: 10px; }
   }
 
   /* ── DATA SOURCE MODAL ── */
@@ -553,6 +676,8 @@
   .content-calendar { background:var(--white); border:1px solid var(--gray-200); border-radius:var(--radius-lg); padding:24px; margin-bottom:24px; }
   .content-calendar h4 { font-family:var(--font-display); font-size:16px; color:var(--charcoal); margin-bottom:16px; }
   .cal-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:14px; }
+  .entry-grid-4 { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-top:12px; }
+  .entry-grid-4-lg { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:12px; }
   .cal-week { border:1px solid var(--gray-200); border-radius:var(--radius); padding:14px; }
   .cal-week-title { font-size:12px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; margin-bottom:10px; color:var(--charcoal); }
   .cal-week-title.amber { color:var(--warning); }
@@ -894,7 +1019,7 @@
   <div class="chart-card">
     <div class="chart-title">✏️ Overview — Manual Follower Entry</div>
     <div class="chart-subtitle">Enter current follower counts and growth vs. previous month</div>
-    <div style="display:grid; grid-template-columns: repeat(4,1fr); gap:16px; margin-top:12px">
+    <div class="entry-grid-4-lg">
       <div>
         <div style="font-size:11px;font-weight:600;color:var(--gray-600);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">📸 INSTAGRAM</div>
         <input type="number" placeholder="Followers e.g. 4800" style="width:100%;padding:7px 10px;border:1px solid var(--gray-200);border-radius:5px;font-size:13px;margin-bottom:6px" oninput="updateOverview('insta',this,'followers')">
@@ -981,19 +1106,19 @@
   <div class="chart-card data-entry">
     <div class="chart-title">✏️ Manual Data Entry — Instagram</div>
     <div class="chart-subtitle">Fill in from Instagram Insights (Meta Business Suite)</div>
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:12px">
+    <div class="entry-grid-4">
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">FOLLOWERS (END)</label><input type="number" placeholder="e.g. 4800" oninput="updateIG('ig-followers',this,true)"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">NET GROWTH</label><input type="number" placeholder="e.g. +120" oninput="updateIG('ig-growth',this,false)"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">REACH</label><input type="number" placeholder="e.g. 28000" oninput="updateIG('ig-reach',this,true)"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">WATCH TIME (AVG SEC)</label><input type="number" placeholder="e.g. 18" oninput="updateIG('ig-watchtime',this,false)"></div>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:12px">
+    <div class="entry-grid-4">
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">LIKES</label><input type="number" placeholder="e.g. 1800" oninput="updateIG('ig-likes',this,true)"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">COMMENTS</label><input type="number" placeholder="e.g. 220" oninput="updateIG('ig-comments',this,true)"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">SAVES</label><input type="number" placeholder="e.g. 340" oninput="updateIG('ig-saves',this,true)"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">REELS VIEWS</label><input type="number" placeholder="e.g. 18000" oninput="updateIG('ig-reels',this,true)"></div>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:12px">
+    <div class="entry-grid-4">
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">AVG STORY VIEWS</label><input type="number" placeholder="e.g. 380" oninput="updateIG('ig-stories',this,true)"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">PROFILE VISITS</label><input type="number" placeholder="e.g. 1200" oninput="updateIG('ig-profile',this,true)"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">DMs RECEIVED</label><input type="number" placeholder="e.g. 24" oninput="updateIG('ig-dms',this,true)"></div>
@@ -1084,7 +1209,7 @@
 
   <div class="content-calendar">
     <h4>📅 Content Calendar — Instagram</h4>
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:12px">
+    <div class="entry-grid-4" style="margin-bottom:12px">
       <div style="background:var(--gray-100);border-radius:var(--radius);padding:14px;text-align:center">
         <div style="font-size:11px;font-weight:700;color:var(--gray-600);letter-spacing:.06em;margin-bottom:10px">WEEK 1</div>
         <div style="margin-bottom:6px"><label style="font-size:10px;color:var(--gray-400)">Planned</label><input type="number" min="0" class="cal-input" data-p="ig" data-w="1" data-t="p" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('ig')"></div>
@@ -1142,13 +1267,13 @@
 
   <div class="chart-card">
     <div class="chart-title">✏️ Manual Data Entry — Facebook</div>
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:12px">
+    <div class="entry-grid-4">
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">PAGE FOLLOWERS</label><input type="number" placeholder="e.g. 2200" oninput="updateSimple('fb-followers',this,true)"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">NEW FOLLOWERS</label><input type="number" placeholder="e.g. +40" oninput="updateSimple('fb-growth',this,false)"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">TOTAL ORGANIC REACH</label><input type="number" placeholder="e.g. 8500" oninput="updateSimple('fb-reach',this,true)"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">PAGE VIEWS</label><input type="number" placeholder="e.g. 620" oninput="updateSimple('fb-views',this,true)"></div>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:12px">
+    <div class="entry-grid-4">
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">POST ENGAGEMENTS</label><input type="number" placeholder="e.g. 480" oninput="updateSimple('fb-eng',this,true)"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">LIKES</label><input type="number" placeholder="e.g. 310" oninput="updateSimple('fb-likes',this,true)"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">SHARES</label><input type="number" placeholder="e.g. 85" oninput="updateSimple('fb-shares',this,true)"></div>
@@ -1185,7 +1310,7 @@
 
   <div class="content-calendar">
     <h4>📅 Content Calendar — Facebook</h4>
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:12px">
+    <div class="entry-grid-4" style="margin-bottom:12px">
       <div style="background:var(--gray-100);border-radius:var(--radius);padding:14px;text-align:center"><div style="font-size:11px;font-weight:700;color:var(--gray-600);letter-spacing:.06em;margin-bottom:10px">WEEK 1</div><div style="margin-bottom:6px"><label style="font-size:10px;color:var(--gray-400)">Planned</label><input type="number" min="0" class="cal-input" data-p="fb" data-w="1" data-t="p" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('fb')"></div><div><label style="font-size:10px;color:var(--gray-400)">Actual</label><input type="number" min="0" class="cal-input" data-p="fb" data-w="1" data-t="a" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('fb')"></div></div>
       <div style="background:var(--gray-100);border-radius:var(--radius);padding:14px;text-align:center"><div style="font-size:11px;font-weight:700;color:var(--gray-600);letter-spacing:.06em;margin-bottom:10px">WEEK 2</div><div style="margin-bottom:6px"><label style="font-size:10px;color:var(--gray-400)">Planned</label><input type="number" min="0" class="cal-input" data-p="fb" data-w="2" data-t="p" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('fb')"></div><div><label style="font-size:10px;color:var(--gray-400)">Actual</label><input type="number" min="0" class="cal-input" data-p="fb" data-w="2" data-t="a" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('fb')"></div></div>
       <div style="background:var(--gray-100);border-radius:var(--radius);padding:14px;text-align:center"><div style="font-size:11px;font-weight:700;color:var(--gray-600);letter-spacing:.06em;margin-bottom:10px">WEEK 3</div><div style="margin-bottom:6px"><label style="font-size:10px;color:var(--gray-400)">Planned</label><input type="number" min="0" class="cal-input" data-p="fb" data-w="3" data-t="p" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('fb')"></div><div><label style="font-size:10px;color:var(--gray-400)">Actual</label><input type="number" min="0" class="cal-input" data-p="fb" data-w="3" data-t="a" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('fb')"></div></div>
@@ -1227,13 +1352,13 @@
 
   <div class="chart-card">
     <div class="chart-title">✏️ Manual Data Entry — TikTok</div>
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:12px">
+    <div class="entry-grid-4">
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">FOLLOWERS</label><input type="number" placeholder="e.g. 1500" oninput="updateSimple('tt-followers',this,true)"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">NET GROWTH</label><input type="number" placeholder="e.g. +200" oninput="updateSimple('tt-growth',this,false)"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">TOTAL VIEWS</label><input type="number" placeholder="e.g. 32000" oninput="updateTikTokCalc(this,'tt-views')"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">VIDEO POSTS</label><input type="number" placeholder="e.g. 8" id="tt-posts-input" oninput="updateSimple('tt-posts',this,false);calcTTAvg()"></div>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:12px">
+    <div class="entry-grid-4">
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">LIKES</label><input type="number" placeholder="e.g. 1200" oninput="updateSimple('tt-likes',this,true)"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">SHARES</label><input type="number" placeholder="e.g. 180" oninput="updateSimple('tt-shares',this,true)"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">PROFILE VIEWS</label><input type="number" placeholder="e.g. 2800" oninput="updateSimple('tt-profile',this,true)"></div>
@@ -1270,7 +1395,7 @@
 
   <div class="content-calendar">
     <h4>📅 Content Calendar — TikTok</h4>
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:12px">
+    <div class="entry-grid-4" style="margin-bottom:12px">
       <div style="background:var(--gray-100);border-radius:var(--radius);padding:14px;text-align:center"><div style="font-size:11px;font-weight:700;color:var(--gray-600);letter-spacing:.06em;margin-bottom:10px">WEEK 1</div><div style="margin-bottom:6px"><label style="font-size:10px;color:var(--gray-400)">Planned</label><input type="number" min="0" class="cal-input" data-p="tt" data-w="1" data-t="p" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('tt')"></div><div><label style="font-size:10px;color:var(--gray-400)">Actual</label><input type="number" min="0" class="cal-input" data-p="tt" data-w="1" data-t="a" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('tt')"></div></div>
       <div style="background:var(--gray-100);border-radius:var(--radius);padding:14px;text-align:center"><div style="font-size:11px;font-weight:700;color:var(--gray-600);letter-spacing:.06em;margin-bottom:10px">WEEK 2</div><div style="margin-bottom:6px"><label style="font-size:10px;color:var(--gray-400)">Planned</label><input type="number" min="0" class="cal-input" data-p="tt" data-w="2" data-t="p" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('tt')"></div><div><label style="font-size:10px;color:var(--gray-400)">Actual</label><input type="number" min="0" class="cal-input" data-p="tt" data-w="2" data-t="a" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('tt')"></div></div>
       <div style="background:var(--gray-100);border-radius:var(--radius);padding:14px;text-align:center"><div style="font-size:11px;font-weight:700;color:var(--gray-600);letter-spacing:.06em;margin-bottom:10px">WEEK 3</div><div style="margin-bottom:6px"><label style="font-size:10px;color:var(--gray-400)">Planned</label><input type="number" min="0" class="cal-input" data-p="tt" data-w="3" data-t="p" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('tt')"></div><div><label style="font-size:10px;color:var(--gray-400)">Actual</label><input type="number" min="0" class="cal-input" data-p="tt" data-w="3" data-t="a" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('tt')"></div></div>
@@ -1312,13 +1437,13 @@
 
   <div class="chart-card">
     <div class="chart-title">✏️ Manual Data Entry — YouTube Shorts</div>
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:12px">
+    <div class="entry-grid-4">
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">SUBSCRIBERS</label><input type="number" placeholder="e.g. 800" oninput="updateSimple('yt-subscribers',this,true)"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">NET GROWTH</label><input type="number" placeholder="e.g. +65" oninput="updateSimple('yt-growth',this,false)"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">SHORTS VIEWS</label><input type="number" placeholder="e.g. 14000" oninput="updateSimple('yt-views',this,true)"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">SHORTS PUBLISHED</label><input type="number" placeholder="e.g. 6" oninput="updateSimple('yt-posts',this,false)"></div>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:12px">
+    <div class="entry-grid-4">
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">WATCH TIME (HRS)</label><input type="number" placeholder="e.g. 48" oninput="updateSimple('yt-watchtime',this,false)"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">LIKES</label><input type="number" placeholder="e.g. 420" oninput="updateSimple('yt-likes',this,true)"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">IMPRESSIONS CTR %</label><input type="number" step="0.1" placeholder="e.g. 4.5" oninput="updateSimple('yt-ctr',this,false,'%')"></div>
@@ -1355,7 +1480,7 @@
 
   <div class="content-calendar">
     <h4>📅 Content Calendar — YouTube Shorts</h4>
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:12px">
+    <div class="entry-grid-4" style="margin-bottom:12px">
       <div style="background:var(--gray-100);border-radius:var(--radius);padding:14px;text-align:center"><div style="font-size:11px;font-weight:700;color:var(--gray-600);letter-spacing:.06em;margin-bottom:10px">WEEK 1</div><div style="margin-bottom:6px"><label style="font-size:10px;color:var(--gray-400)">Planned</label><input type="number" min="0" class="cal-input" data-p="yt" data-w="1" data-t="p" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('yt')"></div><div><label style="font-size:10px;color:var(--gray-400)">Actual</label><input type="number" min="0" class="cal-input" data-p="yt" data-w="1" data-t="a" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('yt')"></div></div>
       <div style="background:var(--gray-100);border-radius:var(--radius);padding:14px;text-align:center"><div style="font-size:11px;font-weight:700;color:var(--gray-600);letter-spacing:.06em;margin-bottom:10px">WEEK 2</div><div style="margin-bottom:6px"><label style="font-size:10px;color:var(--gray-400)">Planned</label><input type="number" min="0" class="cal-input" data-p="yt" data-w="2" data-t="p" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('yt')"></div><div><label style="font-size:10px;color:var(--gray-400)">Actual</label><input type="number" min="0" class="cal-input" data-p="yt" data-w="2" data-t="a" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('yt')"></div></div>
       <div style="background:var(--gray-100);border-radius:var(--radius);padding:14px;text-align:center"><div style="font-size:11px;font-weight:700;color:var(--gray-600);letter-spacing:.06em;margin-bottom:10px">WEEK 3</div><div style="margin-bottom:6px"><label style="font-size:10px;color:var(--gray-400)">Planned</label><input type="number" min="0" class="cal-input" data-p="yt" data-w="3" data-t="p" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('yt')"></div><div><label style="font-size:10px;color:var(--gray-400)">Actual</label><input type="number" min="0" class="cal-input" data-p="yt" data-w="3" data-t="a" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('yt')"></div></div>
@@ -1437,7 +1562,7 @@
       </select>
       <button class="btn" style="background:var(--gray-100);color:var(--gray-600);padding:6px 12px;font-size:11px" onclick="clearHeatmap()">Clear</button>
     </div>
-    <div class="heatmap-grid" id="heatmap-grid"></div>
+    <div class="heatmap-wrap" style="overflow-x:auto;-webkit-overflow-scrolling:touch"><div class="heatmap-grid" id="heatmap-grid" style="min-width:500px"></div></div>
     <div class="heatmap-legend">
       <div class="heatmap-legend-item"><div class="heatmap-legend-swatch" style="background:var(--gray-100)"></div>No data</div>
       <div class="heatmap-legend-item"><div class="heatmap-legend-swatch" style="background:var(--rose-pale);border-color:var(--rose-pale)"></div>Low</div>
