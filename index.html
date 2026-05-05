@@ -544,6 +544,19 @@
     </div>
   </div>
 
+  <div style="background:var(--white);border:1px dashed var(--gray-200);border-radius:var(--radius);padding:14px 20px;margin-bottom:20px;display:flex;align-items:center;gap:16px">
+    <div style="flex:1">
+      <div style="font-size:13px;font-weight:600;color:var(--charcoal);margin-bottom:2px">📁 Upload Instagram Data</div>
+      <div style="font-size:11px;color:var(--gray-400)">Export CSV from Meta Business Suite · KPIs will auto-populate on upload</div>
+    </div>
+    <div class="upload-box" onclick="document.getElementById('file-insta-tab').click()" id="box-insta-tab" style="min-width:160px;padding:12px">
+      <input type="file" id="file-insta-tab" accept=".csv" onchange="handleUpload('instagram', this)">
+      <div class="upload-icon" style="font-size:20px;margin-bottom:4px">📸</div>
+      <div class="upload-name">Instagram Insights</div>
+      <div class="upload-hint">Click to upload CSV</div>
+    </div>
+  </div>
+
   <div class="kpi-grid kpi-grid-4">
     <div class="kpi-card"><div class="kpi-label">Followers</div><div class="kpi-value" id="ig-followers">—</div><div class="kpi-delta delta-neutral" id="ig-followers-d">vs. prev. month</div></div>
     <div class="kpi-card"><div class="kpi-label">Net Growth</div><div class="kpi-value" id="ig-growth">—</div><div class="kpi-delta delta-neutral" id="ig-growth-d">Gained — Lost</div></div>
@@ -638,6 +651,19 @@
     <div><h2>Facebook</h2><p>Page performance, reach, and organic engagement</p></div>
   </div>
 
+  <div style="background:var(--white);border:1px dashed var(--gray-200);border-radius:var(--radius);padding:14px 20px;margin-bottom:20px;display:flex;align-items:center;gap:16px">
+    <div style="flex:1">
+      <div style="font-size:13px;font-weight:600;color:var(--charcoal);margin-bottom:2px">📁 Upload Facebook Data</div>
+      <div style="font-size:11px;color:var(--gray-400)">Export CSV from Meta Business Suite · KPIs will auto-populate on upload</div>
+    </div>
+    <div class="upload-box" onclick="document.getElementById('file-fb-tab').click()" id="box-fb-tab" style="min-width:160px;padding:12px">
+      <input type="file" id="file-fb-tab" accept=".csv" onchange="handleUpload('facebook', this)">
+      <div class="upload-icon" style="font-size:20px;margin-bottom:4px">👥</div>
+      <div class="upload-name">Facebook Insights</div>
+      <div class="upload-hint">Click to upload CSV</div>
+    </div>
+  </div>
+
   <div class="kpi-grid kpi-grid-4">
     <div class="kpi-card"><div class="kpi-label">Page Followers</div><div class="kpi-value" id="fb-followers">—</div><div class="kpi-delta delta-neutral" id="fb-followers-d">vs. prev. month</div></div>
     <div class="kpi-card"><div class="kpi-label">Net New Followers</div><div class="kpi-value" id="fb-growth">—</div><div class="kpi-note">Gained this month</div></div>
@@ -682,6 +708,19 @@
   <div class="platform-strip strip-tiktok">
     <div class="plat-icon">🎵</div>
     <div><h2>TikTok</h2><p>Video performance, follower growth, and discovery</p></div>
+  </div>
+
+  <div style="background:var(--white);border:1px dashed var(--gray-200);border-radius:var(--radius);padding:14px 20px;margin-bottom:20px;display:flex;align-items:center;gap:16px">
+    <div style="flex:1">
+      <div style="font-size:13px;font-weight:600;color:var(--charcoal);margin-bottom:2px">📁 Upload TikTok Data</div>
+      <div style="font-size:11px;color:var(--gray-400)">Export CSV from TikTok Creator Tools · KPIs will auto-populate on upload</div>
+    </div>
+    <div class="upload-box" onclick="document.getElementById('file-tt-tab').click()" id="box-tt-tab" style="min-width:160px;padding:12px">
+      <input type="file" id="file-tt-tab" accept=".csv" onchange="handleUpload('tiktok', this)">
+      <div class="upload-icon" style="font-size:20px;margin-bottom:4px">🎵</div>
+      <div class="upload-name">TikTok Analytics</div>
+      <div class="upload-hint">Click to upload CSV</div>
+    </div>
   </div>
 
   <div class="kpi-grid kpi-grid-4">
@@ -730,16 +769,30 @@
     <div><h2>YouTube Shorts</h2><p>Short-form video performance and subscriber growth</p></div>
   </div>
 
+  <div style="background:var(--white);border:1px dashed var(--gray-200);border-radius:var(--radius);padding:14px 20px;margin-bottom:20px;display:flex;align-items:center;gap:16px">
+    <div style="flex:1">
+      <div style="font-size:13px;font-weight:600;color:var(--charcoal);margin-bottom:2px">📁 Upload YouTube Data</div>
+      <div style="font-size:11px;color:var(--gray-400)">Export CSV from YouTube Studio · KPIs will auto-populate on upload</div>
+    </div>
+    <div class="upload-box" onclick="document.getElementById('file-yt-tab').click()" id="box-yt-tab" style="min-width:160px;padding:12px">
+      <input type="file" id="file-yt-tab" accept=".csv" onchange="handleUpload('youtube', this)">
+      <div class="upload-icon" style="font-size:20px;margin-bottom:4px">▶️</div>
+      <div class="upload-name">YouTube Analytics</div>
+      <div class="upload-hint">Click to upload CSV</div>
+    </div>
+  </div>
+
   <div class="kpi-grid kpi-grid-4">
     <div class="kpi-card"><div class="kpi-label">Subscribers</div><div class="kpi-value" id="yt-subscribers">—</div><div class="kpi-delta delta-neutral" id="yt-subs-d">vs. prev. month</div></div>
     <div class="kpi-card"><div class="kpi-label">Net Growth</div><div class="kpi-value" id="yt-growth">—</div></div>
     <div class="kpi-card"><div class="kpi-label">Shorts Views</div><div class="kpi-value" id="yt-views">—</div><div class="kpi-note">Shorts-only views</div></div>
     <div class="kpi-card"><div class="kpi-label">Shorts Published</div><div class="kpi-value" id="yt-posts">—</div></div>
   </div>
-  <div class="kpi-grid kpi-grid-4">
+  <div class="kpi-grid kpi-grid-5">
     <div class="kpi-card"><div class="kpi-label">Watch Time (hrs)</div><div class="kpi-value" id="yt-watchtime">—</div></div>
     <div class="kpi-card"><div class="kpi-label">Likes</div><div class="kpi-value" id="yt-likes">—</div></div>
-    <div class="kpi-card"><div class="kpi-label">Comments</div><div class="kpi-value" id="yt-comments">—</div></div>
+    <div class="kpi-card"><div class="kpi-label">Impressions</div><div class="kpi-value" id="yt-impressions">—</div><div class="kpi-note">Total thumbnail views</div></div>
+    <div class="kpi-card"><div class="kpi-label">CTR</div><div class="kpi-value" id="yt-ctr">—</div><div class="kpi-note">Benchmark: 2–10%</div></div>
     <div class="kpi-card"><div class="kpi-label">Avg. View Duration</div><div class="kpi-value" id="yt-avd">—</div><div class="kpi-note">Shorts: target 70%+</div></div>
   </div>
 
@@ -751,10 +804,11 @@
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">SHORTS VIEWS</label><input type="number" placeholder="e.g. 14000" oninput="updateSimple('yt-views',this,true)"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">SHORTS PUBLISHED</label><input type="number" placeholder="e.g. 6" oninput="updateSimple('yt-posts',this,false)"></div>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:12px">
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:12px">
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">WATCH TIME (HRS)</label><input type="number" placeholder="e.g. 48" oninput="updateSimple('yt-watchtime',this,false)"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">LIKES</label><input type="number" placeholder="e.g. 420" oninput="updateSimple('yt-likes',this,true)"></div>
-      <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">COMMENTS</label><input type="number" placeholder="e.g. 58" oninput="updateSimple('yt-comments',this,true)"></div>
+      <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">IMPRESSIONS</label><input type="number" placeholder="e.g. 12000" oninput="updateSimple('yt-impressions',this,true)"></div>
+      <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">CTR %</label><input type="number" step="0.1" placeholder="e.g. 4.5" oninput="updateSimple('yt-ctr',this,false,'%')"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">AVG VIEW DURATION %</label><input type="number" placeholder="e.g. 74" oninput="updateSimple('yt-avd',this,false,'%')"></div>
     </div>
   </div>
@@ -803,8 +857,10 @@ function setVal(id, val) {
 function handleUpload(platform, input) {
   if (!input.files.length) return;
   const boxId = { instagram: 'insta', facebook: 'fb', tiktok: 'tt', youtube: 'yt' }[platform];
-  const box = document.getElementById('box-' + boxId);
-  if (box) { box.classList.add('loaded'); box.querySelector('.upload-name').textContent = '✓ ' + input.files[0].name; }
+  ['box-' + boxId, 'box-' + boxId + '-tab'].forEach(id => {
+    const box = document.getElementById(id);
+    if (box) { box.classList.add('loaded'); box.querySelector('.upload-name').textContent = '✓ ' + input.files[0].name; }
+  });
   const reader = new FileReader();
   reader.onload = e => parseCSV(platform, e.target.result);
   reader.readAsText(input.files[0]);
