@@ -716,7 +716,89 @@
   .comp-add-form label { font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:.05em; color:var(--gray-600); display:block; margin-bottom:3px; }
   .comp-add-form input, .comp-add-form select { width:100%; padding:6px 8px; border:1px solid var(--gray-200); border-radius:5px; font-size:12px; font-family:var(--font-body); outline:none; }
 
-  /* ── PRINT / PDF ── */
+  /* ── REPORT BUILDER ── */
+  [data-rb].report-excluded {
+    opacity: 0.3;
+    outline: 2px dashed var(--rose-pale);
+    outline-offset: 3px;
+    pointer-events: none;
+    position: relative;
+  }
+  body.rb-preview [data-rb].report-excluded { display: none !important; }
+  .rb-layout { display: grid; grid-template-columns: 280px 1fr; gap: 24px; align-items: start; }
+  .rb-sidebar {
+    background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg);
+    overflow: hidden; box-shadow: var(--shadow-sm); position: sticky; top: 20px;
+  }
+  .rb-sidebar-header {
+    background: var(--charcoal); color: var(--white); padding: 14px 18px;
+    font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+  }
+  .rb-actions { padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; border-bottom: 1px solid var(--gray-200); }
+  .rb-preview-toggle {
+    display: flex; align-items: center; gap: 8px; padding: 9px 12px;
+    background: var(--gray-100); border-radius: 6px; cursor: pointer; user-select: none;
+  }
+  .rb-preview-toggle input { cursor: pointer; accent-color: var(--rose); width: 15px; height: 15px; }
+  .rb-preview-toggle span { font-size: 12px; font-weight: 600; color: var(--charcoal); }
+  .rb-preview-toggle.active { background: var(--rose-subtle); outline: 1px solid var(--rose-pale); }
+  .rb-stats { padding: 10px 14px; font-size: 11px; color: var(--gray-600); border-bottom: 1px solid var(--gray-200); }
+  .rb-stats strong { color: var(--rose); }
+  .rb-main { display: flex; flex-direction: column; gap: 16px; }
+  .rb-card {
+    background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg);
+    overflow: hidden; box-shadow: var(--shadow-sm);
+  }
+  .rb-card-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 20px; border-bottom: 1px solid var(--gray-100); cursor: pointer;
+    user-select: none; background: var(--off-white);
+  }
+  .rb-card-header:hover { background: var(--gray-100); }
+  .rb-card-title { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 700; color: var(--charcoal); }
+  .rb-card-title .rb-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .rb-card-meta { font-size: 11px; color: var(--gray-400); }
+  .rb-toggle-all {
+    display: flex; align-items: center; gap: 6px; padding: 5px 12px;
+    border-radius: 20px; font-size: 11px; font-weight: 600; cursor: pointer;
+    border: 1px solid var(--gray-200); background: var(--white); color: var(--charcoal);
+    transition: all .15s;
+  }
+  .rb-toggle-all:hover { background: var(--rose); color: var(--white); border-color: var(--rose); }
+  .rb-toggle-all.excluded { background: var(--danger-bg); color: var(--danger); border-color: var(--danger); }
+  .rb-items { padding: 8px 0; }
+  .rb-item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 9px 20px 9px 36px; border-bottom: 1px solid var(--gray-100); transition: background .1s;
+  }
+  .rb-item:last-child { border-bottom: none; }
+  .rb-item:hover { background: var(--rose-subtle); }
+  .rb-item-label { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--charcoal); }
+  .rb-item-label .rb-icon { font-size: 14px; width: 20px; text-align: center; }
+  .rb-switch {
+    position: relative; width: 40px; height: 22px; flex-shrink: 0;
+  }
+  .rb-switch input { opacity: 0; width: 0; height: 0; }
+  .rb-switch-track {
+    position: absolute; inset: 0; background: var(--gray-200); border-radius: 11px;
+    cursor: pointer; transition: background .2s;
+  }
+  .rb-switch-track::before {
+    content: ''; position: absolute; width: 16px; height: 16px; border-radius: 50%;
+    background: var(--white); top: 3px; left: 3px; transition: transform .2s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  }
+  .rb-switch input:checked + .rb-switch-track { background: var(--rose); }
+  .rb-switch input:checked + .rb-switch-track::before { transform: translateX(18px); }
+  .rb-item.is-excluded .rb-item-label { opacity: 0.45; text-decoration: line-through; color: var(--gray-400); }
+  .rb-card-body { padding: 4px 0; }
+  .rb-item-info { flex: 1; min-width: 0; }
+  .rb-item-sub { font-size: 11px; color: var(--gray-400); margin-top: 1px; }
+  .tab-btn-builder { background: var(--rose-subtle); color: var(--rose); font-weight: 700; }
+  .tab-btn-builder.active { background: var(--rose); color: var(--white); }
+
+  @media (max-width: 860px) { .rb-layout { grid-template-columns: 1fr; } .rb-sidebar { position: static; } }
+  @media (max-width: 600px) { .rb-item { padding-left: 20px; } }
   .print-cover { display: none; }
   .print-section-banner { display: none; }
   .exclude-toggle {
@@ -749,6 +831,8 @@
     .tab-content { display: block !important; padding: 32px 40px; }
     .tab-content.print-excluded { display: none !important; }
     .tab-content.print-excluded::before { display: none; }
+    [data-rb].report-excluded { display: none !important; outline: none; }
+    #content-builder { display: none !important; }
 
     /* Page breaks between platforms */
     #content-instagram { page-break-before: always; }
@@ -937,6 +1021,7 @@
     <span class="plat-dot" style="background:#FF0000"></span> YouTube Shorts
   </button>
   <button class="tab-btn" onclick="switchTab('insights')" id="tab-insights">📊 Insights</button>
+  <button class="tab-btn tab-btn-builder" onclick="switchTab('builder')" id="tab-builder">🛠 Report Builder</button>
 </div>
 <div class="client-banner" id="client-banner">📄 Client Report View — Artistry by Rhythm · <span id="client-banner-period"></span></div>
 
@@ -951,7 +1036,7 @@
     <button class="exclude-toggle no-print" id="excl-overview" onclick="toggleExclude('overview')" title="Toggle section in PDF export">📄 Include in PDF</button>
   </div>
 
-  <div class="overview-grid">
+  <div class="overview-grid" data-rb="ov-cards">
     <div class="overview-card insta">
       <div class="ov-icon">📸</div>
       <div class="ov-label">Instagram Followers</div>
@@ -1011,7 +1096,7 @@
   </div>
 
   <!-- CROSS-PLATFORM REACH -->
-  <div class="chart-card">
+  <div class="chart-card" data-rb="ov-reach">
     <div class="chart-title">Total Reach by Platform</div>
     <div class="chart-subtitle">Organic reach this month across all channels</div>
     <div class="bar-chart">
@@ -1035,7 +1120,7 @@
   </div>
 
   <!-- OVERVIEW MANUAL ENTRY -->
-  <div class="chart-card">
+  <div class="chart-card" data-rb="ov-entry">
     <div class="chart-title">✏️ Overview — Manual Follower Entry</div>
     <div class="chart-subtitle">Enter current follower counts and growth vs. previous month</div>
     <div class="entry-grid-4-lg">
@@ -1063,7 +1148,7 @@
   </div>
 
   <!-- OVERVIEW COMMENTARY -->
-  <div class="commentary-box">
+  <div class="commentary-box" data-rb="ov-commentary">
     <h3>📝 Monthly Overview — Commentary</h3>
     <div class="hint">High-level summary for the client to read first.</div>
     <div class="commentary-grid">
@@ -1103,6 +1188,7 @@
     <button class="btn btn-rose" onclick="openDataModal('instagram')">Connect Data ›</button>
   </div>
 
+  <div data-rb="ig-kpis">
   <div class="kpi-grid kpi-grid-4">
     <div class="kpi-card"><div class="kpi-label">Followers</div><div class="kpi-value" id="ig-followers">—</div><div class="kpi-delta delta-neutral" id="ig-followers-d">vs. prev. month</div></div>
     <div class="kpi-card"><div class="kpi-label">Net Growth</div><div class="kpi-value" id="ig-growth">—</div><div class="kpi-delta delta-neutral" id="ig-growth-d">Gained — Lost</div></div>
@@ -1121,8 +1207,9 @@
     <div class="kpi-card"><div class="kpi-label">Profile Visits</div><div class="kpi-value" id="ig-profile">—</div><div class="kpi-note">From content</div></div>
     <div class="kpi-card"><div class="kpi-label">DMs / Inquiries</div><div class="kpi-value" id="ig-dms">—</div><div class="kpi-note">Via IG (organic leads)</div></div>
   </div>
+  </div>
 
-  <div class="chart-card data-entry">
+  <div class="chart-card data-entry" data-rb="ig-dataentry">
     <div class="chart-title">✏️ Manual Data Entry — Instagram</div>
     <div class="chart-subtitle">Fill in from Instagram Insights (Meta Business Suite)</div>
     <div class="entry-grid-4">
@@ -1145,6 +1232,7 @@
     </div>
   </div>
 
+  <div data-rb="ig-contentmix">
   <div class="section-divider"></div>
   <div class="sub-section-title">Content Mix This Month</div>
   <div class="content-mix" style="margin-bottom:20px">
@@ -1154,6 +1242,8 @@
     <div class="content-type"><div class="ct-icon">📖</div><div class="ct-label">Stories</div><input type="number" placeholder="0" id="ig-ct-stories"></div>
   </div>
 
+  </div><!-- /ig-contentmix -->
+  <div data-rb="ig-topposts">
   <div class="sub-section-title">Top Posts This Month</div>
   <div class="table-wrap">
     <table class="data-table">
@@ -1178,8 +1268,9 @@
       <button class="btn btn-rose" onclick="addIGPost()" style="height:32px">Add</button>
     </div>
   </div>
+  </div><!-- /ig-topposts -->
 
-  <div class="goals-section">
+  <div class="goals-section" data-rb="ig-goals">
     <div class="goals-header" onclick="toggleGoals('ig')">
       <h4>🎯 Monthly Goals — Progress Tracker</h4><span id="goals-ig-arrow">▼</span>
     </div>
@@ -1193,7 +1284,7 @@
     </div>
   </div>
 
-  <div class="chart-card" style="margin-bottom:20px">
+  <div class="chart-card" data-rb="ig-hashtags" style="margin-bottom:20px">
     <div class="chart-title"># Hashtag Performance</div>
     <div class="chart-subtitle">Track which hashtags are driving reach and engagement</div>
     <div class="table-wrap" style="margin-bottom:12px">
@@ -1212,7 +1303,7 @@
     </div>
   </div>
 
-  <div class="commentary-box">
+  <div class="commentary-box" data-rb="ig-commentary">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
       <h3>📝 Monthly Commentary — Instagram</h3>
       <button class="btn btn-rose" style="padding:6px 14px;font-size:11px" onclick="draftCommentary('instagram')">✨ Draft with AI</button>
@@ -1226,7 +1317,7 @@
     <div id="ai-status-instagram" class="status-msg" style="margin-top:8px"></div>
   </div>
 
-  <div class="content-calendar">
+  <div class="content-calendar" data-rb="ig-calendar">
     <h4>📅 Content Calendar — Instagram</h4>
     <div class="entry-grid-4" style="margin-bottom:12px">
       <div style="background:var(--gray-100);border-radius:var(--radius);padding:14px;text-align:center">
@@ -1274,6 +1365,7 @@
     <button class="btn btn-rose" onclick="openDataModal('facebook')">Connect Data ›</button>
   </div>
 
+  <div data-rb="fb-kpis">
   <div class="kpi-grid kpi-grid-4">
     <div class="kpi-card"><div class="kpi-label">Page Followers</div><div class="kpi-value" id="fb-followers">—</div><div class="kpi-delta delta-neutral" id="fb-followers-d">vs. prev. month</div></div>
     <div class="kpi-card"><div class="kpi-label">Net New Followers</div><div class="kpi-value" id="fb-growth">—</div><div class="kpi-note">Gained this month</div></div>
@@ -1286,8 +1378,9 @@
     <div class="kpi-card"><div class="kpi-label">Shares</div><div class="kpi-value" id="fb-shares">—</div><div class="kpi-note">High distribution signal</div></div>
     <div class="kpi-card"><div class="kpi-label">Link Clicks</div><div class="kpi-value" id="fb-link-clicks">—</div><div class="kpi-note">Clicks to website / booking</div></div>
   </div>
+  </div>
 
-  <div class="chart-card">
+  <div class="chart-card" data-rb="fb-dataentry">
     <div class="chart-title">✏️ Manual Data Entry — Facebook</div>
     <div class="entry-grid-4">
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">PAGE FOLLOWERS</label><input type="number" placeholder="e.g. 2200" oninput="updateSimple('fb-followers',this,true)"></div>
@@ -1303,7 +1396,7 @@
     </div>
   </div>
 
-  <div class="goals-section">
+  <div class="goals-section" data-rb="fb-goals">
     <div class="goals-header" onclick="toggleGoals('fb')">
       <h4>🎯 Monthly Goals — Progress Tracker</h4><span id="goals-fb-arrow">▼</span>
     </div>
@@ -1317,7 +1410,7 @@
     </div>
   </div>
 
-  <div class="commentary-box">
+  <div class="commentary-box" data-rb="fb-commentary">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
       <h3>📝 Monthly Commentary — Facebook</h3>
       <button class="btn btn-rose" style="padding:6px 14px;font-size:11px" onclick="draftCommentary('facebook')">✨ Draft with AI</button>
@@ -1330,7 +1423,7 @@
     <div id="ai-status-facebook" class="status-msg" style="margin-top:8px"></div>
   </div>
 
-  <div class="content-calendar">
+  <div class="content-calendar" data-rb="fb-calendar">
     <h4>📅 Content Calendar — Facebook</h4>
     <div class="entry-grid-4" style="margin-bottom:12px">
       <div style="background:var(--gray-100);border-radius:var(--radius);padding:14px;text-align:center"><div style="font-size:11px;font-weight:700;color:var(--gray-600);letter-spacing:.06em;margin-bottom:10px">WEEK 1</div><div style="margin-bottom:6px"><label style="font-size:10px;color:var(--gray-400)">Planned</label><input type="number" min="0" class="cal-input" data-p="fb" data-w="1" data-t="p" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('fb')"></div><div><label style="font-size:10px;color:var(--gray-400)">Actual</label><input type="number" min="0" class="cal-input" data-p="fb" data-w="1" data-t="a" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('fb')"></div></div>
@@ -1362,6 +1455,7 @@
     <button class="btn btn-rose" onclick="openDataModal('tiktok')">Connect Data ›</button>
   </div>
 
+  <div data-rb="tt-kpis">
   <div class="kpi-grid kpi-grid-4">
     <div class="kpi-card"><div class="kpi-label">Followers</div><div class="kpi-value" id="tt-followers">—</div><div class="kpi-delta delta-neutral" id="tt-followers-d">vs. prev. month</div></div>
     <div class="kpi-card"><div class="kpi-label">Net Growth</div><div class="kpi-value" id="tt-growth">—</div></div>
@@ -1374,8 +1468,9 @@
     <div class="kpi-card"><div class="kpi-label">Shares</div><div class="kpi-value" id="tt-shares">—</div></div>
     <div class="kpi-card"><div class="kpi-label">Profile Views</div><div class="kpi-value" id="tt-profile">—</div><div class="kpi-note">From FYP + following</div></div>
   </div>
+  </div>
 
-  <div class="chart-card">
+  <div class="chart-card" data-rb="tt-dataentry">
     <div class="chart-title">✏️ Manual Data Entry — TikTok</div>
     <div class="entry-grid-4">
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">FOLLOWERS</label><input type="number" placeholder="e.g. 1500" oninput="updateSimple('tt-followers',this,true)"></div>
@@ -1391,7 +1486,7 @@
     </div>
   </div>
 
-  <div class="goals-section">
+  <div class="goals-section" data-rb="tt-goals">
     <div class="goals-header" onclick="toggleGoals('tt')">
       <h4>🎯 Monthly Goals — Progress Tracker</h4><span id="goals-tt-arrow">▼</span>
     </div>
@@ -1405,7 +1500,7 @@
     </div>
   </div>
 
-  <div class="commentary-box">
+  <div class="commentary-box" data-rb="tt-commentary">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
       <h3>📝 Monthly Commentary — TikTok</h3>
       <button class="btn btn-rose" style="padding:6px 14px;font-size:11px" onclick="draftCommentary('tiktok')">✨ Draft with AI</button>
@@ -1418,7 +1513,7 @@
     <div id="ai-status-tiktok" class="status-msg" style="margin-top:8px"></div>
   </div>
 
-  <div class="content-calendar">
+  <div class="content-calendar" data-rb="tt-calendar">
     <h4>📅 Content Calendar — TikTok</h4>
     <div class="entry-grid-4" style="margin-bottom:12px">
       <div style="background:var(--gray-100);border-radius:var(--radius);padding:14px;text-align:center"><div style="font-size:11px;font-weight:700;color:var(--gray-600);letter-spacing:.06em;margin-bottom:10px">WEEK 1</div><div style="margin-bottom:6px"><label style="font-size:10px;color:var(--gray-400)">Planned</label><input type="number" min="0" class="cal-input" data-p="tt" data-w="1" data-t="p" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('tt')"></div><div><label style="font-size:10px;color:var(--gray-400)">Actual</label><input type="number" min="0" class="cal-input" data-p="tt" data-w="1" data-t="a" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('tt')"></div></div>
@@ -1450,6 +1545,7 @@
     <button class="btn btn-rose" onclick="openDataModal('youtube')">Connect Data ›</button>
   </div>
 
+  <div data-rb="yt-kpis">
   <div class="kpi-grid kpi-grid-4">
     <div class="kpi-card"><div class="kpi-label">Subscribers</div><div class="kpi-value" id="yt-subscribers">—</div><div class="kpi-delta delta-neutral" id="yt-subs-d">vs. prev. month</div></div>
     <div class="kpi-card"><div class="kpi-label">Net Growth</div><div class="kpi-value" id="yt-growth">—</div></div>
@@ -1462,8 +1558,9 @@
     <div class="kpi-card"><div class="kpi-label">Impressions CTR</div><div class="kpi-value" id="yt-ctr">—</div><div class="kpi-note">Benchmark: 2–10%</div></div>
     <div class="kpi-card"><div class="kpi-label">Avg. View Duration</div><div class="kpi-value" id="yt-avd">—</div><div class="kpi-note">Shorts: target 70%+</div></div>
   </div>
+  </div>
 
-  <div class="chart-card">
+  <div class="chart-card" data-rb="yt-dataentry">
     <div class="chart-title">✏️ Manual Data Entry — YouTube Shorts</div>
     <div class="entry-grid-4">
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">SUBSCRIBERS</label><input type="number" placeholder="e.g. 800" oninput="updateSimple('yt-subscribers',this,true)"></div>
@@ -1479,7 +1576,7 @@
     </div>
   </div>
 
-  <div class="goals-section">
+  <div class="goals-section" data-rb="yt-goals">
     <div class="goals-header" onclick="toggleGoals('yt')">
       <h4>🎯 Monthly Goals — Progress Tracker</h4><span id="goals-yt-arrow">▼</span>
     </div>
@@ -1493,7 +1590,7 @@
     </div>
   </div>
 
-  <div class="commentary-box">
+  <div class="commentary-box" data-rb="yt-commentary">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
       <h3>📝 Monthly Commentary — YouTube Shorts</h3>
       <button class="btn btn-rose" style="padding:6px 14px;font-size:11px" onclick="draftCommentary('youtube')">✨ Draft with AI</button>
@@ -1506,7 +1603,7 @@
     <div id="ai-status-youtube" class="status-msg" style="margin-top:8px"></div>
   </div>
 
-  <div class="content-calendar">
+  <div class="content-calendar" data-rb="yt-calendar">
     <h4>📅 Content Calendar — YouTube Shorts</h4>
     <div class="entry-grid-4" style="margin-bottom:12px">
       <div style="background:var(--gray-100);border-radius:var(--radius);padding:14px;text-align:center"><div style="font-size:11px;font-weight:700;color:var(--gray-600);letter-spacing:.06em;margin-bottom:10px">WEEK 1</div><div style="margin-bottom:6px"><label style="font-size:10px;color:var(--gray-400)">Planned</label><input type="number" min="0" class="cal-input" data-p="yt" data-w="1" data-t="p" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('yt')"></div><div><label style="font-size:10px;color:var(--gray-400)">Actual</label><input type="number" min="0" class="cal-input" data-p="yt" data-w="1" data-t="a" placeholder="0" style="display:block;width:100%;margin-top:2px;padding:5px;border:1px solid var(--gray-200);border-radius:4px;text-align:center;font-size:13px;font-weight:700" oninput="updateCal('yt')"></div></div>
@@ -1530,7 +1627,7 @@
   </div>
 
   <!-- MoM COMPARISON -->
-  <div class="chart-card" style="margin-bottom:28px">
+  <div class="chart-card" style="margin-bottom:28px" data-rb="ins-mom">
     <div class="chart-title">Month-over-Month Comparison</div>
     <div class="chart-subtitle">Compare current month performance against previous month</div>
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap">
@@ -1556,7 +1653,7 @@
   </div>
 
   <!-- COMPETITOR BENCHMARKING -->
-  <div class="competitor-section">
+  <div class="competitor-section" data-rb="ins-competitors">
     <h3>🏆 Competitor Benchmarking</h3>
     <div class="table-wrap" style="margin-bottom:12px">
       <table class="data-table">
@@ -1580,7 +1677,7 @@
   </div>
 
   <!-- POSTING TIME HEATMAP -->
-  <div class="chart-card">
+  <div class="chart-card" data-rb="ins-heatmap">
     <div class="chart-title">🕐 Best Posting Times — Engagement Heatmap</div>
     <div class="chart-subtitle" style="margin-bottom:16px">Click cells to mark engagement level. Build your optimal posting schedule.</div>
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap">
@@ -1601,6 +1698,255 @@
       <div class="heatmap-legend-item"><div class="heatmap-legend-swatch" style="background:var(--rose);border-color:var(--rose)"></div>High</div>
     </div>
   </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ REPORT BUILDER TAB -->
+<div class="tab-content" id="content-builder">
+  <div class="section-header" style="justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:20px">
+    <div style="display:flex;align-items:baseline;gap:14px">
+      <div class="section-title">🛠 Report Builder</div>
+      <div class="section-sub">Toggle any section or sub-section in/out of your PDF export</div>
+    </div>
+  </div>
+
+  <div class="rb-layout">
+    <!-- SIDEBAR -->
+    <div class="rb-sidebar">
+      <div class="rb-sidebar-header">Report Sections</div>
+      <div style="padding:14px;border-bottom:1px solid var(--gray-200)">
+        <div style="display:flex;gap:8px;margin-bottom:12px">
+          <button class="btn" style="flex:1;justify-content:center;font-size:12px;padding:7px;background:var(--rose);color:#fff;border-color:var(--rose)" onclick="rbSelectAll(true)">✓ Include All</button>
+          <button class="btn" style="flex:1;justify-content:center;font-size:12px;padding:7px;background:var(--gray-100);color:var(--gray-600)" onclick="rbSelectAll(false)">✗ Exclude All</button>
+        </div>
+        <label class="rb-preview-toggle">
+          <input type="checkbox" id="rb-preview-chk" onchange="togglePreviewMode(this)">
+          <span class="rb-preview-label">👁 Preview Mode</span>
+          <span style="font-size:10px;color:var(--gray-400);display:block;margin-top:2px">Hide excluded sections on screen</span>
+        </label>
+      </div>
+      <div style="padding:12px 14px">
+        <div id="rb-stats" style="font-size:12px;color:var(--gray-600);line-height:1.8">
+          <strong id="rb-included-count">—</strong> sections included<br>
+          <strong id="rb-excluded-count">—</strong> sections excluded
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN CARDS -->
+    <div>
+
+      <!-- OVERVIEW -->
+      <div class="rb-card">
+        <div class="rb-card-header">
+          <div class="rb-card-title">📋 Overview</div>
+          <label class="rb-switch" title="Toggle all Overview sections">
+            <input type="checkbox" checked onchange="rbMasterToggle('overview',this.checked)">
+            <span class="rb-switch-track"></span>
+          </label>
+        </div>
+        <div class="rb-card-body">
+          <div class="rb-item" id="rbi-ov-cards">
+            <div class="rb-item-info">
+              <div class="rb-item-label">Platform Summary Cards</div>
+              <div class="rb-item-sub">Follower counts for all 4 platforms</div>
+            </div>
+            <label class="rb-switch"><input type="checkbox" checked onchange="rbToggle('ov-cards',this.checked)"><span class="rb-switch-track"></span></label>
+          </div>
+          <div class="rb-item" id="rbi-ov-reach">
+            <div class="rb-item-info">
+              <div class="rb-item-label">Reach Comparison Bar</div>
+              <div class="rb-item-sub">Visual reach bar chart across platforms</div>
+            </div>
+            <label class="rb-switch"><input type="checkbox" checked onchange="rbToggle('ov-reach',this.checked)"><span class="rb-switch-track"></span></label>
+          </div>
+          <div class="rb-item" id="rbi-ov-entry">
+            <div class="rb-item-info">
+              <div class="rb-item-label">Manual Data Entry</div>
+              <div class="rb-item-sub">Overview reach/follower input fields</div>
+            </div>
+            <label class="rb-switch"><input type="checkbox" checked onchange="rbToggle('ov-entry',this.checked)"><span class="rb-switch-track"></span></label>
+          </div>
+          <div class="rb-item" id="rbi-ov-commentary">
+            <div class="rb-item-info">
+              <div class="rb-item-label">Monthly Commentary</div>
+              <div class="rb-item-sub">Executive summary text block</div>
+            </div>
+            <label class="rb-switch"><input type="checkbox" checked onchange="rbToggle('ov-commentary',this.checked)"><span class="rb-switch-track"></span></label>
+          </div>
+        </div>
+      </div>
+
+      <!-- INSTAGRAM -->
+      <div class="rb-card">
+        <div class="rb-card-header">
+          <div class="rb-card-title"><span class="plat-dot" style="background:linear-gradient(135deg,#833ab4,#fd1d1d)"></span> Instagram</div>
+          <label class="rb-switch" title="Toggle all Instagram sections">
+            <input type="checkbox" checked onchange="rbMasterToggle('instagram',this.checked)">
+            <span class="rb-switch-track"></span>
+          </label>
+        </div>
+        <div class="rb-card-body">
+          <div class="rb-item" id="rbi-ig-kpis">
+            <div class="rb-item-info"><div class="rb-item-label">KPI Metrics</div><div class="rb-item-sub">All follower, reach, engagement KPI cards</div></div>
+            <label class="rb-switch"><input type="checkbox" checked onchange="rbToggle('ig-kpis',this.checked)"><span class="rb-switch-track"></span></label>
+          </div>
+          <div class="rb-item" id="rbi-ig-dataentry">
+            <div class="rb-item-info"><div class="rb-item-label">Manual Data Entry</div><div class="rb-item-sub">Input fields for Instagram metrics</div></div>
+            <label class="rb-switch"><input type="checkbox" checked onchange="rbToggle('ig-dataentry',this.checked)"><span class="rb-switch-track"></span></label>
+          </div>
+          <div class="rb-item" id="rbi-ig-contentmix">
+            <div class="rb-item-info"><div class="rb-item-label">Content Mix</div><div class="rb-item-sub">Reels, carousels, stories breakdown</div></div>
+            <label class="rb-switch"><input type="checkbox" checked onchange="rbToggle('ig-contentmix',this.checked)"><span class="rb-switch-track"></span></label>
+          </div>
+          <div class="rb-item" id="rbi-ig-topposts">
+            <div class="rb-item-info"><div class="rb-item-label">Top Performing Posts</div><div class="rb-item-sub">Best posts table this month</div></div>
+            <label class="rb-switch"><input type="checkbox" checked onchange="rbToggle('ig-topposts',this.checked)"><span class="rb-switch-track"></span></label>
+          </div>
+          <div class="rb-item" id="rbi-ig-goals">
+            <div class="rb-item-info"><div class="rb-item-label">Goals Progress Tracker</div><div class="rb-item-sub">Monthly target vs actual progress bars</div></div>
+            <label class="rb-switch"><input type="checkbox" checked onchange="rbToggle('ig-goals',this.checked)"><span class="rb-switch-track"></span></label>
+          </div>
+          <div class="rb-item" id="rbi-ig-hashtags">
+            <div class="rb-item-info"><div class="rb-item-label">Hashtag Performance</div><div class="rb-item-sub">Hashtag reach and performance labels</div></div>
+            <label class="rb-switch"><input type="checkbox" checked onchange="rbToggle('ig-hashtags',this.checked)"><span class="rb-switch-track"></span></label>
+          </div>
+          <div class="rb-item" id="rbi-ig-commentary">
+            <div class="rb-item-info"><div class="rb-item-label">Monthly Commentary</div><div class="rb-item-sub">Wins, issues, next month plan</div></div>
+            <label class="rb-switch"><input type="checkbox" checked onchange="rbToggle('ig-commentary',this.checked)"><span class="rb-switch-track"></span></label>
+          </div>
+          <div class="rb-item" id="rbi-ig-calendar">
+            <div class="rb-item-info"><div class="rb-item-label">Content Calendar</div><div class="rb-item-sub">Weekly planned vs actual posts</div></div>
+            <label class="rb-switch"><input type="checkbox" checked onchange="rbToggle('ig-calendar',this.checked)"><span class="rb-switch-track"></span></label>
+          </div>
+        </div>
+      </div>
+
+      <!-- FACEBOOK -->
+      <div class="rb-card">
+        <div class="rb-card-header">
+          <div class="rb-card-title"><span class="plat-dot" style="background:#1877F2"></span> Facebook</div>
+          <label class="rb-switch" title="Toggle all Facebook sections">
+            <input type="checkbox" checked onchange="rbMasterToggle('facebook',this.checked)">
+            <span class="rb-switch-track"></span>
+          </label>
+        </div>
+        <div class="rb-card-body">
+          <div class="rb-item" id="rbi-fb-kpis">
+            <div class="rb-item-info"><div class="rb-item-label">KPI Metrics</div><div class="rb-item-sub">Page likes, reach, engagement KPI cards</div></div>
+            <label class="rb-switch"><input type="checkbox" checked onchange="rbToggle('fb-kpis',this.checked)"><span class="rb-switch-track"></span></label>
+          </div>
+          <div class="rb-item" id="rbi-fb-dataentry">
+            <div class="rb-item-info"><div class="rb-item-label">Manual Data Entry</div><div class="rb-item-sub">Input fields for Facebook metrics</div></div>
+            <label class="rb-switch"><input type="checkbox" checked onchange="rbToggle('fb-dataentry',this.checked)"><span class="rb-switch-track"></span></label>
+          </div>
+          <div class="rb-item" id="rbi-fb-goals">
+            <div class="rb-item-info"><div class="rb-item-label">Goals Progress Tracker</div><div class="rb-item-sub">Monthly target vs actual progress bars</div></div>
+            <label class="rb-switch"><input type="checkbox" checked onchange="rbToggle('fb-goals',this.checked)"><span class="rb-switch-track"></span></label>
+          </div>
+          <div class="rb-item" id="rbi-fb-commentary">
+            <div class="rb-item-info"><div class="rb-item-label">Monthly Commentary</div><div class="rb-item-sub">Wins, issues, next month plan</div></div>
+            <label class="rb-switch"><input type="checkbox" checked onchange="rbToggle('fb-commentary',this.checked)"><span class="rb-switch-track"></span></label>
+          </div>
+          <div class="rb-item" id="rbi-fb-calendar">
+            <div class="rb-item-info"><div class="rb-item-label">Content Calendar</div><div class="rb-item-sub">Weekly planned vs actual posts</div></div>
+            <label class="rb-switch"><input type="checkbox" checked onchange="rbToggle('fb-calendar',this.checked)"><span class="rb-switch-track"></span></label>
+          </div>
+        </div>
+      </div>
+
+      <!-- TIKTOK -->
+      <div class="rb-card">
+        <div class="rb-card-header">
+          <div class="rb-card-title"><span class="plat-dot" style="background:#010101"></span> TikTok</div>
+          <label class="rb-switch" title="Toggle all TikTok sections">
+            <input type="checkbox" checked onchange="rbMasterToggle('tiktok',this.checked)">
+            <span class="rb-switch-track"></span>
+          </label>
+        </div>
+        <div class="rb-card-body">
+          <div class="rb-item" id="rbi-tt-kpis">
+            <div class="rb-item-info"><div class="rb-item-label">KPI Metrics</div><div class="rb-item-sub">Followers, views, engagement KPI cards</div></div>
+            <label class="rb-switch"><input type="checkbox" checked onchange="rbToggle('tt-kpis',this.checked)"><span class="rb-switch-track"></span></label>
+          </div>
+          <div class="rb-item" id="rbi-tt-dataentry">
+            <div class="rb-item-info"><div class="rb-item-label">Manual Data Entry</div><div class="rb-item-sub">Input fields for TikTok metrics</div></div>
+            <label class="rb-switch"><input type="checkbox" checked onchange="rbToggle('tt-dataentry',this.checked)"><span class="rb-switch-track"></span></label>
+          </div>
+          <div class="rb-item" id="rbi-tt-goals">
+            <div class="rb-item-info"><div class="rb-item-label">Goals Progress Tracker</div><div class="rb-item-sub">Monthly target vs actual progress bars</div></div>
+            <label class="rb-switch"><input type="checkbox" checked onchange="rbToggle('tt-goals',this.checked)"><span class="rb-switch-track"></span></label>
+          </div>
+          <div class="rb-item" id="rbi-tt-commentary">
+            <div class="rb-item-info"><div class="rb-item-label">Monthly Commentary</div><div class="rb-item-sub">Wins, issues, next month plan</div></div>
+            <label class="rb-switch"><input type="checkbox" checked onchange="rbToggle('tt-commentary',this.checked)"><span class="rb-switch-track"></span></label>
+          </div>
+          <div class="rb-item" id="rbi-tt-calendar">
+            <div class="rb-item-info"><div class="rb-item-label">Content Calendar</div><div class="rb-item-sub">Weekly planned vs actual posts</div></div>
+            <label class="rb-switch"><input type="checkbox" checked onchange="rbToggle('tt-calendar',this.checked)"><span class="rb-switch-track"></span></label>
+          </div>
+        </div>
+      </div>
+
+      <!-- YOUTUBE -->
+      <div class="rb-card">
+        <div class="rb-card-header">
+          <div class="rb-card-title"><span class="plat-dot" style="background:#FF0000"></span> YouTube Shorts</div>
+          <label class="rb-switch" title="Toggle all YouTube sections">
+            <input type="checkbox" checked onchange="rbMasterToggle('youtube',this.checked)">
+            <span class="rb-switch-track"></span>
+          </label>
+        </div>
+        <div class="rb-card-body">
+          <div class="rb-item" id="rbi-yt-kpis">
+            <div class="rb-item-info"><div class="rb-item-label">KPI Metrics</div><div class="rb-item-sub">Subscribers, views, watch time KPI cards</div></div>
+            <label class="rb-switch"><input type="checkbox" checked onchange="rbToggle('yt-kpis',this.checked)"><span class="rb-switch-track"></span></label>
+          </div>
+          <div class="rb-item" id="rbi-yt-dataentry">
+            <div class="rb-item-info"><div class="rb-item-label">Manual Data Entry</div><div class="rb-item-sub">Input fields for YouTube metrics</div></div>
+            <label class="rb-switch"><input type="checkbox" checked onchange="rbToggle('yt-dataentry',this.checked)"><span class="rb-switch-track"></span></label>
+          </div>
+          <div class="rb-item" id="rbi-yt-goals">
+            <div class="rb-item-info"><div class="rb-item-label">Goals Progress Tracker</div><div class="rb-item-sub">Monthly target vs actual progress bars</div></div>
+            <label class="rb-switch"><input type="checkbox" checked onchange="rbToggle('yt-goals',this.checked)"><span class="rb-switch-track"></span></label>
+          </div>
+          <div class="rb-item" id="rbi-yt-commentary">
+            <div class="rb-item-info"><div class="rb-item-label">Monthly Commentary</div><div class="rb-item-sub">Wins, issues, next month plan</div></div>
+            <label class="rb-switch"><input type="checkbox" checked onchange="rbToggle('yt-commentary',this.checked)"><span class="rb-switch-track"></span></label>
+          </div>
+          <div class="rb-item" id="rbi-yt-calendar">
+            <div class="rb-item-info"><div class="rb-item-label">Content Calendar</div><div class="rb-item-sub">Weekly planned vs actual posts</div></div>
+            <label class="rb-switch"><input type="checkbox" checked onchange="rbToggle('yt-calendar',this.checked)"><span class="rb-switch-track"></span></label>
+          </div>
+        </div>
+      </div>
+
+      <!-- INSIGHTS -->
+      <div class="rb-card">
+        <div class="rb-card-header">
+          <div class="rb-card-title">📊 Insights & Analytics</div>
+          <label class="rb-switch" title="Toggle all Insights sections">
+            <input type="checkbox" checked onchange="rbMasterToggle('insights',this.checked)">
+            <span class="rb-switch-track"></span>
+          </label>
+        </div>
+        <div class="rb-card-body">
+          <div class="rb-item" id="rbi-ins-mom">
+            <div class="rb-item-info"><div class="rb-item-label">Month-over-Month Comparison</div><div class="rb-item-sub">Current vs previous month performance table</div></div>
+            <label class="rb-switch"><input type="checkbox" checked onchange="rbToggle('ins-mom',this.checked)"><span class="rb-switch-track"></span></label>
+          </div>
+          <div class="rb-item" id="rbi-ins-competitors">
+            <div class="rb-item-info"><div class="rb-item-label">Competitor Benchmarking</div><div class="rb-item-sub">Competitor follower and engagement table</div></div>
+            <label class="rb-switch"><input type="checkbox" checked onchange="rbToggle('ins-competitors',this.checked)"><span class="rb-switch-track"></span></label>
+          </div>
+          <div class="rb-item" id="rbi-ins-heatmap">
+            <div class="rb-item-info"><div class="rb-item-label">Posting Time Heatmap</div><div class="rb-item-sub">Best posting times by day and hour</div></div>
+            <label class="rb-switch"><input type="checkbox" checked onchange="rbToggle('ins-heatmap',this.checked)"><span class="rb-switch-track"></span></label>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end main cards -->
+  </div><!-- end rb-layout -->
 </div>
 
 <!-- ═══════════════════════════════════════════ EMAIL MODAL -->
@@ -2879,10 +3225,126 @@ function parseMetricNum(val) {
   return isNaN(n) ? null : n;
 }
 
+// ── REPORT BUILDER ──
+const RB_SECTIONS = [
+  'ov-cards','ov-reach','ov-entry','ov-commentary',
+  'ig-kpis','ig-dataentry','ig-contentmix','ig-topposts','ig-goals','ig-hashtags','ig-commentary','ig-calendar',
+  'fb-kpis','fb-dataentry','fb-goals','fb-commentary','fb-calendar',
+  'tt-kpis','tt-dataentry','tt-goals','tt-commentary','tt-calendar',
+  'yt-kpis','yt-dataentry','yt-goals','yt-commentary','yt-calendar',
+  'ins-mom','ins-competitors','ins-heatmap'
+];
+
+const RB_PLATFORM_MAP = {
+  overview: ['ov-cards','ov-reach','ov-entry','ov-commentary'],
+  instagram: ['ig-kpis','ig-dataentry','ig-contentmix','ig-topposts','ig-goals','ig-hashtags','ig-commentary','ig-calendar'],
+  facebook: ['fb-kpis','fb-dataentry','fb-goals','fb-commentary','fb-calendar'],
+  tiktok: ['tt-kpis','tt-dataentry','tt-goals','tt-commentary','tt-calendar'],
+  youtube: ['yt-kpis','yt-dataentry','yt-goals','yt-commentary','yt-calendar'],
+  insights: ['ins-mom','ins-competitors','ins-heatmap']
+};
+
+function rbToggle(rbId, included) {
+  const el = document.querySelector(`[data-rb="${rbId}"]`);
+  if (el) el.classList.toggle('report-excluded', !included);
+  const row = document.getElementById('rbi-' + rbId);
+  if (row) row.classList.toggle('is-excluded', !included);
+  rbUpdateStats();
+  saveRbConfig();
+}
+
+function rbMasterToggle(platform, included) {
+  const ids = RB_PLATFORM_MAP[platform] || [];
+  ids.forEach(id => {
+    const el = document.querySelector(`[data-rb="${id}"]`);
+    if (el) el.classList.toggle('report-excluded', !included);
+    const row = document.getElementById('rbi-' + id);
+    if (row) {
+      row.classList.toggle('is-excluded', !included);
+      const sw = row.querySelector('input[type=checkbox]');
+      if (sw) sw.checked = included;
+    }
+  });
+  rbUpdateStats();
+  saveRbConfig();
+}
+
+function rbSelectAll(include) {
+  RB_SECTIONS.forEach(id => {
+    const el = document.querySelector(`[data-rb="${id}"]`);
+    if (el) el.classList.toggle('report-excluded', !include);
+    const row = document.getElementById('rbi-' + id);
+    if (row) {
+      row.classList.toggle('is-excluded', !include);
+      const sw = row.querySelector('input[type=checkbox]');
+      if (sw) sw.checked = include;
+    }
+  });
+  // also sync master toggles
+  document.querySelectorAll('#content-builder .rb-card-header input[type=checkbox]').forEach(sw => { sw.checked = include; });
+  rbUpdateStats();
+  saveRbConfig();
+}
+
+function togglePreviewMode(chk) {
+  document.body.classList.toggle('rb-preview', chk.checked);
+  const lbl = chk.closest('.rb-preview-toggle');
+  if (lbl) lbl.classList.toggle('active', chk.checked);
+}
+
+function rbUpdateStats() {
+  let inc = 0, exc = 0;
+  RB_SECTIONS.forEach(id => {
+    const el = document.querySelector(`[data-rb="${id}"]`);
+    if (el && el.classList.contains('report-excluded')) exc++; else inc++;
+  });
+  const ic = document.getElementById('rb-included-count');
+  const ec = document.getElementById('rb-excluded-count');
+  if (ic) ic.textContent = inc;
+  if (ec) ec.textContent = exc;
+}
+
+function saveRbConfig() {
+  const state = {};
+  RB_SECTIONS.forEach(id => {
+    const el = document.querySelector(`[data-rb="${id}"]`);
+    state[id] = el ? !el.classList.contains('report-excluded') : true;
+  });
+  localStorage.setItem('abr_rb_config', JSON.stringify(state));
+}
+
+function loadRbConfig() {
+  const raw = localStorage.getItem('abr_rb_config');
+  if (!raw) { rbUpdateStats(); return; }
+  try {
+    const state = JSON.parse(raw);
+    Object.keys(state).forEach(id => {
+      const included = state[id];
+      const el = document.querySelector(`[data-rb="${id}"]`);
+      if (el) el.classList.toggle('report-excluded', !included);
+      const row = document.getElementById('rbi-' + id);
+      if (row) {
+        row.classList.toggle('is-excluded', !included);
+        const sw = row.querySelector('input[type=checkbox]');
+        if (sw) sw.checked = included;
+      }
+    });
+    // sync master toggles
+    Object.keys(RB_PLATFORM_MAP).forEach(platform => {
+      const ids = RB_PLATFORM_MAP[platform];
+      const allIncluded = ids.every(id => state[id] !== false);
+      const card = document.querySelector(`#content-builder .rb-card-header input[onchange*="'${platform}'"]`);
+      if (card) card.checked = allIncluded;
+    });
+    rbUpdateStats();
+  } catch(e) {}
+}
+
 // ── INIT ──
 document.addEventListener('DOMContentLoaded', () => {
   renderHeatmap();
   updateMoMTable();
+  loadRbConfig();
 });
 </script>
 </body>
