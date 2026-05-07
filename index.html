@@ -1126,23 +1126,23 @@
     <div class="entry-grid-4-lg">
       <div>
         <div style="font-size:11px;font-weight:600;color:var(--gray-600);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">📸 INSTAGRAM</div>
-        <input type="number" placeholder="Followers e.g. 4800" style="width:100%;padding:7px 10px;border:1px solid var(--gray-200);border-radius:5px;font-size:13px;margin-bottom:6px" oninput="updateOverview('insta',this,'followers')">
-        <input type="number" placeholder="Growth e.g. +120" style="width:100%;padding:7px 10px;border:1px solid var(--gray-200);border-radius:5px;font-size:13px" oninput="updateOverview('insta',this,'delta')">
+        <input id="ov-in-insta-followers" type="number" placeholder="Followers e.g. 4800" style="width:100%;padding:7px 10px;border:1px solid var(--gray-200);border-radius:5px;font-size:13px;margin-bottom:6px" oninput="updateOverview('insta',this,'followers')">
+        <input id="ov-in-insta-delta" type="number" placeholder="Growth e.g. +120" style="width:100%;padding:7px 10px;border:1px solid var(--gray-200);border-radius:5px;font-size:13px" oninput="updateOverview('insta',this,'delta')">
       </div>
       <div>
         <div style="font-size:11px;font-weight:600;color:var(--gray-600);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">👥 FACEBOOK</div>
-        <input type="number" placeholder="Followers e.g. 2200" style="width:100%;padding:7px 10px;border:1px solid var(--gray-200);border-radius:5px;font-size:13px;margin-bottom:6px" oninput="updateOverview('fb',this,'followers')">
-        <input type="number" placeholder="Growth e.g. +40" style="width:100%;padding:7px 10px;border:1px solid var(--gray-200);border-radius:5px;font-size:13px" oninput="updateOverview('fb',this,'delta')">
+        <input id="ov-in-fb-followers" type="number" placeholder="Followers e.g. 2200" style="width:100%;padding:7px 10px;border:1px solid var(--gray-200);border-radius:5px;font-size:13px;margin-bottom:6px" oninput="updateOverview('fb',this,'followers')">
+        <input id="ov-in-fb-delta" type="number" placeholder="Growth e.g. +40" style="width:100%;padding:7px 10px;border:1px solid var(--gray-200);border-radius:5px;font-size:13px" oninput="updateOverview('fb',this,'delta')">
       </div>
       <div>
         <div style="font-size:11px;font-weight:600;color:var(--gray-600);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">🎵 TIKTOK</div>
-        <input type="number" placeholder="Followers e.g. 1500" style="width:100%;padding:7px 10px;border:1px solid var(--gray-200);border-radius:5px;font-size:13px;margin-bottom:6px" oninput="updateOverview('tt',this,'followers')">
-        <input type="number" placeholder="Growth e.g. +200" style="width:100%;padding:7px 10px;border:1px solid var(--gray-200);border-radius:5px;font-size:13px" oninput="updateOverview('tt',this,'delta')">
+        <input id="ov-in-tt-followers" type="number" placeholder="Followers e.g. 1500" style="width:100%;padding:7px 10px;border:1px solid var(--gray-200);border-radius:5px;font-size:13px;margin-bottom:6px" oninput="updateOverview('tt',this,'followers')">
+        <input id="ov-in-tt-delta" type="number" placeholder="Growth e.g. +200" style="width:100%;padding:7px 10px;border:1px solid var(--gray-200);border-radius:5px;font-size:13px" oninput="updateOverview('tt',this,'delta')">
       </div>
       <div>
         <div style="font-size:11px;font-weight:600;color:var(--gray-600);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">▶️ YOUTUBE</div>
-        <input type="number" placeholder="Subscribers e.g. 800" style="width:100%;padding:7px 10px;border:1px solid var(--gray-200);border-radius:5px;font-size:13px;margin-bottom:6px" oninput="updateOverview('yt',this,'followers')">
-        <input type="number" placeholder="Growth e.g. +65" style="width:100%;padding:7px 10px;border:1px solid var(--gray-200);border-radius:5px;font-size:13px" oninput="updateOverview('yt',this,'delta')">
+        <input id="ov-in-yt-followers" type="number" placeholder="Subscribers e.g. 800" style="width:100%;padding:7px 10px;border:1px solid var(--gray-200);border-radius:5px;font-size:13px;margin-bottom:6px" oninput="updateOverview('yt',this,'followers')">
+        <input id="ov-in-yt-delta" type="number" placeholder="Growth e.g. +65" style="width:100%;padding:7px 10px;border:1px solid var(--gray-200);border-radius:5px;font-size:13px" oninput="updateOverview('yt',this,'delta')">
       </div>
     </div>
   </div>
@@ -1213,8 +1213,8 @@
     <div class="chart-title">✏️ Manual Data Entry — Instagram</div>
     <div class="chart-subtitle">Fill in from Instagram Insights (Meta Business Suite)</div>
     <div class="entry-grid-4">
-      <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">FOLLOWERS (END)</label><input type="number" placeholder="e.g. 4800" oninput="updateIG('ig-followers',this,true)"></div>
-      <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">NET GROWTH</label><input type="number" placeholder="e.g. +120" oninput="updateIG('ig-growth',this,false)"></div>
+      <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">FOLLOWERS (END)</label><input type="number" placeholder="e.g. 4800" oninput="updateIG('ig-followers',this,true);syncOvFollower('insta',this)"></div>
+      <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">NET GROWTH</label><input type="number" placeholder="e.g. +120" oninput="updateIG('ig-growth',this,false);syncOvDelta('insta',this)"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">REACH</label><input type="number" placeholder="e.g. 28000" oninput="updateIG('ig-reach',this,true)"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">WATCH TIME (AVG SEC)</label><input type="number" placeholder="e.g. 18" oninput="updateIG('ig-watchtime',this,false)"></div>
     </div>
@@ -1383,8 +1383,8 @@
   <div class="chart-card" data-rb="fb-dataentry">
     <div class="chart-title">✏️ Manual Data Entry — Facebook</div>
     <div class="entry-grid-4">
-      <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">PAGE FOLLOWERS</label><input type="number" placeholder="e.g. 2200" oninput="updateSimple('fb-followers',this,true)"></div>
-      <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">NEW FOLLOWERS</label><input type="number" placeholder="e.g. +40" oninput="updateSimple('fb-growth',this,false)"></div>
+      <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">PAGE FOLLOWERS</label><input type="number" placeholder="e.g. 2200" oninput="updateSimple('fb-followers',this,true);syncOvFollower('fb',this)"></div>
+      <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">NEW FOLLOWERS</label><input type="number" placeholder="e.g. +40" oninput="updateSimple('fb-growth',this,false);syncOvDelta('fb',this)"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">TOTAL ORGANIC REACH</label><input type="number" placeholder="e.g. 8500" oninput="updateSimple('fb-reach',this,true)"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">PAGE VIEWS</label><input type="number" placeholder="e.g. 620" oninput="updateSimple('fb-views',this,true)"></div>
     </div>
@@ -1473,8 +1473,8 @@
   <div class="chart-card" data-rb="tt-dataentry">
     <div class="chart-title">✏️ Manual Data Entry — TikTok</div>
     <div class="entry-grid-4">
-      <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">FOLLOWERS</label><input type="number" placeholder="e.g. 1500" oninput="updateSimple('tt-followers',this,true)"></div>
-      <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">NET GROWTH</label><input type="number" placeholder="e.g. +200" oninput="updateSimple('tt-growth',this,false)"></div>
+      <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">FOLLOWERS</label><input type="number" placeholder="e.g. 1500" oninput="updateSimple('tt-followers',this,true);syncOvFollower('tt',this)"></div>
+      <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">NET GROWTH</label><input type="number" placeholder="e.g. +200" oninput="updateSimple('tt-growth',this,false);syncOvDelta('tt',this)"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">TOTAL VIEWS</label><input type="number" placeholder="e.g. 32000" oninput="updateTikTokCalc(this,'tt-views')"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">VIDEO POSTS</label><input type="number" placeholder="e.g. 8" id="tt-posts-input" oninput="updateSimple('tt-posts',this,false);calcTTAvg()"></div>
     </div>
@@ -1563,8 +1563,8 @@
   <div class="chart-card" data-rb="yt-dataentry">
     <div class="chart-title">✏️ Manual Data Entry — YouTube Shorts</div>
     <div class="entry-grid-4">
-      <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">SUBSCRIBERS</label><input type="number" placeholder="e.g. 800" oninput="updateSimple('yt-subscribers',this,true)"></div>
-      <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">NET GROWTH</label><input type="number" placeholder="e.g. +65" oninput="updateSimple('yt-growth',this,false)"></div>
+      <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">SUBSCRIBERS</label><input type="number" placeholder="e.g. 800" oninput="updateSimple('yt-subscribers',this,true);syncOvFollower('yt',this)"></div>
+      <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">NET GROWTH</label><input type="number" placeholder="e.g. +65" oninput="updateSimple('yt-growth',this,false);syncOvDelta('yt',this)"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">SHORTS VIEWS</label><input type="number" placeholder="e.g. 14000" oninput="updateSimple('yt-views',this,true)"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">SHORTS PUBLISHED</label><input type="number" placeholder="e.g. 6" oninput="updateSimple('yt-posts',this,false)"></div>
     </div>
@@ -2508,21 +2508,56 @@ function updateReachBar(platform, value) {
 
 // Overview updates
 function updateOverview(platform, input, type) {
-  const val = parseFloat(input.value) || 0;
+  const raw = parseFloat(input.value);
+  const val = isNaN(raw) ? 0 : raw;
   if (type === 'followers') {
-    const map = { insta: 'ov-insta-followers', fb: 'ov-fb-followers', tt: 'ov-tt-followers', yt: 'ov-yt-subscribers' };
-    setVal(map[platform], fmtNum(val));
-    if (platform === 'insta') { setVal('ig-followers', fmtNum(val)); }
-    if (platform === 'fb') { setVal('fb-followers', fmtNum(val)); }
-    if (platform === 'tt') { setVal('tt-followers', fmtNum(val)); }
-    if (platform === 'yt') { setVal('yt-subscribers', fmtNum(val)); }
+    const ovMap = { insta: 'ov-insta-followers', fb: 'ov-fb-followers', tt: 'ov-tt-followers', yt: 'ov-yt-subscribers' };
+    const platMap = { insta: 'ig-followers', fb: 'fb-followers', tt: 'tt-followers', yt: 'yt-subscribers' };
+    const ovId = ovMap[platform];
+    const platId = platMap[platform];
+    const display = val > 0 ? fmtNum(val) : '—';
+    setVal(ovId, display);
+    if (val > 0) setVal(platId, display);
+    // keep overview input value synced to the corresponding platform input if found
+    const inOvMap = { insta: 'ov-in-insta-followers', fb: 'ov-in-fb-followers', tt: 'ov-in-tt-followers', yt: 'ov-in-yt-followers' };
+    const ovInput = document.getElementById(inOvMap[platform]);
+    if (ovInput && ovInput !== input) ovInput.value = input.value;
   } else {
-    const map = { insta: 'ov-insta-delta', fb: 'ov-fb-delta', tt: 'ov-tt-delta', yt: 'ov-yt-delta' };
+    const ovDeltaMap = { insta: 'ov-insta-delta', fb: 'ov-fb-delta', tt: 'ov-tt-delta', yt: 'ov-yt-delta' };
+    const platGrowthMap = { insta: 'ig-growth', fb: 'fb-growth', tt: 'tt-growth', yt: 'yt-growth' };
     const sign = val >= 0 ? '+' : '';
-    const color = val >= 0 ? 'var(--success)' : 'var(--danger)';
-    const el = document.getElementById(map[platform]);
-    if (el) { el.textContent = sign + fmtNum(Math.abs(val)) + ' vs. prev. month'; el.style.color = color; }
+    const color = val > 0 ? 'var(--success)' : val < 0 ? 'var(--danger)' : 'var(--gray-400)';
+    const el = document.getElementById(ovDeltaMap[platform]);
+    if (el) { el.textContent = val !== 0 ? sign + fmtNum(Math.abs(val)) + ' vs. prev. month' : 'vs. prev. month'; el.style.color = color; }
+    if (val !== 0) setVal(platGrowthMap[platform], sign + fmtNum(Math.abs(val)));
+    const inOvDeltaMap = { insta: 'ov-in-insta-delta', fb: 'ov-in-fb-delta', tt: 'ov-in-tt-delta', yt: 'ov-in-yt-delta' };
+    const ovInput = document.getElementById(inOvDeltaMap[platform]);
+    if (ovInput && ovInput !== input) ovInput.value = input.value;
   }
+}
+
+// Sync platform-tab follower/growth inputs back to overview display
+function syncOvFollower(platform, input) {
+  const val = parseFloat(input.value);
+  if (isNaN(val) || val <= 0) return;
+  const ovMap = { insta: 'ov-insta-followers', fb: 'ov-fb-followers', tt: 'ov-tt-followers', yt: 'ov-yt-subscribers' };
+  const inOvMap = { insta: 'ov-in-insta-followers', fb: 'ov-in-fb-followers', tt: 'ov-in-tt-followers', yt: 'ov-in-yt-followers' };
+  setVal(ovMap[platform], fmtNum(val));
+  const ovInput = document.getElementById(inOvMap[platform]);
+  if (ovInput) ovInput.value = input.value;
+}
+
+function syncOvDelta(platform, input) {
+  const val = parseFloat(input.value);
+  if (isNaN(val)) return;
+  const ovDeltaMap = { insta: 'ov-insta-delta', fb: 'ov-fb-delta', tt: 'ov-tt-delta', yt: 'ov-yt-delta' };
+  const inOvDeltaMap = { insta: 'ov-in-insta-delta', fb: 'ov-in-fb-delta', tt: 'ov-in-tt-delta', yt: 'ov-in-yt-delta' };
+  const sign = val >= 0 ? '+' : '';
+  const color = val > 0 ? 'var(--success)' : val < 0 ? 'var(--danger)' : 'var(--gray-400)';
+  const el = document.getElementById(ovDeltaMap[platform]);
+  if (el) { el.textContent = val !== 0 ? sign + fmtNum(Math.abs(val)) + ' vs. prev. month' : 'vs. prev. month'; el.style.color = color; }
+  const ovInput = document.getElementById(inOvDeltaMap[platform]);
+  if (ovInput) ovInput.value = input.value;
 }
 
 function updateIG(fieldId, input, fmt) {
@@ -2530,10 +2565,22 @@ function updateIG(fieldId, input, fmt) {
   setVal(fieldId, fmt ? fmtNum(val) : (val >= 0 ? '+' : '') + val);
 }
 
+// Parse a KPI display value like "4.8K", "1.2M", "32,000", "74%" → number
+function parseKpiNum(text) {
+  const s = (text || '').trim();
+  if (!s || s === '—') return 0;
+  const up = s.toUpperCase();
+  const clean = parseFloat(s.replace(/[,\s%a-z]/gi, ''));
+  if (isNaN(clean)) return 0;
+  if (up.includes('M')) return clean * 1000000;
+  if (up.includes('K')) return clean * 1000;
+  return clean;
+}
+
 function calcEngRate() {
   const eng = parseFloat(document.getElementById('ig-eng-input').value) || 0;
   const folEl = document.getElementById('ig-followers');
-  const fol = parseFloat((folEl?.textContent || '').replace(/[,K]/gi, s => s.toLowerCase() === 'k' ? '000' : '')) || 1;
+  const fol = parseKpiNum(folEl?.textContent) || 1;
   if (eng && fol) setVal('ig-er', ((eng / fol) * 100).toFixed(2) + '%');
 }
 
@@ -2628,6 +2675,17 @@ function saveSession() {
   };
   document.querySelectorAll('.kpi-value[id]').forEach(el => { data.kpis[el.id] = el.textContent; });
   document.querySelectorAll('.kpi-delta[id]').forEach(el => { data.kpis[el.id] = el.textContent; });
+  // Overview-specific display elements
+  document.querySelectorAll('.ov-value[id]').forEach(el => { data.kpis[el.id] = el.textContent; });
+  document.querySelectorAll('.ov-delta[id]').forEach(el => { data.kpis[el.id] = { text: el.textContent, color: el.style.color }; });
+  // Overview entry input raw values (so we can restore them)
+  data.ovInputs = {};
+  ['insta','fb','tt','yt'].forEach(p => {
+    const fEl = document.getElementById('ov-in-' + p + '-followers');
+    const dEl = document.getElementById('ov-in-' + p + '-delta');
+    if (fEl) data.ovInputs[p + '-followers'] = fEl.value;
+    if (dEl) data.ovInputs[p + '-delta'] = dEl.value;
+  });
   document.querySelectorAll('textarea').forEach(el => data.textareas.push(el.value));
   // Reach bars
   data.reachBars = {};
@@ -2671,7 +2729,20 @@ function restoreSession() {
   try {
     const data = JSON.parse(localStorage.getItem('abr_session') || '{}');
     if (data.month) { document.getElementById('month-select').value = data.month; updatePeriod(); }
-    Object.entries(data.kpis || {}).forEach(([id, val]) => setVal(id, val));
+    Object.entries(data.kpis || {}).forEach(([id, val]) => {
+      if (typeof val === 'object' && val !== null) {
+        // ov-delta objects with text + color
+        const el = document.getElementById(id);
+        if (el) { el.textContent = val.text || ''; if (val.color) el.style.color = val.color; }
+      } else {
+        setVal(id, val);
+      }
+    });
+    // Restore overview entry inputs (keys: 'insta-followers', 'fb-delta', etc.)
+    Object.entries(data.ovInputs || {}).forEach(([key, val]) => {
+      const el = document.getElementById('ov-in-' + key);
+      if (el && val !== undefined) el.value = val;
+    });
     const tas = document.querySelectorAll('textarea');
     (data.textareas || []).forEach((v, i) => { if (tas[i]) tas[i].value = v; });
     Object.entries(data.reachBars || {}).forEach(([p, rb]) => {
@@ -2772,12 +2843,7 @@ function updateGoal(key, input) {
   if (!bar || !pct) return;
   if (!target || target <= 0) { bar.style.width = '0%'; pct.textContent = '—'; return; }
   const kpiEl = document.getElementById(goalKpiMap[key]);
-  let current = 0;
-  if (kpiEl) {
-    const raw = kpiEl.textContent.replace(/[,K%hrs\s]/gi, '').trim();
-    const num = parseFloat(raw);
-    if (!isNaN(num)) current = raw.includes('K') ? num * 1000 : num;
-  }
+  const current = kpiEl ? parseKpiNum(kpiEl.textContent) : 0;
   const ratio = Math.min(current / target, 1);
   const pctVal = Math.round(ratio * 100);
   bar.style.width = pctVal + '%';
