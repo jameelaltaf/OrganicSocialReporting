@@ -703,6 +703,28 @@
   /* ── MoM COMPARISON ── */
   .mom-section { background:var(--white); border:1px solid var(--gray-200); border-radius:var(--radius-lg); padding:24px; margin-bottom:24px; }
   .mom-section h3 { font-family:var(--font-display); font-size:18px; color:var(--charcoal); margin-bottom:16px; }
+
+  /* MoM Manual Entry */
+  .mom-manual { border:1px solid var(--gray-200); border-radius:var(--radius-lg); overflow:hidden; margin-bottom:20px; }
+  .mom-manual-hdr { display:flex; justify-content:space-between; align-items:center; padding:13px 18px; background:var(--off-white); cursor:pointer; user-select:none; }
+  .mom-manual-hdr:hover { background:var(--gray-100); }
+  .mom-manual-hdr-left { display:flex; align-items:center; gap:10px; font-size:13px; font-weight:600; color:var(--charcoal); }
+  .mom-manual-hdr-badge { font-size:10px; font-weight:700; background:var(--rose-subtle); color:var(--rose); padding:2px 8px; border-radius:10px; }
+  .mom-manual-body { padding:20px; border-top:1px solid var(--gray-200); display:none; }
+  .mom-manual-body.open { display:block; }
+  .mom-manual-tip { font-size:12px; color:var(--gray-400); margin-bottom:16px; padding:8px 12px; background:var(--rose-subtle); border-radius:6px; border-left:3px solid var(--rose-light); }
+  .mom-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
+  .mom-col-hdr { font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; padding:7px 10px; border-radius:6px; margin-bottom:10px; display:flex; align-items:center; gap:6px; color:white; }
+  .mom-field { margin-bottom:8px; }
+  .mom-field label { font-size:10px; font-weight:600; color:var(--gray-500); text-transform:uppercase; letter-spacing:.04em; display:block; margin-bottom:3px; }
+  .mom-input { width:100%; padding:5px 8px; border:1px solid var(--gray-200); border-radius:5px; font-size:12px; font-family:var(--font-body); outline:none; transition:border-color .15s; }
+  .mom-input:focus { border-color:var(--rose-light); }
+  .mom-col-clear { font-size:10px; color:var(--gray-400); cursor:pointer; text-decoration:underline; margin-top:6px; display:inline-block; }
+  .mom-col-clear:hover { color:var(--rose); }
+  /* group rows in table */
+  .mom-group-row td { background:var(--charcoal) !important; color:white !important; font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; padding:7px 12px !important; }
+  @media(max-width:860px){ .mom-grid { grid-template-columns:repeat(2,1fr); } }
+  @media(max-width:520px){ .mom-grid { grid-template-columns:1fr; } }
   .prev-data-section { background:var(--gray-100); border-radius:var(--radius); padding:14px; margin-top:12px; display:none; }
   .prev-data-section.open { display:block; }
   .prev-data-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:10px; }
@@ -1660,24 +1682,94 @@
   <!-- MoM COMPARISON -->
   <div class="chart-card" style="margin-bottom:28px" data-rb="ins-mom">
     <div class="chart-title">Month-over-Month Comparison</div>
-    <div class="chart-subtitle">Compare current month performance against previous month</div>
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap">
-      <label style="font-size:12px;font-weight:600;color:var(--gray-600)">Previous Month:</label>
+    <div class="chart-subtitle">Compare this month against last month across all 4 platforms</div>
+
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap" class="no-print">
+      <label style="font-size:12px;font-weight:600;color:var(--gray-600)">Comparing against:</label>
       <select id="prev-month-select" style="border:1px solid var(--gray-200);border-radius:6px;padding:6px 10px;font-size:13px">
-        <option value="">— Select —</option>
+        <option value="">— Select previous month —</option>
         <option>January 2026</option><option>February 2026</option><option>March 2026</option>
         <option>April 2026</option><option>May 2026</option><option>June 2026</option>
         <option>July 2026</option><option>August 2026</option><option>September 2026</option>
         <option>October 2026</option><option>November 2026</option><option>December 2026</option>
       </select>
-      <button class="btn btn-primary" onclick="savePrevMonth()">📥 Save Current as Previous</button>
-      <span style="font-size:11px;color:var(--gray-400)">Click to snapshot today's data as the previous month baseline</span>
+      <button class="btn btn-primary" onclick="savePrevMonth()">📥 Snapshot current as previous</button>
+      <span style="font-size:11px;color:var(--gray-400)">Fills the manual form below from today's KPIs</span>
     </div>
+
+    <!-- Manual Entry Accordion -->
+    <div class="mom-manual no-print">
+      <div class="mom-manual-hdr" onclick="toggleMomManual()">
+        <div class="mom-manual-hdr-left">
+          <span>✏️ Enter Previous Month Data Manually</span>
+          <span class="mom-manual-hdr-badge" id="mom-filled-badge" style="display:none">● data entered</span>
+        </div>
+        <span id="mom-manual-arrow" style="color:var(--gray-400);font-size:13px">▼</span>
+      </div>
+      <div class="mom-manual-body" id="mom-manual-body">
+        <div class="mom-manual-tip">Type directly into the fields below — the comparison table updates instantly. Leave a field blank to exclude it from comparison.</div>
+        <div class="mom-grid">
+
+          <!-- Instagram -->
+          <div>
+            <div class="mom-col-hdr" style="background:linear-gradient(135deg,#833ab4,#fd1d1d)">📸 Instagram</div>
+            <div class="mom-field"><label>Followers</label><input id="pm-ig-followers" class="mom-input" type="number" placeholder="e.g. 4500" oninput="updatePrevManual('ig-followers',this.value)"></div>
+            <div class="mom-field"><label>Net Growth</label><input id="pm-ig-growth" class="mom-input" type="number" placeholder="e.g. 350" oninput="updatePrevManual('ig-growth',this.value,'+')"></div>
+            <div class="mom-field"><label>Total Reach</label><input id="pm-ig-reach" class="mom-input" type="number" placeholder="e.g. 32000" oninput="updatePrevManual('ig-reach',this.value)"></div>
+            <div class="mom-field"><label>Reels Views</label><input id="pm-ig-reels" class="mom-input" type="number" placeholder="e.g. 18000" oninput="updatePrevManual('ig-reels',this.value)"></div>
+            <div class="mom-field"><label>Saves</label><input id="pm-ig-saves" class="mom-input" type="number" placeholder="e.g. 520" oninput="updatePrevManual('ig-saves',this.value)"></div>
+            <div class="mom-field"><label>Eng. Rate %</label><input id="pm-ig-er" class="mom-input" type="number" step="0.01" placeholder="e.g. 3.2" oninput="updatePrevManual('ig-er',this.value,'%')"></div>
+            <span class="mom-col-clear" onclick="clearPlatPrevManual('ig')">✕ Clear Instagram</span>
+          </div>
+
+          <!-- Facebook -->
+          <div>
+            <div class="mom-col-hdr" style="background:#1877F2">👥 Facebook</div>
+            <div class="mom-field"><label>Page Followers</label><input id="pm-fb-followers" class="mom-input" type="number" placeholder="e.g. 2100" oninput="updatePrevManual('fb-followers',this.value)"></div>
+            <div class="mom-field"><label>Net Growth</label><input id="pm-fb-growth" class="mom-input" type="number" placeholder="e.g. 80" oninput="updatePrevManual('fb-growth',this.value,'+')"></div>
+            <div class="mom-field"><label>Organic Reach</label><input id="pm-fb-reach" class="mom-input" type="number" placeholder="e.g. 8000" oninput="updatePrevManual('fb-reach',this.value)"></div>
+            <div class="mom-field"><label>Engagements</label><input id="pm-fb-eng" class="mom-input" type="number" placeholder="e.g. 420" oninput="updatePrevManual('fb-eng',this.value)"></div>
+            <div class="mom-field"><label>Link Clicks</label><input id="pm-fb-link-clicks" class="mom-input" type="number" placeholder="e.g. 65" oninput="updatePrevManual('fb-link-clicks',this.value)"></div>
+            <div class="mom-field"><label>Likes</label><input id="pm-fb-likes" class="mom-input" type="number" placeholder="e.g. 290" oninput="updatePrevManual('fb-likes',this.value)"></div>
+            <span class="mom-col-clear" onclick="clearPlatPrevManual('fb')">✕ Clear Facebook</span>
+          </div>
+
+          <!-- TikTok -->
+          <div>
+            <div class="mom-col-hdr" style="background:#010101">🎵 TikTok</div>
+            <div class="mom-field"><label>Followers</label><input id="pm-tt-followers" class="mom-input" type="number" placeholder="e.g. 1200" oninput="updatePrevManual('tt-followers',this.value)"></div>
+            <div class="mom-field"><label>Net Growth</label><input id="pm-tt-growth" class="mom-input" type="number" placeholder="e.g. 150" oninput="updatePrevManual('tt-growth',this.value,'+')"></div>
+            <div class="mom-field"><label>Total Views</label><input id="pm-tt-views" class="mom-input" type="number" placeholder="e.g. 28000" oninput="updatePrevManual('tt-views',this.value)"></div>
+            <div class="mom-field"><label>Avg Views/Video</label><input id="pm-tt-avg-views" class="mom-input" type="number" placeholder="e.g. 3500" oninput="updatePrevManual('tt-avg-views',this.value)"></div>
+            <div class="mom-field"><label>Shares</label><input id="pm-tt-shares" class="mom-input" type="number" placeholder="e.g. 160" oninput="updatePrevManual('tt-shares',this.value)"></div>
+            <div class="mom-field"><label>Profile Views</label><input id="pm-tt-profile" class="mom-input" type="number" placeholder="e.g. 2400" oninput="updatePrevManual('tt-profile',this.value)"></div>
+            <span class="mom-col-clear" onclick="clearPlatPrevManual('tt')">✕ Clear TikTok</span>
+          </div>
+
+          <!-- YouTube -->
+          <div>
+            <div class="mom-col-hdr" style="background:#FF0000">▶️ YouTube</div>
+            <div class="mom-field"><label>Subscribers</label><input id="pm-yt-subscribers" class="mom-input" type="number" placeholder="e.g. 720" oninput="updatePrevManual('yt-subscribers',this.value)"></div>
+            <div class="mom-field"><label>Net Growth</label><input id="pm-yt-growth" class="mom-input" type="number" placeholder="e.g. 55" oninput="updatePrevManual('yt-growth',this.value,'+')"></div>
+            <div class="mom-field"><label>Shorts Views</label><input id="pm-yt-views" class="mom-input" type="number" placeholder="e.g. 11000" oninput="updatePrevManual('yt-views',this.value)"></div>
+            <div class="mom-field"><label>Watch Time (hrs)</label><input id="pm-yt-watchtime" class="mom-input" type="number" placeholder="e.g. 38" oninput="updatePrevManual('yt-watchtime',this.value)"></div>
+            <div class="mom-field"><label>Likes</label><input id="pm-yt-likes" class="mom-input" type="number" placeholder="e.g. 340" oninput="updatePrevManual('yt-likes',this.value)"></div>
+            <div class="mom-field"><label>Impressions CTR %</label><input id="pm-yt-ctr" class="mom-input" type="number" step="0.1" placeholder="e.g. 3.8" oninput="updatePrevManual('yt-ctr',this.value,'%')"></div>
+            <span class="mom-col-clear" onclick="clearPlatPrevManual('yt')">✕ Clear YouTube</span>
+          </div>
+
+        </div><!-- /mom-grid -->
+        <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--gray-100);display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn" style="background:var(--gray-100);color:var(--gray-600);font-size:11px;padding:5px 12px" onclick="clearAllPrevManual()">✕ Clear all platforms</button>
+        </div>
+      </div>
+    </div><!-- /mom-manual -->
+
     <div class="table-wrap">
       <table class="data-table" id="mom-table">
-        <thead><tr><th>Platform / Metric</th><th>Previous Month</th><th>Current Month</th><th>Change</th></tr></thead>
+        <thead><tr><th>Platform / Metric</th><th id="mom-th-prev">Previous Month</th><th>Current Month</th><th>Change</th></tr></thead>
         <tbody id="mom-tbody">
-          <tr><td colspan="4" style="text-align:center;color:var(--gray-400);padding:24px;font-style:italic">Save current data as previous month baseline to enable comparison</td></tr>
+          <tr><td colspan="4" style="text-align:center;color:var(--gray-400);padding:24px;font-style:italic">Enter previous month data in the form above to see the comparison</td></tr>
         </tbody>
       </table>
     </div>
@@ -2768,6 +2860,12 @@ function saveSession() {
   data.hashtags = hashtags;
   data.competitors = competitors;
   data.heatmapData = heatmapData;
+  // MoM manual previous-month values
+  data.prevMonthManual = { ...prevMonthManual };
+  data.prevMonthInputs = {};
+  document.querySelectorAll('.mom-input[id]').forEach(el => {
+    if (el.value !== '') data.prevMonthInputs[el.id] = el.value;
+  });
   try { localStorage.setItem('abr_session', JSON.stringify(data)); } catch(e) {}
   hasUnsavedChanges = false;
   document.getElementById('save-banner').classList.remove('visible');
@@ -2829,6 +2927,13 @@ function restoreSession() {
     if (data.hashtags) { hashtags = data.hashtags; renderHashtags(); }
     if (data.competitors) { competitors = data.competitors; renderCompetitors(); }
     if (data.heatmapData) { Object.assign(heatmapData, data.heatmapData); renderHeatmap(); }
+    // MoM manual previous-month values
+    if (data.prevMonthManual) { prevMonthManual = { ...data.prevMonthManual }; }
+    Object.entries(data.prevMonthInputs || {}).forEach(([id, val]) => {
+      const el = document.getElementById(id);
+      if (el) el.value = val;
+    });
+    if (data.prevMonthManual || data.prevMonthInputs) { updateMoMBadge(); updateMoMTable(); }
   } catch(e) {}
   hideLoader(800);
 }
@@ -3324,44 +3429,165 @@ function updateCal(p) {
 
 // ── MONTH-OVER-MONTH COMPARISON ──
 const momMetrics = [
-  { label: 'IG Followers',    id: 'ig-followers' },
-  { label: 'IG Total Reach',  id: 'ig-reach' },
-  { label: 'IG Reels Views',  id: 'ig-reels' },
-  { label: 'FB Followers',    id: 'fb-followers' },
-  { label: 'FB Organic Reach',id: 'fb-reach' },
-  { label: 'TT Followers',    id: 'tt-followers' },
-  { label: 'TT Total Views',  id: 'tt-views' },
-  { label: 'YT Subscribers',  id: 'yt-subscribers' },
-  { label: 'YT Views',        id: 'yt-views' },
-  { label: 'YT Watch Time',   id: 'yt-watchtime' },
+  // Instagram
+  { label:'Followers',        id:'ig-followers',   group:'Instagram', groupColor:'linear-gradient(135deg,#833ab4,#fd1d1d)', icon:'📸' },
+  { label:'Net Growth',       id:'ig-growth',      group:'Instagram', groupColor:'linear-gradient(135deg,#833ab4,#fd1d1d)', icon:'📸' },
+  { label:'Total Reach',      id:'ig-reach',       group:'Instagram', groupColor:'linear-gradient(135deg,#833ab4,#fd1d1d)', icon:'📸' },
+  { label:'Reels Views',      id:'ig-reels',       group:'Instagram', groupColor:'linear-gradient(135deg,#833ab4,#fd1d1d)', icon:'📸' },
+  { label:'Saves',            id:'ig-saves',       group:'Instagram', groupColor:'linear-gradient(135deg,#833ab4,#fd1d1d)', icon:'📸' },
+  { label:'Engagement Rate',  id:'ig-er',          group:'Instagram', groupColor:'linear-gradient(135deg,#833ab4,#fd1d1d)', icon:'📸' },
+  // Facebook
+  { label:'Page Followers',   id:'fb-followers',   group:'Facebook',  groupColor:'#1877F2', icon:'👥' },
+  { label:'Net Growth',       id:'fb-growth',      group:'Facebook',  groupColor:'#1877F2', icon:'👥' },
+  { label:'Organic Reach',    id:'fb-reach',       group:'Facebook',  groupColor:'#1877F2', icon:'👥' },
+  { label:'Engagements',      id:'fb-eng',         group:'Facebook',  groupColor:'#1877F2', icon:'👥' },
+  { label:'Link Clicks',      id:'fb-link-clicks', group:'Facebook',  groupColor:'#1877F2', icon:'👥' },
+  { label:'Likes',            id:'fb-likes',       group:'Facebook',  groupColor:'#1877F2', icon:'👥' },
+  // TikTok
+  { label:'Followers',        id:'tt-followers',   group:'TikTok',    groupColor:'#010101', icon:'🎵' },
+  { label:'Net Growth',       id:'tt-growth',      group:'TikTok',    groupColor:'#010101', icon:'🎵' },
+  { label:'Total Views',      id:'tt-views',       group:'TikTok',    groupColor:'#010101', icon:'🎵' },
+  { label:'Avg Views/Video',  id:'tt-avg-views',   group:'TikTok',    groupColor:'#010101', icon:'🎵' },
+  { label:'Shares',           id:'tt-shares',      group:'TikTok',    groupColor:'#010101', icon:'🎵' },
+  { label:'Profile Views',    id:'tt-profile',     group:'TikTok',    groupColor:'#010101', icon:'🎵' },
+  // YouTube
+  { label:'Subscribers',      id:'yt-subscribers', group:'YouTube',   groupColor:'#FF0000', icon:'▶️' },
+  { label:'Net Growth',       id:'yt-growth',      group:'YouTube',   groupColor:'#FF0000', icon:'▶️' },
+  { label:'Shorts Views',     id:'yt-views',       group:'YouTube',   groupColor:'#FF0000', icon:'▶️' },
+  { label:'Watch Time (hrs)', id:'yt-watchtime',   group:'YouTube',   groupColor:'#FF0000', icon:'▶️' },
+  { label:'Likes',            id:'yt-likes',       group:'YouTube',   groupColor:'#FF0000', icon:'▶️' },
+  { label:'Impressions CTR',  id:'yt-ctr',         group:'YouTube',   groupColor:'#FF0000', icon:'▶️' },
 ];
 
+// Manual previous month data store
+let prevMonthManual = {};
+
+// Map from metric id to its manual input id
+const momPlatPrefixes = {
+  'ig': ['ig-followers','ig-growth','ig-reach','ig-reels','ig-saves','ig-er'],
+  'fb': ['fb-followers','fb-growth','fb-reach','fb-eng','fb-link-clicks','fb-likes'],
+  'tt': ['tt-followers','tt-growth','tt-views','tt-avg-views','tt-shares','tt-profile'],
+  'yt': ['yt-subscribers','yt-growth','yt-views','yt-watchtime','yt-likes','yt-ctr']
+};
+
+function toggleMomManual() {
+  const body = document.getElementById('mom-manual-body');
+  const arrow = document.getElementById('mom-manual-arrow');
+  if (!body) return;
+  const isOpen = body.classList.toggle('open');
+  arrow.textContent = isOpen ? '▲' : '▼';
+}
+
+function updatePrevManual(id, rawVal, suffix) {
+  const n = parseFloat(rawVal);
+  if (rawVal === '' || isNaN(n)) {
+    delete prevMonthManual[id];
+  } else {
+    prevMonthManual[id] = suffix
+      ? (suffix === '+' ? (n >= 0 ? '+' : '') + fmtNum(Math.abs(n)) : fmtNum(Math.abs(n)) + suffix)
+      : fmtNum(n);
+  }
+  updateMoMBadge();
+  updateMoMTable();
+  markUnsaved();
+}
+
+function updateMoMBadge() {
+  const badge = document.getElementById('mom-filled-badge');
+  if (!badge) return;
+  const count = Object.keys(prevMonthManual).length;
+  badge.style.display = count > 0 ? '' : 'none';
+  badge.textContent = '● ' + count + ' metric' + (count === 1 ? '' : 's') + ' entered';
+}
+
+function clearPlatPrevManual(prefix) {
+  const ids = momPlatPrefixes[prefix] || [];
+  ids.forEach(id => {
+    delete prevMonthManual[id];
+    const el = document.getElementById('pm-' + id);
+    if (el) el.value = '';
+  });
+  updateMoMBadge();
+  updateMoMTable();
+  markUnsaved();
+}
+
+function clearAllPrevManual() {
+  prevMonthManual = {};
+  document.querySelectorAll('.mom-input').forEach(el => { el.value = ''; });
+  updateMoMBadge();
+  updateMoMTable();
+  markUnsaved();
+}
+
 function savePrevMonth() {
-  const snapshot = {};
+  // Snapshot current KPI display values into manual fields
+  let filled = 0;
+  momMetrics.forEach(m => {
+    const kpiEl = document.getElementById(m.id);
+    if (!kpiEl) return;
+    const text = kpiEl.textContent.trim();
+    if (!text || text === '—') return;
+    const n = parseKpiNum(text);
+    if (!n && n !== 0) return;
+    const inputEl = document.getElementById('pm-' + m.id);
+    if (inputEl) {
+      inputEl.value = n;
+      // trigger the updatePrevManual logic
+      const suffix = text.includes('%') ? '%' : text.startsWith('+') ? '+' : '';
+      updatePrevManual(m.id, String(n), suffix);
+      filled++;
+    }
+  });
+  // also save snapshot to localStorage as backup
+  const snap = {};
   momMetrics.forEach(m => {
     const el = document.getElementById(m.id);
-    snapshot[m.id] = el ? el.textContent : '—';
+    snap[m.id] = el ? el.textContent : '—';
   });
-  try { localStorage.setItem('abr_prev_month', JSON.stringify(snapshot)); } catch(e) {}
+  try { localStorage.setItem('abr_prev_month', JSON.stringify(snap)); } catch(e) {}
+  // Open the accordion so user can see what was captured
+  const body = document.getElementById('mom-manual-body');
+  if (body && !body.classList.contains('open')) toggleMomManual();
   updateMoMTable();
-  alert('Current data saved as previous month baseline.');
+  if (filled === 0) alert('No KPI data found. Enter data in the platform tabs first, then snapshot.');
 }
 
 function updateMoMTable() {
   const tbody = document.getElementById('mom-tbody');
   if (!tbody) return;
-  let prev = {};
-  try { prev = JSON.parse(localStorage.getItem('abr_prev_month') || '{}'); } catch(e) {}
-  if (!Object.keys(prev).length) {
-    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--gray-400);padding:20px;font-style:italic">No previous month data. Click "Save Current as Previous" to set a baseline.</td></tr>';
+
+  // Use manual data first, fall back to localStorage snapshot
+  let snapPrev = {};
+  try { snapPrev = JSON.parse(localStorage.getItem('abr_prev_month') || '{}'); } catch(e) {}
+
+  const hasPrev = Object.keys(prevMonthManual).length > 0 || Object.keys(snapPrev).length > 0;
+  if (!hasPrev) {
+    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--gray-400);padding:24px;font-style:italic">Enter previous month data in the form above to see the comparison</td></tr>';
     return;
   }
+
+  // Update the "Previous Month" column header with selected month label
+  const sel = document.getElementById('prev-month-select');
+  const thPrev = document.getElementById('mom-th-prev');
+  if (thPrev && sel?.value) thPrev.textContent = sel.value;
+
+  let lastGroup = null;
   tbody.innerHTML = momMetrics.map(m => {
-    const el = document.getElementById(m.id);
-    const curr = el ? el.textContent : '—';
-    const p = prev[m.id] || '—';
+    const prevVal = prevMonthManual[m.id] || snapPrev[m.id] || '—';
+    const kpiEl = document.getElementById(m.id);
+    const curr = kpiEl ? kpiEl.textContent.trim() || '—' : '—';
+
+    if (prevVal === '—' && curr === '—') return ''; // skip empty rows
+
+    let groupRow = '';
+    if (m.group !== lastGroup) {
+      lastGroup = m.group;
+      groupRow = `<tr class="mom-group-row"><td colspan="4">${m.icon} ${m.group}</td></tr>`;
+    }
+
     const cn = parseMetricNum(curr);
-    const pn = parseMetricNum(p);
+    const pn = parseMetricNum(prevVal);
     let pill = '<span style="color:var(--gray-400)">—</span>';
     if (cn !== null && pn !== null && pn !== 0) {
       const diff = ((cn - pn) / Math.abs(pn)) * 100;
@@ -3370,13 +3596,17 @@ function updateMoMTable() {
       const tc = diff > 0 ? 'var(--success)' : diff < 0 ? 'var(--danger)' : 'var(--gray-600)';
       pill = `<span style="background:${bg};color:${tc};padding:2px 8px;border-radius:10px;font-size:12px;font-weight:700">${sign}${diff.toFixed(1)}%</span>`;
     }
-    return `<tr>
-      <td style="font-weight:600;color:var(--gray-800)">${m.label}</td>
-      <td style="text-align:right;color:var(--gray-600)">${p}</td>
-      <td style="text-align:right;font-weight:700">${curr}</td>
+    return groupRow + `<tr>
+      <td style="padding-left:20px;color:var(--gray-700)">${m.label}</td>
+      <td style="text-align:right;color:var(--gray-500)">${prevVal}</td>
+      <td style="text-align:right;font-weight:700;color:var(--charcoal)">${curr}</td>
       <td style="text-align:center">${pill}</td>
     </tr>`;
   }).join('');
+
+  if (!tbody.innerHTML.trim()) {
+    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--gray-400);padding:20px;font-style:italic">Enter previous month values above to see comparisons</td></tr>';
+  }
 }
 
 function parseMetricNum(val) {
