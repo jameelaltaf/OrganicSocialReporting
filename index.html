@@ -1215,7 +1215,7 @@
     <div class="entry-grid-4">
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">FOLLOWERS (END)</label><input type="number" placeholder="e.g. 4800" oninput="updateIG('ig-followers',this,true);syncOvFollower('insta',this)"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">NET GROWTH</label><input type="number" placeholder="e.g. +120" oninput="updateIG('ig-growth',this,false);syncOvDelta('insta',this)"></div>
-      <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">REACH</label><input type="number" placeholder="e.g. 28000" oninput="updateIG('ig-reach',this,true)"></div>
+      <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">REACH</label><input type="number" placeholder="e.g. 28000" oninput="updateIG('ig-reach',this,true);updateReachBar('insta',parseFloat(this.value)||0)"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">WATCH TIME (AVG SEC)</label><input type="number" placeholder="e.g. 18" oninput="updateIG('ig-watchtime',this,false)"></div>
     </div>
     <div class="entry-grid-4">
@@ -1385,7 +1385,7 @@
     <div class="entry-grid-4">
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">PAGE FOLLOWERS</label><input type="number" placeholder="e.g. 2200" oninput="updateSimple('fb-followers',this,true);syncOvFollower('fb',this)"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">NEW FOLLOWERS</label><input type="number" placeholder="e.g. +40" oninput="updateSimple('fb-growth',this,false);syncOvDelta('fb',this)"></div>
-      <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">TOTAL ORGANIC REACH</label><input type="number" placeholder="e.g. 8500" oninput="updateSimple('fb-reach',this,true)"></div>
+      <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">TOTAL ORGANIC REACH</label><input type="number" placeholder="e.g. 8500" oninput="updateSimple('fb-reach',this,true);updateReachBar('fb',parseFloat(this.value)||0)"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">PAGE VIEWS</label><input type="number" placeholder="e.g. 620" oninput="updateSimple('fb-views',this,true)"></div>
     </div>
     <div class="entry-grid-4">
@@ -1565,7 +1565,7 @@
     <div class="entry-grid-4">
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">SUBSCRIBERS</label><input type="number" placeholder="e.g. 800" oninput="updateSimple('yt-subscribers',this,true);syncOvFollower('yt',this)"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">NET GROWTH</label><input type="number" placeholder="e.g. +65" oninput="updateSimple('yt-growth',this,false);syncOvDelta('yt',this)"></div>
-      <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">SHORTS VIEWS</label><input type="number" placeholder="e.g. 14000" oninput="updateSimple('yt-views',this,true)"></div>
+      <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">SHORTS VIEWS</label><input type="number" placeholder="e.g. 14000" oninput="updateSimple('yt-views',this,true);updateReachBar('yt',parseFloat(this.value)||0)"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">SHORTS PUBLISHED</label><input type="number" placeholder="e.g. 6" oninput="updateSimple('yt-posts',this,false)"></div>
     </div>
     <div class="entry-grid-4">
@@ -2497,13 +2497,19 @@ function parseCSV(platform, text) {
 }
 
 // Reach bar update
-const reachMaxes = { insta: 50000, fb: 20000, tt: 100000, yt: 30000 };
+const reachValues = { insta: 0, fb: 0, tt: 0, yt: 0 };
+
 function updateReachBar(platform, value) {
   const bar = document.getElementById('bar-' + platform + '-reach');
   if (!bar) return;
-  const pct = Math.min((value / reachMaxes[platform]) * 100, 100);
-  bar.style.width = pct + '%';
-  bar.textContent = fmtNum(value);
+  reachValues[platform] = value || 0;
+  bar.textContent = value > 0 ? fmtNum(value) : '—';
+  // Scale all bars relative to whichever platform has the highest value
+  const maxVal = Math.max(...Object.values(reachValues), 1);
+  Object.keys(reachValues).forEach(p => {
+    const b = document.getElementById('bar-' + p + '-reach');
+    if (b) b.style.width = ((reachValues[p] / maxVal) * 100).toFixed(1) + '%';
+  });
 }
 
 // Overview updates
@@ -2687,12 +2693,8 @@ function saveSession() {
     if (dEl) data.ovInputs[p + '-delta'] = dEl.value;
   });
   document.querySelectorAll('textarea').forEach(el => data.textareas.push(el.value));
-  // Reach bars
-  data.reachBars = {};
-  ['insta','fb','tt','yt'].forEach(p => {
-    const b = document.getElementById('bar-' + p + '-reach');
-    if (b) data.reachBars[p] = { width: b.style.width, text: b.textContent };
-  });
+  // Reach values (raw numbers for dynamic rescaling on restore)
+  data.reachBars = { ...reachValues };
   // Goal inputs
   data.goals = {};
   document.querySelectorAll('.goal-input[id]').forEach(el => { data.goals[el.id] = el.value; });
@@ -2745,9 +2747,10 @@ function restoreSession() {
     });
     const tas = document.querySelectorAll('textarea');
     (data.textareas || []).forEach((v, i) => { if (tas[i]) tas[i].value = v; });
-    Object.entries(data.reachBars || {}).forEach(([p, rb]) => {
-      const b = document.getElementById('bar-' + p + '-reach');
-      if (b) { b.style.width = rb.width; b.textContent = rb.text; }
+    // Restore reach bars with dynamic scaling
+    Object.entries(data.reachBars || {}).forEach(([p, val]) => {
+      const v = typeof val === 'object' ? 0 : (parseFloat(val) || 0); // handle old format
+      if (v > 0) updateReachBar(p, v);
     });
     // Goal inputs
     Object.entries(data.goals || {}).forEach(([id, val]) => {
