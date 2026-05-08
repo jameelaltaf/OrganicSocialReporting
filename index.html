@@ -932,11 +932,13 @@
     .footer { margin-top: 24px; padding: 16px 40px; border-top: 3px solid var(--rose-light) !important; }
 
     /* ── Goals Progress Tracker in print ── */
-    .goals-section { display: block !important; break-inside: avoid; box-shadow: none !important; border: 1px solid var(--gray-200) !important; margin-bottom: 20px; border-radius: 10px; overflow: hidden; }
+    /* Override client-view + data-entry hidden rules during print */
+    body .goals-section, body.client-view .goals-section { display: block !important; break-inside: avoid; box-shadow: none !important; border: 1px solid var(--gray-200) !important; margin-bottom: 20px; border-radius: 10px; overflow: hidden; }
+    body .goals-section.report-excluded, body.client-view .goals-section.report-excluded { display: none !important; }
     .goals-header { display: flex !important; align-items: center; padding: 12px 20px; background: var(--charcoal) !important; }
     .goals-header h4 { color: white !important; font-size: 13px !important; font-weight: 700 !important; margin: 0; }
     .goals-header span { display: none !important; }
-    .goals-body { display: block !important; padding: 16px 20px; }
+    body .goals-body, body.client-view .goals-body { display: block !important; padding: 16px 20px; }
     .goal-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; break-inside: avoid; }
     .goal-label { font-size: 11px; font-weight: 600; color: var(--gray-600); min-width: 110px; }
     .goal-input { display: none !important; }
@@ -945,11 +947,20 @@
     .goal-pct { font-size: 11px; font-weight: 700; min-width: 36px; text-align: right; }
 
     /* ── Content Calendar in print ── */
-    .content-calendar { display: block !important; break-inside: avoid; background: var(--white) !important; border: 1px solid var(--gray-200) !important; border-radius: 10px; padding: 20px 24px; margin-bottom: 20px; box-shadow: none !important; }
+    body .content-calendar, body.client-view .content-calendar { display: block !important; break-inside: avoid; background: var(--white) !important; border: 1px solid var(--gray-200) !important; border-radius: 10px; padding: 20px 24px; margin-bottom: 20px; box-shadow: none !important; }
+    body .content-calendar.report-excluded, body.client-view .content-calendar.report-excluded { display: none !important; }
     .content-calendar h4 { font-size: 13px !important; font-weight: 700 !important; color: var(--charcoal) !important; margin-bottom: 14px !important; padding-bottom: 10px; border-bottom: 2px solid var(--rose-light) !important; }
     .cal-input { -webkit-appearance: none !important; appearance: none !important; border: none !important; background: transparent !important; font-size: 22px !important; font-weight: 800 !important; color: var(--charcoal) !important; padding: 0 !important; width: 100% !important; text-align: center !important; box-shadow: none !important; outline: none !important; }
     .cal-input::-webkit-inner-spin-button, .cal-input::-webkit-outer-spin-button { display: none !important; }
     #cal-summary-ig, #cal-summary-fb, #cal-summary-tt, #cal-summary-yt { display: block !important; font-size: 12px !important; font-weight: 600 !important; text-align: center !important; padding: 8px !important; background: var(--rose-subtle) !important; border-radius: 6px !important; color: var(--rose) !important; }
+
+    /* ── Heatmap: show all 4 platforms in print, hide interactive dropdown version ── */
+    .heatmap-interactive { display: none !important; }
+    .print-heatmaps { display: block !important; }
+    .print-heat-plat { margin-bottom: 20px; break-inside: avoid; }
+    .print-heat-plat-title { font-size: 12px; font-weight: 700; color: var(--charcoal); padding: 7px 14px; background: var(--off-white); border: 1px solid var(--gray-200); border-radius: 6px; margin-bottom: 8px; }
+    .print-heat-grid { overflow: visible !important; }
+    .print-heat-grid > div { min-width: unset !important; }
 
     @page { size: A4; margin: 0; }
   }
@@ -1229,7 +1240,7 @@
   </div>
   </div>
 
-  <div class="chart-card data-entry" data-rb="ig-dataentry">
+  <div class="chart-card data-entry no-print" data-rb="ig-dataentry">
     <div class="chart-title">✏️ Manual Data Entry — Instagram</div>
     <div class="chart-subtitle">Fill in from Instagram Insights (Meta Business Suite)</div>
     <div class="entry-grid-4">
@@ -1400,7 +1411,7 @@
   </div>
   </div>
 
-  <div class="chart-card" data-rb="fb-dataentry">
+  <div class="chart-card data-entry no-print" data-rb="fb-dataentry">
     <div class="chart-title">✏️ Manual Data Entry — Facebook</div>
     <div class="entry-grid-4">
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">PAGE FOLLOWERS</label><input type="number" placeholder="e.g. 2200" oninput="updateSimple('fb-followers',this,true);syncOvFollower('fb',this)"></div>
@@ -1490,7 +1501,7 @@
   </div>
   </div>
 
-  <div class="chart-card" data-rb="tt-dataentry">
+  <div class="chart-card data-entry no-print" data-rb="tt-dataentry">
     <div class="chart-title">✏️ Manual Data Entry — TikTok</div>
     <div class="entry-grid-4">
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">FOLLOWERS</label><input type="number" placeholder="e.g. 1500" oninput="updateSimple('tt-followers',this,true);syncOvFollower('tt',this)"></div>
@@ -1580,7 +1591,7 @@
   </div>
   </div>
 
-  <div class="chart-card" data-rb="yt-dataentry">
+  <div class="chart-card data-entry no-print" data-rb="yt-dataentry">
     <div class="chart-title">✏️ Manual Data Entry — YouTube Shorts</div>
     <div class="entry-grid-4">
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">SUBSCRIBERS</label><input type="number" placeholder="e.g. 800" oninput="updateSimple('yt-subscribers',this,true);syncOvFollower('yt',this)"></div>
@@ -1681,7 +1692,7 @@
         <tbody id="comp-tbody"><tr><td colspan="7" style="text-align:center;color:var(--gray-400);padding:20px;font-style:italic">Add competitors below</td></tr></tbody>
       </table>
     </div>
-    <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr 2fr auto;gap:8px;align-items:end">
+    <div class="no-print" style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr 2fr auto;gap:8px;align-items:end">
       <div><label style="font-size:10px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:3px">COMPETITOR NAME</label><input type="text" id="comp-name" placeholder="e.g. @bridalglam_uk" style="width:100%;padding:6px 8px;border:1px solid var(--gray-200);border-radius:5px;font-size:12px"></div>
       <div><label style="font-size:10px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:3px">PLATFORM</label>
         <select id="comp-plat" style="width:100%;padding:6px 8px;border:1px solid var(--gray-200);border-radius:5px;font-size:12px">
@@ -1700,22 +1711,52 @@
   <div class="chart-card" data-rb="ins-heatmap">
     <div class="chart-title">🕐 Best Posting Times — Engagement Heatmap</div>
     <div class="chart-subtitle" style="margin-bottom:16px">Click cells to mark engagement level. Build your optimal posting schedule.</div>
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap">
-      <label style="font-size:12px;font-weight:600;color:var(--gray-600)">Platform:</label>
-      <select id="heatmap-platform" onchange="renderHeatmap()" style="border:1px solid var(--gray-200);border-radius:6px;padding:6px 10px;font-size:13px">
-        <option value="ig">Instagram</option>
-        <option value="fb">Facebook</option>
-        <option value="tt">TikTok</option>
-        <option value="yt">YouTube</option>
-      </select>
-      <button class="btn" style="background:var(--gray-100);color:var(--gray-600);padding:6px 12px;font-size:11px" onclick="clearHeatmap()">Clear</button>
+
+    <!-- Interactive view (screen only) -->
+    <div class="heatmap-interactive">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap">
+        <label style="font-size:12px;font-weight:600;color:var(--gray-600)">Platform:</label>
+        <select id="heatmap-platform" onchange="renderHeatmap()" style="border:1px solid var(--gray-200);border-radius:6px;padding:6px 10px;font-size:13px">
+          <option value="ig">Instagram</option>
+          <option value="fb">Facebook</option>
+          <option value="tt">TikTok</option>
+          <option value="yt">YouTube</option>
+        </select>
+        <button class="btn" style="background:var(--gray-100);color:var(--gray-600);padding:6px 12px;font-size:11px" onclick="clearHeatmap()">Clear</button>
+      </div>
+      <div class="heatmap-wrap" style="overflow-x:auto;-webkit-overflow-scrolling:touch"><div class="heatmap-grid" id="heatmap-grid" style="min-width:500px"></div></div>
+      <div class="heatmap-legend">
+        <div class="heatmap-legend-item"><div class="heatmap-legend-swatch" style="background:var(--gray-100)"></div>No data</div>
+        <div class="heatmap-legend-item"><div class="heatmap-legend-swatch" style="background:var(--rose-pale);border-color:var(--rose-pale)"></div>Low</div>
+        <div class="heatmap-legend-item"><div class="heatmap-legend-swatch" style="background:var(--rose-mid);border-color:var(--rose-mid)"></div>Medium</div>
+        <div class="heatmap-legend-item"><div class="heatmap-legend-swatch" style="background:var(--rose);border-color:var(--rose)"></div>High</div>
+      </div>
     </div>
-    <div class="heatmap-wrap" style="overflow-x:auto;-webkit-overflow-scrolling:touch"><div class="heatmap-grid" id="heatmap-grid" style="min-width:500px"></div></div>
-    <div class="heatmap-legend">
-      <div class="heatmap-legend-item"><div class="heatmap-legend-swatch" style="background:var(--gray-100)"></div>No data</div>
-      <div class="heatmap-legend-item"><div class="heatmap-legend-swatch" style="background:var(--rose-pale);border-color:var(--rose-pale)"></div>Low</div>
-      <div class="heatmap-legend-item"><div class="heatmap-legend-swatch" style="background:var(--rose-mid);border-color:var(--rose-mid)"></div>Medium</div>
-      <div class="heatmap-legend-item"><div class="heatmap-legend-swatch" style="background:var(--rose);border-color:var(--rose)"></div>High</div>
+
+    <!-- Print view (all 4 platforms side by side, hidden on screen) -->
+    <div class="print-heatmaps" style="display:none">
+      <div class="print-heat-plat">
+        <div class="print-heat-plat-title">📸 Instagram — Best Posting Times</div>
+        <div class="print-heat-grid"><div id="print-heatmap-ig"></div></div>
+      </div>
+      <div class="print-heat-plat">
+        <div class="print-heat-plat-title">👥 Facebook — Best Posting Times</div>
+        <div class="print-heat-grid"><div id="print-heatmap-fb"></div></div>
+      </div>
+      <div class="print-heat-plat">
+        <div class="print-heat-plat-title">🎵 TikTok — Best Posting Times</div>
+        <div class="print-heat-grid"><div id="print-heatmap-tt"></div></div>
+      </div>
+      <div class="print-heat-plat">
+        <div class="print-heat-plat-title">▶️ YouTube — Best Posting Times</div>
+        <div class="print-heat-grid"><div id="print-heatmap-yt"></div></div>
+      </div>
+      <div class="heatmap-legend" style="margin-top:8px">
+        <div class="heatmap-legend-item"><div class="heatmap-legend-swatch" style="background:var(--gray-100)"></div>No data</div>
+        <div class="heatmap-legend-item"><div class="heatmap-legend-swatch" style="background:var(--rose-pale);border-color:var(--rose-pale)"></div>Low</div>
+        <div class="heatmap-legend-item"><div class="heatmap-legend-swatch" style="background:var(--rose-mid);border-color:var(--rose-mid)"></div>Medium</div>
+        <div class="heatmap-legend-item"><div class="heatmap-legend-swatch" style="background:var(--rose);border-color:var(--rose)"></div>High</div>
+      </div>
     </div>
   </div>
 </div>
@@ -2832,12 +2873,45 @@ function toggleExclude(section) {
 }
 
 // ── PDF EXPORT ──
+function renderPrintHeatmaps() {
+  const platforms = [
+    { id: 'ig', label: '📸 Instagram' },
+    { id: 'fb', label: '👥 Facebook' },
+    { id: 'tt', label: '🎵 TikTok' },
+    { id: 'yt', label: '▶️ YouTube' }
+  ];
+  const gridStyle = `display:grid;grid-template-columns:60px repeat(${heatSlots.length},1fr);gap:3px;`;
+  platforms.forEach(({ id }) => {
+    const gridEl = document.getElementById('print-heatmap-' + id);
+    if (!gridEl) return;
+    if (!heatmapData[id]) heatmapData[id] = {};
+    let html = `<div style="${gridStyle}">`;
+    html += '<div></div>';
+    heatSlots.forEach(s => { html += `<div style="font-size:9px;font-weight:700;color:var(--gray-600);text-align:center;padding:3px">${s}</div>`; });
+    heatDays.forEach(day => {
+      html += `<div style="font-size:10px;font-weight:600;color:var(--gray-600);display:flex;align-items:center;padding-right:4px">${day}</div>`;
+      heatSlots.forEach(slot => {
+        const key = day + '_' + slot;
+        const lvl = heatmapData[id][key] || 0;
+        const bg = heatColors[lvl];
+        const tc = heatTextColors[lvl];
+        const lbl = ['','Low','Med','High'][lvl];
+        html += `<div style="background:${bg};color:${tc};border-radius:4px;padding:5px 2px;text-align:center;font-size:9px;font-weight:600;min-height:28px;display:flex;align-items:center;justify-content:center">${lbl}</div>`;
+      });
+    });
+    html += '</div>';
+    gridEl.innerHTML = html;
+  });
+}
+
 function exportPDF() {
   const month = document.getElementById('month-select');
   const period = month.options[month.selectedIndex]?.text || 'Monthly Report';
   const now = new Date().toLocaleDateString('en-CA', { year:'numeric', month:'long', day:'numeric' });
   document.getElementById('print-cover-period').textContent = period;
   document.getElementById('print-cover-date').textContent = 'Generated ' + now;
+  document.title = 'ABR Social Media Report — ' + period;
+  renderPrintHeatmaps();
   window.print();
 }
 
