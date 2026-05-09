@@ -1250,7 +1250,7 @@
   </div>
   <div class="kpi-grid kpi-grid-4">
     <div class="kpi-card"><div class="kpi-label">Engagement Rate</div><div class="kpi-value" id="ig-er">—</div><div class="kpi-delta delta-neutral">Benchmark: 3–6%</div></div>
-    <div class="kpi-card"><div class="kpi-label">Total Likes</div><div class="kpi-value" id="ig-likes">—</div><div class="kpi-note">Across all posts</div></div>
+    <div class="kpi-card"><div class="kpi-label">Likes & Reactions</div><div class="kpi-value" id="ig-likes">—</div><div class="kpi-note">Across all posts</div></div>
     <div class="kpi-card"><div class="kpi-label">Comments</div><div class="kpi-value" id="ig-comments">—</div><div class="kpi-note">Across all posts</div></div>
     <div class="kpi-card"><div class="kpi-label">Saves</div><div class="kpi-value" id="ig-saves">—</div><div class="kpi-note">High-intent signal</div></div>
   </div>
@@ -1272,7 +1272,7 @@
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">WATCH TIME (AVG SEC)</label><input type="number" placeholder="e.g. 18" oninput="updateIG('ig-watchtime',this,false)"></div>
     </div>
     <div class="entry-grid-4">
-      <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">LIKES</label><input type="number" placeholder="e.g. 1800" oninput="updateIG('ig-likes',this,true)"></div>
+      <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">LIKES & REACTIONS</label><input type="number" placeholder="e.g. 1800" oninput="updateIG('ig-likes',this,true)"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">COMMENTS</label><input type="number" placeholder="e.g. 220" oninput="updateIG('ig-comments',this,true)"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">SAVES</label><input type="number" placeholder="e.g. 340" oninput="updateIG('ig-saves',this,true)"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">REELS VIEWS</label><input type="number" placeholder="e.g. 18000" oninput="updateIG('ig-reels',this,true)"></div>
@@ -1342,16 +1342,16 @@
     <div class="chart-subtitle">Track which hashtags are driving reach and engagement</div>
     <div class="table-wrap" style="margin-bottom:12px">
       <table class="data-table">
-        <thead><tr><th>Hashtag</th><th>Posts Used</th><th>Avg Reach</th><th>Avg Likes</th><th>Top Post Reach</th><th>Performance</th><th></th></tr></thead>
+        <thead><tr><th>Hashtag</th><th>Top Views</th><th>Top Reach</th><th>Top Engagement</th><th>Eng. Rate</th><th>Performance</th><th></th></tr></thead>
         <tbody id="hashtag-tbody"><tr><td colspan="7" style="text-align:center;color:var(--gray-400);padding:20px;font-style:italic">Add hashtags below to track performance</td></tr></tbody>
       </table>
     </div>
     <div class="hashtag-add-form">
       <div><label style="font-size:10px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:3px">HASHTAG</label><input type="text" id="ht-tag" placeholder="#bridalbeauty" style="width:100%;padding:6px 8px;border:1px solid var(--gray-200);border-radius:5px;font-size:12px"></div>
-      <div><label style="font-size:10px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:3px">POSTS USED</label><input type="number" id="ht-posts" placeholder="0" style="width:100%;padding:6px 8px;border:1px solid var(--gray-200);border-radius:5px;font-size:12px"></div>
-      <div><label style="font-size:10px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:3px">AVG REACH</label><input type="number" id="ht-reach" placeholder="0" style="width:100%;padding:6px 8px;border:1px solid var(--gray-200);border-radius:5px;font-size:12px"></div>
-      <div><label style="font-size:10px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:3px">AVG LIKES</label><input type="number" id="ht-likes" placeholder="0" style="width:100%;padding:6px 8px;border:1px solid var(--gray-200);border-radius:5px;font-size:12px"></div>
-      <div><label style="font-size:10px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:3px">TOP REACH</label><input type="number" id="ht-top" placeholder="0" style="width:100%;padding:6px 8px;border:1px solid var(--gray-200);border-radius:5px;font-size:12px"></div>
+      <div><label style="font-size:10px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:3px">TOP VIEWS</label><input type="number" id="ht-views" placeholder="0" style="width:100%;padding:6px 8px;border:1px solid var(--gray-200);border-radius:5px;font-size:12px"></div>
+      <div><label style="font-size:10px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:3px">TOP REACH</label><input type="number" id="ht-reach" placeholder="0" oninput="calcHtEr()" style="width:100%;padding:6px 8px;border:1px solid var(--gray-200);border-radius:5px;font-size:12px"></div>
+      <div><label style="font-size:10px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:3px">TOP ENGAGEMENT</label><input type="number" id="ht-eng" placeholder="0" oninput="calcHtEr()" style="width:100%;padding:6px 8px;border:1px solid var(--gray-200);border-radius:5px;font-size:12px"></div>
+      <div style="display:flex;flex-direction:column;justify-content:flex-end"><label style="font-size:10px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:3px">ENG. RATE</label><div style="padding:6px 8px;border:1px solid var(--gray-100);border-radius:5px;font-size:12px;background:var(--off-white);color:var(--gray-500)" id="ht-er-preview">—</div></div>
       <button class="btn btn-rose" onclick="addHashtag()" style="height:32px;align-self:flex-end">Add</button>
     </div>
   </div>
@@ -1427,7 +1427,7 @@
   </div>
   <div class="kpi-grid kpi-grid-4">
     <div class="kpi-card"><div class="kpi-label">Post Engagements</div><div class="kpi-value" id="fb-eng">—</div><div class="kpi-note">Likes + comments + shares</div></div>
-    <div class="kpi-card"><div class="kpi-label">Likes</div><div class="kpi-value" id="fb-likes">—</div></div>
+    <div class="kpi-card"><div class="kpi-label">Likes & Reactions</div><div class="kpi-value" id="fb-likes">—</div></div>
     <div class="kpi-card"><div class="kpi-label">Shares</div><div class="kpi-value" id="fb-shares">—</div><div class="kpi-note">High distribution signal</div></div>
     <div class="kpi-card"><div class="kpi-label">Link Clicks</div><div class="kpi-value" id="fb-link-clicks">—</div><div class="kpi-note">Clicks to website / booking</div></div>
   </div>
@@ -1443,7 +1443,7 @@
     </div>
     <div class="entry-grid-4">
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">POST ENGAGEMENTS</label><input type="number" placeholder="e.g. 480" oninput="updateSimple('fb-eng',this,true)"></div>
-      <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">LIKES</label><input type="number" placeholder="e.g. 310" oninput="updateSimple('fb-likes',this,true)"></div>
+      <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">LIKES & REACTIONS</label><input type="number" placeholder="e.g. 310" oninput="updateSimple('fb-likes',this,true)"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">SHARES</label><input type="number" placeholder="e.g. 85" oninput="updateSimple('fb-shares',this,true)"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">LINK CLICKS</label><input type="number" placeholder="e.g. 72" oninput="updateSimple('fb-link-clicks',this,true)"></div>
     </div>
@@ -1609,7 +1609,7 @@
     <div class="kpi-card"><div class="kpi-label">Watch Time (hrs)</div><div class="kpi-value" id="yt-watchtime">—</div></div>
     <div class="kpi-card"><div class="kpi-label">Likes</div><div class="kpi-value" id="yt-likes">—</div></div>
     <div class="kpi-card"><div class="kpi-label">Impressions CTR</div><div class="kpi-value" id="yt-ctr">—</div><div class="kpi-note">Benchmark: 2–10%</div></div>
-    <div class="kpi-card"><div class="kpi-label">Avg. View Duration</div><div class="kpi-value" id="yt-avd">—</div><div class="kpi-note">Shorts: target 70%+</div></div>
+    <div class="kpi-card"><div class="kpi-label">New Viewers</div><div class="kpi-value" id="yt-avd">—</div><div class="kpi-note">First-time viewers this month</div></div>
   </div>
   </div>
 
@@ -1618,14 +1618,14 @@
     <div class="entry-grid-4">
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">SUBSCRIBERS</label><input type="number" placeholder="e.g. 800" oninput="updateSimple('yt-subscribers',this,true);syncOvFollower('yt',this)"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">NET GROWTH</label><input type="number" placeholder="e.g. +65" oninput="updateSimple('yt-growth',this,false);syncOvDelta('yt',this)"></div>
-      <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">SHORTS VIEWS</label><input type="number" placeholder="e.g. 14000" oninput="updateSimple('yt-views',this,true);updateReachBar('yt',parseFloat(this.value)||0)"></div>
+      <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">SHORTS VIEWS</label><input type="number" placeholder="e.g. 14000" oninput="updateSimple('yt-views',this,true)"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">SHORTS PUBLISHED</label><input type="number" placeholder="e.g. 6" oninput="updateSimple('yt-posts',this,false)"></div>
     </div>
     <div class="entry-grid-4">
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">WATCH TIME (HRS)</label><input type="number" placeholder="e.g. 48" oninput="updateSimple('yt-watchtime',this,false)"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">LIKES</label><input type="number" placeholder="e.g. 420" oninput="updateSimple('yt-likes',this,true)"></div>
       <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">IMPRESSIONS CTR %</label><input type="number" step="0.1" placeholder="e.g. 4.5" oninput="updateSimple('yt-ctr',this,false,'%')"></div>
-      <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">AVG VIEW DURATION %</label><input type="number" placeholder="e.g. 74" oninput="updateSimple('yt-avd',this,false,'%')"></div>
+      <div><label style="font-size:11px;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px">NEW VIEWERS</label><input type="number" placeholder="e.g. 1200" oninput="updateSimple('yt-avd',this,true);updateReachBar('yt',parseFloat(this.value)||0)"></div>
     </div>
   </div>
 
@@ -1755,6 +1755,7 @@
             <div class="mom-field"><label>Watch Time (hrs)</label><input id="pm-yt-watchtime" class="mom-input" type="number" placeholder="e.g. 38" oninput="updatePrevManual('yt-watchtime',this.value)"></div>
             <div class="mom-field"><label>Likes</label><input id="pm-yt-likes" class="mom-input" type="number" placeholder="e.g. 340" oninput="updatePrevManual('yt-likes',this.value)"></div>
             <div class="mom-field"><label>Impressions CTR %</label><input id="pm-yt-ctr" class="mom-input" type="number" step="0.1" placeholder="e.g. 3.8" oninput="updatePrevManual('yt-ctr',this.value,'%')"></div>
+            <div class="mom-field"><label>New Viewers</label><input id="pm-yt-avd" class="mom-input" type="number" placeholder="e.g. 980" oninput="updatePrevManual('yt-avd',this.value)"></div>
             <span class="mom-col-clear" onclick="clearPlatPrevManual('yt')">✕ Clear YouTube</span>
           </div>
 
@@ -1764,6 +1765,70 @@
         </div>
       </div>
     </div><!-- /mom-manual -->
+
+    <!-- Current Month Manual Entry Accordion -->
+    <div class="mom-manual no-print" style="margin-bottom:16px">
+      <div class="mom-manual-hdr" onclick="toggleMomCurrent()">
+        <div class="mom-manual-hdr-left">
+          <span>📊 Enter Current Month Data Manually</span>
+          <span class="mom-manual-hdr-badge" id="mom-curr-badge" style="display:none">● data entered</span>
+        </div>
+        <span id="mom-current-arrow" style="color:var(--gray-400);font-size:13px">▼</span>
+      </div>
+      <div class="mom-manual-body" id="mom-current-body">
+        <div class="mom-manual-tip">Entering here updates the platform KPI cards live — same as going to each platform tab. Data is saved with your session.</div>
+        <div class="mom-grid">
+
+          <!-- Instagram -->
+          <div>
+            <div class="mom-col-hdr" style="background:linear-gradient(135deg,#833ab4,#fd1d1d)">📸 Instagram</div>
+            <div class="mom-field"><label>Followers</label><input id="cm-ig-followers" class="mom-input" type="number" placeholder="e.g. 4800" oninput="updateCurrManual('ig-followers',this.value,true);syncOvFollower('insta',{value:this.value})"></div>
+            <div class="mom-field"><label>Net Growth</label><input id="cm-ig-growth" class="mom-input" type="number" placeholder="e.g. 380" oninput="updateCurrManual('ig-growth',this.value,false)"></div>
+            <div class="mom-field"><label>Total Reach</label><input id="cm-ig-reach" class="mom-input" type="number" placeholder="e.g. 35000" oninput="updateCurrManual('ig-reach',this.value,true);updateReachBar('insta',parseFloat(this.value)||0)"></div>
+            <div class="mom-field"><label>Reels Views</label><input id="cm-ig-reels" class="mom-input" type="number" placeholder="e.g. 20000" oninput="updateCurrManual('ig-reels',this.value,true)"></div>
+            <div class="mom-field"><label>Saves</label><input id="cm-ig-saves" class="mom-input" type="number" placeholder="e.g. 580" oninput="updateCurrManual('ig-saves',this.value,true)"></div>
+            <div class="mom-field"><label>Eng. Rate %</label><input id="cm-ig-er" class="mom-input" type="number" step="0.01" placeholder="e.g. 4.1" oninput="updateCurrManualPct('ig-er',this.value)"></div>
+          </div>
+
+          <!-- Facebook -->
+          <div>
+            <div class="mom-col-hdr" style="background:#1877F2">👥 Facebook</div>
+            <div class="mom-field"><label>Page Followers</label><input id="cm-fb-followers" class="mom-input" type="number" placeholder="e.g. 2200" oninput="updateCurrManual('fb-followers',this.value,true);syncOvFollower('fb',{value:this.value})"></div>
+            <div class="mom-field"><label>Net Growth</label><input id="cm-fb-growth" class="mom-input" type="number" placeholder="e.g. 90" oninput="updateCurrManual('fb-growth',this.value,false)"></div>
+            <div class="mom-field"><label>Organic Reach</label><input id="cm-fb-reach" class="mom-input" type="number" placeholder="e.g. 9500" oninput="updateCurrManual('fb-reach',this.value,true);updateReachBar('fb',parseFloat(this.value)||0)"></div>
+            <div class="mom-field"><label>Engagements</label><input id="cm-fb-eng" class="mom-input" type="number" placeholder="e.g. 480" oninput="updateCurrManual('fb-eng',this.value,true)"></div>
+            <div class="mom-field"><label>Link Clicks</label><input id="cm-fb-link-clicks" class="mom-input" type="number" placeholder="e.g. 75" oninput="updateCurrManual('fb-link-clicks',this.value,true)"></div>
+            <div class="mom-field"><label>Likes & Reactions</label><input id="cm-fb-likes" class="mom-input" type="number" placeholder="e.g. 320" oninput="updateCurrManual('fb-likes',this.value,true)"></div>
+          </div>
+
+          <!-- TikTok -->
+          <div>
+            <div class="mom-col-hdr" style="background:#010101">🎵 TikTok</div>
+            <div class="mom-field"><label>Followers</label><input id="cm-tt-followers" class="mom-input" type="number" placeholder="e.g. 1380" oninput="updateCurrManual('tt-followers',this.value,true);syncOvFollower('tt',{value:this.value})"></div>
+            <div class="mom-field"><label>Net Growth</label><input id="cm-tt-growth" class="mom-input" type="number" placeholder="e.g. 170" oninput="updateCurrManual('tt-growth',this.value,false)"></div>
+            <div class="mom-field"><label>Total Views</label><input id="cm-tt-views" class="mom-input" type="number" placeholder="e.g. 32000" oninput="updateCurrManual('tt-views',this.value,true);updateReachBar('tt',parseFloat(this.value)||0)"></div>
+            <div class="mom-field"><label>Avg Views/Video</label><input id="cm-tt-avg-views" class="mom-input" type="number" placeholder="e.g. 4000" oninput="updateCurrManual('tt-avg-views',this.value,true)"></div>
+            <div class="mom-field"><label>Shares</label><input id="cm-tt-shares" class="mom-input" type="number" placeholder="e.g. 190" oninput="updateCurrManual('tt-shares',this.value,true)"></div>
+            <div class="mom-field"><label>Profile Views</label><input id="cm-tt-profile" class="mom-input" type="number" placeholder="e.g. 2800" oninput="updateCurrManual('tt-profile',this.value,true)"></div>
+          </div>
+
+          <!-- YouTube -->
+          <div>
+            <div class="mom-col-hdr" style="background:#FF0000">▶️ YouTube</div>
+            <div class="mom-field"><label>Subscribers</label><input id="cm-yt-subscribers" class="mom-input" type="number" placeholder="e.g. 790" oninput="updateCurrManual('yt-subscribers',this.value,true);syncOvFollower('yt',{value:this.value})"></div>
+            <div class="mom-field"><label>Net Growth</label><input id="cm-yt-growth" class="mom-input" type="number" placeholder="e.g. 60" oninput="updateCurrManual('yt-growth',this.value,false)"></div>
+            <div class="mom-field"><label>Shorts Views</label><input id="cm-yt-views" class="mom-input" type="number" placeholder="e.g. 15000" oninput="updateCurrManual('yt-views',this.value,true)"></div>
+            <div class="mom-field"><label>Watch Time (hrs)</label><input id="cm-yt-watchtime" class="mom-input" type="number" placeholder="e.g. 52" oninput="updateCurrManual('yt-watchtime',this.value,false)"></div>
+            <div class="mom-field"><label>Likes</label><input id="cm-yt-likes" class="mom-input" type="number" placeholder="e.g. 460" oninput="updateCurrManual('yt-likes',this.value,true)"></div>
+            <div class="mom-field"><label>New Viewers</label><input id="cm-yt-avd" class="mom-input" type="number" placeholder="e.g. 1200" oninput="updateCurrManual('yt-avd',this.value,true);updateReachBar('yt',parseFloat(this.value)||0)"></div>
+          </div>
+
+        </div><!-- /mom-grid -->
+        <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--gray-100)">
+          <button class="btn" style="background:var(--gray-100);color:var(--gray-600);font-size:11px;padding:5px 12px" onclick="clearAllCurrManual()">✕ Clear current month inputs</button>
+        </div>
+      </div>
+    </div><!-- /current-manual -->
 
     <div class="table-wrap">
       <table class="data-table" id="mom-table">
@@ -2565,11 +2630,10 @@ async function fetchYouTubeAnalytics(token) {
     if (subs) { setVal('yt-subscribers', fmtNum(subs)); setVal('ov-yt-subscribers', fmtNum(subs)); }
     const netGrowth = (subsGained || 0) - (subsLost || 0);
     if (netGrowth !== 0) setVal('yt-growth', (netGrowth >= 0 ? '+' : '') + fmtNum(Math.abs(netGrowth)));
-    if (views) { setVal('yt-views', fmtNum(views)); updateReachBar('yt', views); }
+    if (views) setVal('yt-views', fmtNum(views));
     if (watchMins) setVal('yt-watchtime', fmtNum(Math.round(watchMins / 60)));
     if (likes) setVal('yt-likes', fmtNum(likes));
     if (ctrRaw != null) setVal('yt-ctr', (ctrRaw * 100).toFixed(1) + '%');
-    if (avgViewPct != null) setVal('yt-avd', avgViewPct.toFixed(1) + '%');
 
     status.textContent = '✓ YouTube data loaded for ' + (document.getElementById('month-select').value || 'selected period') + '!';
     status.className = 'status-msg status-ok';
@@ -2640,12 +2704,11 @@ function parseCSV(platform, text) {
     const avdCol = col('average percentage') !== -1 ? col('average percentage') : col('average view');
     const avdVals = dataRows.map(r => { const v = parseFloat((r[avdCol] || '0').replace(/[,%]/g,'')); return isNaN(v) ? 0 : v; }).filter(v => v > 0);
     const avgAvd = avdVals.length ? (avdVals.reduce((a,b) => a+b, 0) / avdVals.length) : 0;
-    if (views) { setVal('yt-views', fmtNum(views)); updateReachBar('yt', views); }
+    if (views) setVal('yt-views', fmtNum(views));
     if (watchtime) setVal('yt-watchtime', fmtNum(Math.round(watchtime)));
     if (likes) setVal('yt-likes', fmtNum(likes));
     if (subs) { setVal('yt-subscribers', fmtNum(subs)); setVal('ov-yt-subscribers', fmtNum(subs)); }
     if (avgCtr) setVal('yt-ctr', avgCtr.toFixed(1) + '%');
-    if (avgAvd) setVal('yt-avd', avgAvd.toFixed(1) + '%');
   }
 }
 
@@ -2863,8 +2926,13 @@ function saveSession() {
   // MoM manual previous-month values
   data.prevMonthManual = { ...prevMonthManual };
   data.prevMonthInputs = {};
-  document.querySelectorAll('.mom-input[id]').forEach(el => {
+  document.querySelectorAll('.mom-input[id^="pm-"]').forEach(el => {
     if (el.value !== '') data.prevMonthInputs[el.id] = el.value;
+  });
+  // MoM current-month manual inputs
+  data.currMonthInputs = {};
+  document.querySelectorAll('.mom-input[id^="cm-"]').forEach(el => {
+    if (el.value !== '') data.currMonthInputs[el.id] = el.value;
   });
   try { localStorage.setItem('abr_session', JSON.stringify(data)); } catch(e) {}
   hasUnsavedChanges = false;
@@ -2933,7 +3001,14 @@ function restoreSession() {
       const el = document.getElementById(id);
       if (el) el.value = val;
     });
-    if (data.prevMonthManual || data.prevMonthInputs) { updateMoMBadge(); updateMoMTable(); }
+    // MoM current-month manual inputs
+    Object.entries(data.currMonthInputs || {}).forEach(([id, val]) => {
+      const el = document.getElementById(id);
+      if (el) el.value = val;
+    });
+    updateMoMBadge();
+    updateMoMCurrBadge();
+    updateMoMTable();
   } catch(e) {}
   hideLoader(800);
 }
@@ -3089,7 +3164,7 @@ function buildEmailKpiTable() {
     ]},
     { label: 'YouTube', color: '#FF0000', metrics: [
       ['Subscribers', 'yt-subscribers'], ['Net Growth', 'yt-growth'], ['Shorts Views', 'yt-views'],
-      ['Watch Time (hrs)', 'yt-watchtime'], ['Likes', 'yt-likes'], ['Impressions CTR', 'yt-ctr'], ['Avg View Duration', 'yt-avd']
+      ['Watch Time (hrs)', 'yt-watchtime'], ['Likes', 'yt-likes'], ['Impressions CTR', 'yt-ctr'], ['New Viewers', 'yt-avd']
     ]}
   ];
   const month = document.getElementById('month-select');
@@ -3284,15 +3359,23 @@ Keep each section to 2-3 short bullets. Use "•" as bullet point. Be specific, 
 
 // ── HASHTAG PERFORMANCE ──
 let hashtags = [];
+function calcHtEr() {
+  const reach = parseInt(document.getElementById('ht-reach').value) || 0;
+  const eng = parseInt(document.getElementById('ht-eng').value) || 0;
+  const preview = document.getElementById('ht-er-preview');
+  if (!preview) return;
+  preview.textContent = (reach > 0 && eng > 0) ? ((eng / reach) * 100).toFixed(2) + '%' : '—';
+}
 function addHashtag() {
   const tag = document.getElementById('ht-tag').value.trim();
-  const posts = parseInt(document.getElementById('ht-posts').value) || 0;
+  const views = parseInt(document.getElementById('ht-views').value) || 0;
   const reach = parseInt(document.getElementById('ht-reach').value) || 0;
-  const likes = parseInt(document.getElementById('ht-likes').value) || 0;
-  const top = parseInt(document.getElementById('ht-top').value) || 0;
+  const eng = parseInt(document.getElementById('ht-eng').value) || 0;
+  const er = reach > 0 && eng > 0 ? ((eng / reach) * 100) : 0;
   if (!tag) return;
-  hashtags.push({ tag: tag.startsWith('#') ? tag : '#' + tag, posts, reach, likes, top });
-  ['ht-tag','ht-posts','ht-reach','ht-likes','ht-top'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+  hashtags.push({ tag: tag.startsWith('#') ? tag : '#' + tag, views, reach, eng, er });
+  ['ht-tag','ht-views','ht-reach','ht-eng'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+  const preview = document.getElementById('ht-er-preview'); if (preview) preview.textContent = '—';
   renderHashtags();
   markUnsaved();
 }
@@ -3314,12 +3397,13 @@ function renderHashtags() {
     const perf = score >= 0.65 ? '<span style="background:#EAF5EE;color:#1A6B3C;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:.03em">● High</span>'
       : score >= 0.3 ? '<span style="background:#FFF3E0;color:#7A5C00;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:.03em">● Medium</span>'
       : '<span style="background:#F3EFF0;color:#5C4E53;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:.03em">● Low</span>';
+    const erStr = h.er > 0 ? h.er.toFixed(2) + '%' : '—';
     return `<tr>
       <td style="font-weight:700;color:var(--rose)">${h.tag}</td>
-      <td style="text-align:center">${h.posts}</td>
+      <td style="text-align:right">${(h.views||0).toLocaleString()}</td>
       <td style="text-align:right">${h.reach.toLocaleString()}</td>
-      <td style="text-align:right">${h.likes.toLocaleString()}</td>
-      <td style="text-align:right">${h.top.toLocaleString()}</td>
+      <td style="text-align:right">${(h.eng||0).toLocaleString()}</td>
+      <td style="text-align:center;font-weight:700;color:var(--rose)">${erStr}</td>
       <td style="text-align:center">${perf}</td>
       <td style="text-align:center"><button onclick="removeHashtag(${i})" style="background:none;border:none;cursor:pointer;color:var(--gray-400);font-size:16px;line-height:1">×</button></td>
     </tr>`;
@@ -3457,6 +3541,7 @@ const momMetrics = [
   { label:'Watch Time (hrs)', id:'yt-watchtime',   group:'YouTube',   groupColor:'#FF0000', icon:'▶️' },
   { label:'Likes',            id:'yt-likes',       group:'YouTube',   groupColor:'#FF0000', icon:'▶️' },
   { label:'Impressions CTR',  id:'yt-ctr',         group:'YouTube',   groupColor:'#FF0000', icon:'▶️' },
+  { label:'New Viewers',      id:'yt-avd',         group:'YouTube',   groupColor:'#FF0000', icon:'▶️' },
 ];
 
 // Manual previous month data store
@@ -3467,7 +3552,7 @@ const momPlatPrefixes = {
   'ig': ['ig-followers','ig-growth','ig-reach','ig-reels','ig-saves','ig-er'],
   'fb': ['fb-followers','fb-growth','fb-reach','fb-eng','fb-link-clicks','fb-likes'],
   'tt': ['tt-followers','tt-growth','tt-views','tt-avg-views','tt-shares','tt-profile'],
-  'yt': ['yt-subscribers','yt-growth','yt-views','yt-watchtime','yt-likes','yt-ctr']
+  'yt': ['yt-subscribers','yt-growth','yt-views','yt-watchtime','yt-likes','yt-ctr','yt-avd']
 };
 
 function toggleMomManual() {
@@ -3518,6 +3603,47 @@ function clearAllPrevManual() {
   updateMoMBadge();
   updateMoMTable();
   markUnsaved();
+}
+
+function toggleMomCurrent() {
+  const body = document.getElementById('mom-current-body');
+  const arrow = document.getElementById('mom-current-arrow');
+  if (!body) return;
+  const isOpen = body.classList.toggle('open');
+  arrow.textContent = isOpen ? '▲' : '▼';
+}
+
+function updateCurrManual(id, rawVal, fmt) {
+  const n = parseFloat(rawVal);
+  if (rawVal === '' || isNaN(n)) return;
+  setVal(id, fmt ? fmtNum(n) : String(n));
+  updateMoMCurrBadge();
+  updateMoMTable();
+  markUnsaved();
+}
+
+function updateCurrManualPct(id, rawVal) {
+  const n = parseFloat(rawVal);
+  if (rawVal === '' || isNaN(n)) return;
+  setVal(id, n.toFixed(2) + '%');
+  updateMoMCurrBadge();
+  updateMoMTable();
+  markUnsaved();
+}
+
+function updateMoMCurrBadge() {
+  const badge = document.getElementById('mom-curr-badge');
+  if (!badge) return;
+  const count = document.querySelectorAll('.mom-input[id^="cm-"]').length
+    ? [...document.querySelectorAll('.mom-input[id^="cm-"]')].filter(el => el.value !== '').length
+    : 0;
+  badge.style.display = count > 0 ? '' : 'none';
+  badge.textContent = '● ' + count + ' metric' + (count === 1 ? '' : 's') + ' entered';
+}
+
+function clearAllCurrManual() {
+  document.querySelectorAll('.mom-input[id^="cm-"]').forEach(el => { el.value = ''; });
+  updateMoMCurrBadge();
 }
 
 function savePrevMonth() {
