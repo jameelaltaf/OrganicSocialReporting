@@ -1249,7 +1249,7 @@
     <div class="kpi-card"><div class="kpi-label">Watch Time</div><div class="kpi-value" id="ig-watchtime">—</div><div class="kpi-note">Avg. seconds per Reel view</div></div>
   </div>
   <div class="kpi-grid kpi-grid-4">
-    <div class="kpi-card"><div class="kpi-label">Engagement Rate</div><div class="kpi-value" id="ig-er">—</div><div class="kpi-delta delta-neutral">Benchmark: 3–6%</div></div>
+    <div class="kpi-card"><div class="kpi-label">Engagement Rate</div><div class="kpi-value" id="ig-er">—</div><div class="kpi-delta delta-neutral" id="ig-er-d">Benchmark: 3–6%</div></div>
     <div class="kpi-card"><div class="kpi-label">Likes & Reactions</div><div class="kpi-value" id="ig-likes">—</div><div class="kpi-note">Across all posts</div></div>
     <div class="kpi-card"><div class="kpi-label">Comments</div><div class="kpi-value" id="ig-comments">—</div><div class="kpi-note">Across all posts</div></div>
     <div class="kpi-card"><div class="kpi-label">Saves</div><div class="kpi-value" id="ig-saves">—</div><div class="kpi-note">High-intent signal</div></div>
@@ -1783,7 +1783,7 @@
           <div>
             <div class="mom-col-hdr" style="background:linear-gradient(135deg,#833ab4,#fd1d1d)">📸 Instagram</div>
             <div class="mom-field"><label>Followers</label><input id="cm-ig-followers" class="mom-input" type="number" placeholder="e.g. 4800" oninput="updateCurrManual('ig-followers',this.value,true);syncOvFollower('insta',{value:this.value})"></div>
-            <div class="mom-field"><label>Net Growth</label><input id="cm-ig-growth" class="mom-input" type="number" placeholder="e.g. 380" oninput="updateCurrManual('ig-growth',this.value,false)"></div>
+            <div class="mom-field"><label>Net Growth</label><input id="cm-ig-growth" class="mom-input" type="number" placeholder="e.g. 380" oninput="updateCurrManual('ig-growth',this.value,false,true)"></div>
             <div class="mom-field"><label>Total Reach</label><input id="cm-ig-reach" class="mom-input" type="number" placeholder="e.g. 35000" oninput="updateCurrManual('ig-reach',this.value,true);updateReachBar('insta',parseFloat(this.value)||0)"></div>
             <div class="mom-field"><label>Reels Views</label><input id="cm-ig-reels" class="mom-input" type="number" placeholder="e.g. 20000" oninput="updateCurrManual('ig-reels',this.value,true)"></div>
             <div class="mom-field"><label>Saves</label><input id="cm-ig-saves" class="mom-input" type="number" placeholder="e.g. 580" oninput="updateCurrManual('ig-saves',this.value,true)"></div>
@@ -1794,7 +1794,7 @@
           <div>
             <div class="mom-col-hdr" style="background:#1877F2">👥 Facebook</div>
             <div class="mom-field"><label>Page Followers</label><input id="cm-fb-followers" class="mom-input" type="number" placeholder="e.g. 2200" oninput="updateCurrManual('fb-followers',this.value,true);syncOvFollower('fb',{value:this.value})"></div>
-            <div class="mom-field"><label>Net Growth</label><input id="cm-fb-growth" class="mom-input" type="number" placeholder="e.g. 90" oninput="updateCurrManual('fb-growth',this.value,false)"></div>
+            <div class="mom-field"><label>Net Growth</label><input id="cm-fb-growth" class="mom-input" type="number" placeholder="e.g. 90" oninput="updateCurrManual('fb-growth',this.value,false,true)"></div>
             <div class="mom-field"><label>Organic Reach</label><input id="cm-fb-reach" class="mom-input" type="number" placeholder="e.g. 9500" oninput="updateCurrManual('fb-reach',this.value,true);updateReachBar('fb',parseFloat(this.value)||0)"></div>
             <div class="mom-field"><label>Engagements</label><input id="cm-fb-eng" class="mom-input" type="number" placeholder="e.g. 480" oninput="updateCurrManual('fb-eng',this.value,true)"></div>
             <div class="mom-field"><label>Link Clicks</label><input id="cm-fb-link-clicks" class="mom-input" type="number" placeholder="e.g. 75" oninput="updateCurrManual('fb-link-clicks',this.value,true)"></div>
@@ -1805,7 +1805,7 @@
           <div>
             <div class="mom-col-hdr" style="background:#010101">🎵 TikTok</div>
             <div class="mom-field"><label>Followers</label><input id="cm-tt-followers" class="mom-input" type="number" placeholder="e.g. 1380" oninput="updateCurrManual('tt-followers',this.value,true);syncOvFollower('tt',{value:this.value})"></div>
-            <div class="mom-field"><label>Net Growth</label><input id="cm-tt-growth" class="mom-input" type="number" placeholder="e.g. 170" oninput="updateCurrManual('tt-growth',this.value,false)"></div>
+            <div class="mom-field"><label>Net Growth</label><input id="cm-tt-growth" class="mom-input" type="number" placeholder="e.g. 170" oninput="updateCurrManual('tt-growth',this.value,false,true)"></div>
             <div class="mom-field"><label>Total Views</label><input id="cm-tt-views" class="mom-input" type="number" placeholder="e.g. 32000" oninput="updateCurrManual('tt-views',this.value,true);updateReachBar('tt',parseFloat(this.value)||0)"></div>
             <div class="mom-field"><label>Avg Views/Video</label><input id="cm-tt-avg-views" class="mom-input" type="number" placeholder="e.g. 4000" oninput="updateCurrManual('tt-avg-views',this.value,true)"></div>
             <div class="mom-field"><label>Shares</label><input id="cm-tt-shares" class="mom-input" type="number" placeholder="e.g. 190" oninput="updateCurrManual('tt-shares',this.value,true)"></div>
@@ -1816,7 +1816,7 @@
           <div>
             <div class="mom-col-hdr" style="background:#FF0000">▶️ YouTube</div>
             <div class="mom-field"><label>Subscribers</label><input id="cm-yt-subscribers" class="mom-input" type="number" placeholder="e.g. 790" oninput="updateCurrManual('yt-subscribers',this.value,true);syncOvFollower('yt',{value:this.value})"></div>
-            <div class="mom-field"><label>Net Growth</label><input id="cm-yt-growth" class="mom-input" type="number" placeholder="e.g. 60" oninput="updateCurrManual('yt-growth',this.value,false)"></div>
+            <div class="mom-field"><label>Net Growth</label><input id="cm-yt-growth" class="mom-input" type="number" placeholder="e.g. 60" oninput="updateCurrManual('yt-growth',this.value,false,true)"></div>
             <div class="mom-field"><label>Shorts Views</label><input id="cm-yt-views" class="mom-input" type="number" placeholder="e.g. 15000" oninput="updateCurrManual('yt-views',this.value,true)"></div>
             <div class="mom-field"><label>Watch Time (hrs)</label><input id="cm-yt-watchtime" class="mom-input" type="number" placeholder="e.g. 52" oninput="updateCurrManual('yt-watchtime',this.value,false)"></div>
             <div class="mom-field"><label>Likes</label><input id="cm-yt-likes" class="mom-input" type="number" placeholder="e.g. 460" oninput="updateCurrManual('yt-likes',this.value,true)"></div>
@@ -2803,7 +2803,29 @@ function calcEngRate() {
   const eng = parseFloat(document.getElementById('ig-eng-input').value) || 0;
   const folEl = document.getElementById('ig-followers');
   const fol = parseKpiNum(folEl?.textContent) || 1;
-  if (eng && fol) setVal('ig-er', ((eng / fol) * 100).toFixed(2) + '%');
+  if (eng && fol) { setVal('ig-er', ((eng / fol) * 100).toFixed(2) + '%'); refreshErDelta(); }
+}
+
+function refreshErDelta() {
+  const erEl = document.getElementById('ig-er');
+  const deltaEl = document.getElementById('ig-er-d');
+  if (!erEl || !deltaEl) return;
+  const currText = erEl.textContent.trim();
+  const currVal = parseMetricNum(currText);
+  let snapPrev = {};
+  try { snapPrev = JSON.parse(localStorage.getItem('abr_prev_month') || '{}'); } catch(e) {}
+  const prevText = prevMonthManual['ig-er'] || snapPrev['ig-er'] || '';
+  const prevVal = parseMetricNum(prevText);
+  if (currVal !== null && prevVal !== null) {
+    const diff = currVal - prevVal;
+    const sign = diff > 0 ? '+' : '';
+    const cls = diff > 0 ? 'delta-up' : diff < 0 ? 'delta-down' : 'delta-neutral';
+    deltaEl.className = 'kpi-delta ' + cls;
+    deltaEl.textContent = sign + diff.toFixed(2) + 'pp vs. ' + prevText;
+  } else {
+    deltaEl.className = 'kpi-delta delta-neutral';
+    deltaEl.textContent = 'Benchmark: 3–6%';
+  }
 }
 
 function updateSimple(fieldId, input, fmt, suffix) {
@@ -3009,6 +3031,7 @@ function restoreSession() {
     updateMoMBadge();
     updateMoMCurrBadge();
     updateMoMTable();
+    refreshErDelta();
   } catch(e) {}
   hideLoader(800);
 }
@@ -3574,6 +3597,7 @@ function updatePrevManual(id, rawVal, suffix) {
   }
   updateMoMBadge();
   updateMoMTable();
+  if (id === 'ig-er') refreshErDelta();
   markUnsaved();
 }
 
@@ -3613,10 +3637,15 @@ function toggleMomCurrent() {
   arrow.textContent = isOpen ? '▲' : '▼';
 }
 
-function updateCurrManual(id, rawVal, fmt) {
+function updateCurrManual(id, rawVal, fmt, signed) {
   const n = parseFloat(rawVal);
   if (rawVal === '' || isNaN(n)) return;
-  setVal(id, fmt ? fmtNum(n) : String(n));
+  let display;
+  if (fmt) display = fmtNum(n);
+  else if (signed) display = (n > 0 ? '+' : '') + n;
+  else display = String(n);
+  setVal(id, display);
+  if (id === 'ig-er') refreshErDelta();
   updateMoMCurrBadge();
   updateMoMTable();
   markUnsaved();
@@ -3626,6 +3655,7 @@ function updateCurrManualPct(id, rawVal) {
   const n = parseFloat(rawVal);
   if (rawVal === '' || isNaN(n)) return;
   setVal(id, n.toFixed(2) + '%');
+  if (id === 'ig-er') refreshErDelta();
   updateMoMCurrBadge();
   updateMoMTable();
   markUnsaved();
@@ -3634,9 +3664,7 @@ function updateCurrManualPct(id, rawVal) {
 function updateMoMCurrBadge() {
   const badge = document.getElementById('mom-curr-badge');
   if (!badge) return;
-  const count = document.querySelectorAll('.mom-input[id^="cm-"]').length
-    ? [...document.querySelectorAll('.mom-input[id^="cm-"]')].filter(el => el.value !== '').length
-    : 0;
+  const count = [...document.querySelectorAll('.mom-input[id^="cm-"]')].filter(el => el.value !== '').length;
   badge.style.display = count > 0 ? '' : 'none';
   badge.textContent = '● ' + count + ' metric' + (count === 1 ? '' : 's') + ' entered';
 }
@@ -3687,20 +3715,16 @@ function updateMoMTable() {
   let snapPrev = {};
   try { snapPrev = JSON.parse(localStorage.getItem('abr_prev_month') || '{}'); } catch(e) {}
 
-  const hasPrev = Object.keys(prevMonthManual).length > 0 || Object.keys(snapPrev).length > 0;
-  if (!hasPrev) {
-    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--gray-400);padding:24px;font-style:italic">Enter previous month data in the form above to see the comparison</td></tr>';
-    return;
-  }
-
   // Update the "Previous Month" column header with selected month label
   const sel = document.getElementById('prev-month-select');
   const thPrev = document.getElementById('mom-th-prev');
-  if (thPrev && sel?.value) thPrev.textContent = sel.value;
+  if (thPrev) thPrev.textContent = sel?.value || 'Previous Month';
+
+  const hasPrev = Object.keys(prevMonthManual).length > 0 || Object.keys(snapPrev).length > 0;
 
   let lastGroup = null;
   tbody.innerHTML = momMetrics.map(m => {
-    const prevVal = prevMonthManual[m.id] || snapPrev[m.id] || '—';
+    const prevVal = hasPrev ? (prevMonthManual[m.id] || snapPrev[m.id] || '—') : '—';
     const kpiEl = document.getElementById(m.id);
     const curr = kpiEl ? kpiEl.textContent.trim() || '—' : '—';
 
@@ -3731,7 +3755,7 @@ function updateMoMTable() {
   }).join('');
 
   if (!tbody.innerHTML.trim()) {
-    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--gray-400);padding:20px;font-style:italic">Enter previous month values above to see comparisons</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--gray-400);padding:20px;font-style:italic">Enter platform data above to see the comparison table</td></tr>';
   }
 }
 
