@@ -612,6 +612,19 @@
   .save-banner.visible { display: flex; }
   .save-banner .sb-dot { width:7px;height:7px;border-radius:50%;background:var(--rose-light);animation:pulse 1.5s ease-in-out infinite; }
   @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.8)} }
+  /* ── IMPORT TOAST ── */
+  .import-toast {
+    display:none; position:fixed; bottom:20px; left:50%; transform:translateX(-50%); z-index:600;
+    background:#1A6B3C; color:#fff; border-radius:var(--radius); padding:13px 22px;
+    font-size:13px; font-weight:600; align-items:center; gap:10px; box-shadow:var(--shadow-md);
+    max-width:420px; text-align:center;
+  }
+  .import-toast.visible { display:flex; }
+  /* ── IMPORT CARD IN MoM ── */
+  .mom-import-row { display:flex; align-items:center; gap:10px; padding:14px 18px; background:var(--off-white); border:1px solid var(--gray-200); border-radius:var(--radius); margin-bottom:16px; flex-wrap:wrap; }
+  .mom-import-row .import-info { flex:1; min-width:180px; }
+  .mom-import-row .import-info h4 { font-size:13px; font-weight:700; color:var(--charcoal); margin:0 0 2px; }
+  .mom-import-row .import-info p { font-size:11px; color:var(--gray-400); margin:0; }
 
   /* ── RESTORE MODAL ── */
   .restore-modal {
@@ -1055,6 +1068,7 @@
   <button class="btn btn-primary" onclick="saveSession()" style="margin-right:8px">💾 Save Session</button>
   <button class="btn btn-primary" id="client-view-btn" onclick="toggleClientView()" style="margin-right:8px">👁 Client View</button>
   <button class="btn btn-primary" onclick="openEmailModal()" style="margin-right:8px">📧 Email Report</button>
+  <button class="btn btn-primary" onclick="exportReportData()" style="margin-right:8px" title="Export all data as a .abrdata file for future import">📤 Export Data</button>
   <button class="btn btn-primary" onclick="exportPDF()">⬇ Export PDF</button>
 </div>
 
@@ -1684,6 +1698,17 @@
     <div class="chart-title">Month-over-Month Comparison</div>
     <div class="chart-subtitle">Compare this month against last month across all 4 platforms</div>
 
+    <!-- Import previous month report -->
+    <div class="mom-import-row no-print">
+      <div class="mom-import-info" style="flex:1;min-width:200px">
+        <div style="font-size:13px;font-weight:700;color:var(--charcoal);margin-bottom:3px">📂 Import Previous Month Report</div>
+        <div style="font-size:11px;color:var(--gray-400)">Load an exported <code>.abrdata</code> file to auto-fill all Previous Month fields for comparison.</div>
+      </div>
+      <button class="btn btn-rose" onclick="document.getElementById('import-report-input').click()" style="white-space:nowrap">📂 Import Report File</button>
+      <input type="file" id="import-report-input" accept=".abrdata,.json" style="display:none" onchange="importReportData(event)">
+      <div id="import-status" style="font-size:12px;color:var(--gray-400);min-width:120px"></div>
+    </div>
+
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap" class="no-print">
       <label style="font-size:12px;font-weight:600;color:var(--gray-600)">Comparing against:</label>
       <select id="prev-month-select" style="border:1px solid var(--gray-200);border-radius:6px;padding:6px 10px;font-size:13px">
@@ -2246,6 +2271,9 @@
   <div class="sb-dot"></div>
   <span>Unsaved changes</span>
   <button class="btn btn-rose" style="padding:5px 12px;font-size:11px" onclick="saveSession()">Save now</button>
+</div>
+<div class="import-toast" id="import-toast">
+  <span id="import-toast-msg">✓ Report imported</span>
 </div>
 
 <!-- ═══════════════════════════════════════════ DATA SOURCE MODAL -->
@@ -3039,6 +3067,129 @@ function restoreSession() {
 function discardSession() {
   document.getElementById('restore-modal').classList.remove('open');
   try { localStorage.removeItem('abr_session'); } catch(e) {}
+}
+
+// ── EXPORT REPORT DATA (.abrdata) ──
+function exportReportData() {
+  showLoader();
+  const monthEl = document.getElementById('month-select');
+  const monthName = monthEl.options[monthEl.selectedIndex]?.text || monthEl.value || 'Unknown';
+  const data = {
+    abrVersion: 2,
+    month: monthName,
+    exportedAt: new Date().toISOString(),
+    kpis: {},
+    goals: {},
+    textareas: [],
+    ovInputs: {},
+    reachBars: { ...reachValues },
+    calInputs: {},
+    hashtags,
+    competitors,
+    heatmapData,
+    prevMonthManual: { ...prevMonthManual }
+  };
+  document.querySelectorAll('.kpi-value[id]').forEach(el => { data.kpis[el.id] = el.textContent; });
+  document.querySelectorAll('.kpi-delta[id]').forEach(el => { data.kpis[el.id] = el.textContent; });
+  document.querySelectorAll('.ov-value[id]').forEach(el => { data.kpis[el.id] = el.textContent; });
+  ['insta','fb','tt','yt'].forEach(p => {
+    const fEl = document.getElementById('ov-in-' + p + '-followers');
+    const dEl = document.getElementById('ov-in-' + p + '-delta');
+    if (fEl) data.ovInputs[p + '-followers'] = fEl.value;
+    if (dEl) data.ovInputs[p + '-delta'] = dEl.value;
+  });
+  document.querySelectorAll('textarea').forEach(el => data.textareas.push(el.value));
+  document.querySelectorAll('.goal-input[id]').forEach(el => { data.goals[el.id] = el.value; });
+  document.querySelectorAll('.cal-input[data-p][data-w][data-t]').forEach(el => {
+    data.calInputs[el.dataset.p + '_' + el.dataset.w + '_' + el.dataset.t] = el.value;
+  });
+  const json = JSON.stringify(data, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const safeMonth = monthName.replace(/\s+/g, '-');
+  const safeDate = new Date().toISOString().slice(0, 10);
+  a.href = url;
+  a.download = 'ABR-Report-' + safeMonth + '-' + safeDate + '.abrdata';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  hideLoader(400);
+}
+
+// ── IMPORT REPORT DATA ──
+function importReportData(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (!data.kpis && !data.month) throw new Error('Not a valid ABR report file.');
+
+      let filled = 0;
+      // Populate prevMonthManual from each momMetric ID
+      momMetrics.forEach(m => {
+        const val = data.kpis ? data.kpis[m.id] : null;
+        if (!val || val === '—') return;
+        prevMonthManual[m.id] = val;
+        const inputEl = document.getElementById('pm-' + m.id);
+        if (inputEl) {
+          const n = parseMetricNum(val);
+          inputEl.value = n !== null ? n : '';
+        }
+        filled++;
+      });
+
+      // Match prev-month-select to imported month
+      if (data.month) {
+        const sel = document.getElementById('prev-month-select');
+        let found = false;
+        for (let i = 0; i < sel.options.length; i++) {
+          if (sel.options[i].text === data.month || sel.options[i].value === data.month) {
+            sel.selectedIndex = i;
+            found = true;
+            break;
+          }
+        }
+        // If not in list, add a temporary option
+        if (!found) {
+          const opt = new Option(data.month, data.month, true, true);
+          sel.add(opt, 1);
+        }
+      }
+
+      // Open prev month accordion
+      const body = document.getElementById('mom-manual-body');
+      if (body && !body.classList.contains('open')) toggleMomManual();
+
+      updateMoMBadge();
+      updateMoMTable();
+      refreshErDelta();
+      markUnsaved();
+
+      // Status inline
+      const statusEl = document.getElementById('import-status');
+      if (statusEl) statusEl.textContent = '✓ ' + (data.month || 'Report') + ' loaded';
+
+      // Toast
+      showImportToast(data.month || file.name, filled);
+    } catch(err) {
+      alert('Import failed: ' + err.message);
+    }
+    event.target.value = ''; // reset file input
+  };
+  reader.readAsText(file);
+}
+
+function showImportToast(monthLabel, count) {
+  const toast = document.getElementById('import-toast');
+  const msg = document.getElementById('import-toast-msg');
+  if (!toast || !msg) return;
+  msg.textContent = '✓ ' + monthLabel + ' imported — ' + count + ' metric' + (count === 1 ? '' : 's') + ' loaded as Previous Month';
+  toast.classList.add('visible');
+  setTimeout(() => toast.classList.remove('visible'), 4000);
 }
 
 // Mark unsaved on any KPI input change
